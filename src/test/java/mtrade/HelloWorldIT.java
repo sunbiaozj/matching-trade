@@ -2,50 +2,30 @@ package mtrade;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.core.Response;
 
-import org.apache.cxf.helpers.IOUtils;
-import org.apache.cxf.jaxrs.client.WebClient;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.MappingJsonFactory;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class HelloWorldIT {
-    private static String endpointUrl;
+	@Test
+	public void testPing() throws Exception {
+		HelloWorld hw = new HelloWorld();
+		String pingParam = "Ping String";
+		String pingResult = hw.ping(pingParam);
+		assertEquals(pingParam, pingResult);
+	}
 
-    @BeforeClass
-    public static void beforeClass() {
-        endpointUrl = System.getProperty("service.url");
-    }
-
-    @Test
-    public void testPing() throws Exception {
-        WebClient client = WebClient.create(endpointUrl + "/hello/echo/SierraTangoNevada");
-        Response r = client.accept("text/plain").get();
-        assertEquals(Response.Status.OK.getStatusCode(), r.getStatus());
-        String value = IOUtils.toString((InputStream)r.getEntity());
-        assertEquals("SierraTangoNevada", value);
-    }
-
-    @Test
-    public void testJsonRoundtrip() throws Exception {
-        List<Object> providers = new ArrayList<Object>();
-        providers.add(new org.codehaus.jackson.jaxrs.JacksonJsonProvider());
-        JsonBean inputBean = new JsonBean();
-        inputBean.setVal1("Maple");
-        WebClient client = WebClient.create(endpointUrl + "/hello/jsonBean", providers);
-        Response r = client.accept("application/json")
-            .type("application/json")
-            .post(inputBean);
-        assertEquals(Response.Status.OK.getStatusCode(), r.getStatus());
-        MappingJsonFactory factory = new MappingJsonFactory();
-        JsonParser parser = factory.createJsonParser((InputStream)r.getEntity());
-        JsonBean output = parser.readValueAs(JsonBean.class);
-        assertEquals("Maple", output.getVal2());
-    }
+	@Test
+	public void testJsonRoundtrip() throws Exception {
+		String val1 = "Value one";
+		String val2 = "Value two";
+		JsonBean modifyJsonParam = new JsonBean();
+		modifyJsonParam.setVal1(val1);
+		modifyJsonParam.setVal2(val2);
+		HelloWorld hw = new HelloWorld();
+		Response response = hw.modifyJson(modifyJsonParam);
+		assertEquals(Response.Status.OK.getStatusCode(), 200);
+		JsonBean modifyJsonResult = (JsonBean) response.getEntity();
+		assertEquals(val1, modifyJsonResult.getVal2());
+	}
 }
