@@ -15,7 +15,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<jackson.version>1.8.6</jackson.version>
+		<jackson.version>2.7.5</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -33,20 +33,20 @@
 
 		<!-- Jackson -->
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>${jackson.version}</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.7.5</version>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${jackson.version}</version>
+		    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+		    <artifactId>jackson-jaxrs-base</artifactId>
+		    <version>2.7.5</version>
 		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
+<dependency>
+  <groupId>com.fasterxml.jackson.jaxrs</groupId>
+  <artifactId>jackson-jaxrs-json-provider</artifactId>
+  <version>2.7.4</version>
+</dependency>
 
 		<!-- Spring -->
 		<dependency>
@@ -62,14 +62,14 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Cobertura Test Reports -->
 		<!-- TODO: Need to move this to a profile. This should not go to production. -->
 		<dependency>
-		    <groupId>net.sourceforge.cobertura</groupId>
-		    <artifactId>cobertura-runtime</artifactId>
-		    <version>2.1.1</version>
-		    <type>pom</type>
+			<groupId>net.sourceforge.cobertura</groupId>
+			<artifactId>cobertura-runtime</artifactId>
+			<version>2.1.1</version>
+			<type>pom</type>
 		</dependency>
 	</dependencies>
 
@@ -81,8 +81,8 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
-						<source>1.7</source>
-						<target>1.7</target>
+						<source>1.8</source>
+						<target>1.8</target>
 					</configuration>
 				</plugin>
 
@@ -141,36 +141,6 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>start-tomcat</id>
-						<goals>
-							<goal>run-war</goal>
-						</goals>
-						<phase>pre-integration-test</phase>
-						<configuration>
-							<port>${test.server.port}</port>
-							<path>/matching-trade-integration-test</path>
-							<fork>true</fork>
-							<useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-tomcat</id>
-						<goals>
-							<goal>shutdown</goal>
-						</goals>
-						<phase>post-integration-test</phase>
-						<configuration>
-							<path>/matching-trade-integration-test</path>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.8.1</version>
@@ -180,11 +150,6 @@
 						<goals>
 							<goal>integration-test</goal>
 						</goals>
-						<configuration>
-							<systemPropertyVariables>
-								<service.url>http://localhost:${test.server.port}/matching-trade-integration-test</service.url>
-							</systemPropertyVariables>
-						</configuration>
 					</execution>
 					<execution>
 						<id>verify</id>
