@@ -8,13 +8,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import matchingtrade.persistence.dao.PersonDao;
+import matchingtrade.persistence.entity.Person;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/application-context-web.xml"})
 @TransactionConfiguration(defaultRollback=false)
 public class PersonTest {
 	
 	@Autowired
-	PersonDAO personDao;
+	PersonDao personDao;
 	
 	@Test
 	@Rollback(false)

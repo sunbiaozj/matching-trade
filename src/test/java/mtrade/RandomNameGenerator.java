@@ -2,8 +2,6 @@ package mtrade;
 
 import java.util.Random;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
 public class RandomNameGenerator {
 	
 	String[] adjectives = {

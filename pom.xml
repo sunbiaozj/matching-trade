@@ -15,15 +15,9 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<jackson.version>2.7.4</jackson.version>
-
-
-
 		<org.springframework-version>4.0.3.RELEASE</org.springframework-version>
-
-
-
-
+		<jackson.version>2.7.4</jackson.version>
+		<hibernate-core.version>4.3.5.Final</hibernate-core.version>
 	</properties>
 
 	<dependencies>
@@ -58,19 +52,6 @@
 			<version>1.4.192</version>
 		</dependency>
 
-		<!-- Spring -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test</artifactId>
-		    <version>${org.springframework-version}</version>
-		</dependency>
-		
-
 		<!-- JUnit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -78,21 +59,6 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- Cobertura Test Reports -->
-		<!-- TODO: Need to move this to a profile. This should not go to production. -->
-		<dependency>
-			<groupId>net.sourceforge.cobertura</groupId>
-			<artifactId>cobertura-runtime</artifactId>
-			<version>2.1.1</version>
-			<type>pom</type>
-		</dependency>
-
-
-
-
-
-
 
 		<!-- Spring -->
 		<dependency>
@@ -102,22 +68,25 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
+			<artifactId>spring-web</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${org.springframework-version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${org.springframework-version}</version>
 		</dependency>
 
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.3.5.Final</version>
+			<version>${hibernate-core.version}</version>
 		</dependency>
 
 		<!-- Java Servlet -->
@@ -133,18 +102,6 @@
 			<version>2.3.1</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- Apache Commons DBCP2 -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-dbcp2</artifactId>
-			<version>2.0</version>
-		</dependency>
-
-
-
-
-
 
 	</dependencies>
 

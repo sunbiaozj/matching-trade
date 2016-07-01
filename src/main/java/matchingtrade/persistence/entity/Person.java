@@ -1,4 +1,4 @@
-package mtrade;
+package matchingtrade.persistence.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
