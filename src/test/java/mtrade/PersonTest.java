@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import matchingtrade.persistence.dao.PersonDao;
-import matchingtrade.persistence.entity.Person;
+import matchingtrade.persistence.entity.TradeItem;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/application-context-web.xml"})
-@TransactionConfiguration(defaultRollback=false)
 public class PersonTest {
 	
 	@Autowired
@@ -22,9 +20,9 @@ public class PersonTest {
 	@Test
 	@Rollback(false)
 	public void savePerson() {
-		Person person = new Person();
-		person.setName(new RandomNameGenerator().get());
-		personDao.save(person);
+		TradeItem tradeItem = new TradeItem();
+		tradeItem.setName(new RandomNameGenerator().get());
+		personDao.save(tradeItem);
 	}
 
 }

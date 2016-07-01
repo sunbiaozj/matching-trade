@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import matchingtrade.persistence.entity.Person;
+import matchingtrade.persistence.entity.TradeItem;
 
 @Component
 public class PersonDao {
@@ -19,17 +19,17 @@ public class PersonDao {
 	SessionFactory sessionFactory;
 	
 	@Transactional
-	public void save(Person person) {
+	public void save(TradeItem tradeItem) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(person);
+		session.save(tradeItem);
 	}
 	
 	@Transactional
-	public List<Person> search() {
+	public List<TradeItem> search() {
 		Session session = sessionFactory.getCurrentSession();
-		Query query=session.createQuery("FROM Person");
+		Query query=session.createQuery("FROM TradeItem");
 		@SuppressWarnings("unchecked")
-		List<Person> result = query.list();
+		List<TradeItem> result = query.list();
 		return result;
 	}
 }

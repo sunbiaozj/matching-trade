@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import matchingtrade.persistence.dao.PersonDao;
-import matchingtrade.persistence.entity.Person;
+import matchingtrade.persistence.entity.TradeItem;
 
 @Path("/hello")
 public class HelloWorld {
@@ -32,7 +32,7 @@ public class HelloWorld {
     @Consumes("application/json")
     @Path("/jsonBean")
     public Response modifyJson(JsonBean input) {
-        Person p = new Person();
+        TradeItem p = new TradeItem();
         p.setName(input.getVal1());
         p.setCountry(input.getVal2());
         System.out.println("saving:..........." + p);
@@ -47,7 +47,7 @@ public class HelloWorld {
     @Path("/person")
     public Response getPerson() {
     	
-    	List<Person> result = pDao.search();
+    	List<TradeItem> result = pDao.search();
         return Response.ok().entity(result).build();
     }
 }
