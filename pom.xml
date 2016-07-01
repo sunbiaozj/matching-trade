@@ -9,28 +9,39 @@
 	<description>Webapp with a integrated web user interface and RESTful service to promote matching trades</description>
 
 	<groupId>auspex</groupId>
-	<artifactId>mtrade</artifactId>
+	<artifactId>matching-trade</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<packaging>war</packaging>
 
 	<properties>
-		<org.springframework-version>4.0.3.RELEASE</org.springframework-version>
+		<org.apache.cxf.version>3.1.6</org.apache.cxf.version>
 		<jackson.version>2.7.4</jackson.version>
+		<org.springframework-version>4.0.3.RELEASE</org.springframework-version>
 		<hibernate-core.version>4.3.5.Final</hibernate-core.version>
+		<com.h2database.version>1.4.192</com.h2database.version>
 	</properties>
 
 	<dependencies>
+		<!-- Java Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<!-- Apache CXF -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-			<version>3.1.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-rs-client</artifactId>
-			<version>3.1.6</version>
+			<version>${org.apache.cxf.version}</version>
 		</dependency>
 
 		<!-- Jackson -->
@@ -49,7 +60,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.192</version>
+			<version>${com.h2database.version}</version>
 		</dependency>
 
 		<!-- JUnit -->
@@ -88,21 +99,6 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate-core.version}</version>
 		</dependency>
-
-		<!-- Java Servlet -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.1</version>
-			<scope>provided</scope>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -131,7 +127,7 @@
 							<configuration>
 								<port>13000</port>
 								<path>/matching-trade-integration-test</path>
-								<useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
+								<useSeparateTomcatClassLoader>false</useSeparateTomcatClassLoader>
 							</configuration>
 						</execution>
 					</executions>
@@ -151,7 +147,6 @@
 		</pluginManagement>
 
 		<plugins>
-
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
