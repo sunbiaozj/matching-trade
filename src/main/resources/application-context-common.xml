@@ -19,9 +19,8 @@
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 		
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="application-context-common.xml" />
-	<import resource="application-context-apache-cxf.xml" />
-	<import resource="application-context-hibernate.xml" />
+
+	<context:annotation-config/>
+	<context:component-scan base-package="mtrade"/>
 
 </beans>
