@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TradeItem")
-public class TradeItem {
+@Table(name="trade_item")
+public class TradeItemEntity {
 
 	@Id
 	@Column(name="trade_item_id")
@@ -27,6 +27,10 @@ public class TradeItem {
 		return name;
 	}
 
+	public Integer getTradeItemId() {
+		return tradeItemId;
+	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -34,6 +38,10 @@ public class TradeItem {
 	@Column(name="description", length=120, nullable=false, unique=false)
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setTradeItemId(Integer tradeItemId) {
+		this.tradeItemId = tradeItemId;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package mtrade;
+package matchingtrade.test.util;
 
 import java.util.Random;
 
@@ -31,7 +31,7 @@ public class RandomNameGenerator {
 		Random random = new Random();
 		int aPosition = random.nextInt(adjectives.length);
 		int nPosition = random.nextInt(noums.length);
-		return adjectives[aPosition] + noums[nPosition];
+		return adjectives[aPosition] + " " +noums[nPosition];
 	}
 
 }

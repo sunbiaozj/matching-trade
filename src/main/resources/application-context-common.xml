@@ -21,6 +21,9 @@
 		
 
 	<context:annotation-config/>
-	<context:component-scan base-package="matchingtrade.persistence.dao, matchingtrade.persistence.entity"/>
+	<context:component-scan base-package="
+		matchingtrade.persistence.dao,
+		matchingtrade.persistence.entity,
+		matchingtrade.service"/>
 
 </beans>

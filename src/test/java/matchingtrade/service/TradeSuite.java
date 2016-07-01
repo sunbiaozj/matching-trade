@@ -5,13 +5,11 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.springframework.test.context.ContextConfiguration;
 
-import mtrade.PersonTest;
-
 @RunWith(Suite.class)
 @SuiteClasses({
-	PersonTest.class
+	TradeItemPostTest.class
 	})
 @ContextConfiguration(locations={"/application-context-web.xml"})
-public class PersonSuite {
+public class TradeSuite {
 
 } 

@@ -10,26 +10,26 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import matchingtrade.persistence.entity.TradeItem;
+import matchingtrade.persistence.entity.TradeItemEntity;
 
 @Component
-public class PersonDao {
+public class TradeItemDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
 	
 	@Transactional
-	public void save(TradeItem tradeItem) {
+	public void save(TradeItemEntity tradeItemEntity) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(tradeItem);
+		session.save(tradeItemEntity);
 	}
 	
 	@Transactional
-	public List<TradeItem> search() {
+	public List<TradeItemEntity> search() {
 		Session session = sessionFactory.getCurrentSession();
-		Query query=session.createQuery("FROM TradeItem");
+		Query query=session.createQuery("FROM TradeItemEntity");
 		@SuppressWarnings("unchecked")
-		List<TradeItem> result = query.list();
+		List<TradeItemEntity> result = query.list();
 		return result;
 	}
 }
