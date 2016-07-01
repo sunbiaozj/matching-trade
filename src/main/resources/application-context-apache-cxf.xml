@@ -19,7 +19,7 @@
 	<bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer" />
 	<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer" />
 
-	<jaxrs:server id="mtServer" address="/">
+	<jaxrs:server id="matchingTradeServer" address="/mt">
 		<jaxrs:serviceBeans>
 			<bean class="matchingtrade.service.TradeItemService" />
 		</jaxrs:serviceBeans>
