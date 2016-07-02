@@ -1,0 +1,38 @@
+package matchingtrade.service;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import matchingtrade.service.json.TradeListJson;
+import matchingtrade.test.util.RandomNameGenerator;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/application-context-web.xml" })
+public class TradeListPostTest {
+
+	@Autowired
+	private TradeListService tradeListService;
+
+	@Test
+	@Rollback(false)
+	public void post() {
+		TradeListJson requestJson = new TradeListJson();
+		requestJson.setName(new RandomNameGenerator().get());
+		Response response = tradeListService.post(requestJson);
+		
+		TradeListJson responseJson = (TradeListJson) response.getEntity();
+		
+		Assert.assertTrue(Status.OK.getStatusCode() == response.getStatus());
+		Assert.assertNotNull(responseJson);
+		Assert.assertNotNull(responseJson.getTradeListId());
+	}
+
+}

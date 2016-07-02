@@ -7,8 +7,11 @@ import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	TradeItemPostTest.class
+		TradeItemPostTest.class,
+		TradeItemGetTest.class,
+		TradeListPostTest.class
 	})
+
 @ContextConfiguration(locations={"/application-context-web.xml"})
 public class TradeSuite {
 

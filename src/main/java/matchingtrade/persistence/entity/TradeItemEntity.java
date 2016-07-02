@@ -23,6 +23,7 @@ public class TradeItemEntity {
 		return description;
 	}
 
+	@Column(name="description", length=120, nullable=false, unique=false)
 	public String getName() {
 		return name;
 	}
@@ -35,7 +36,6 @@ public class TradeItemEntity {
 		this.description = description;
 	}
 
-	@Column(name="description", length=120, nullable=false, unique=false)
 	public void setName(String name) {
 		this.name = name;
 	}

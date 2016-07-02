@@ -10,8 +10,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import matchingtrade.persistence.dao.TradeItemDao;
+import matchingtrade.persistence.dao.TradeListDao;
 import matchingtrade.persistence.entity.TradeItemEntity;
+import matchingtrade.persistence.entity.TradeListEntity;
 import matchingtrade.service.json.TradeItemJson;
+import matchingtrade.service.json.TradeListJson;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +22,23 @@ import org.springframework.stereotype.Service;
 
 @Path("/tradeitem")
 @Service
-public class TradeItemService {
+public class TradeListService {
 
 	@Autowired
-	TradeItemDao tradeItemDao;
+	TradeListDao tradeListDao;
 
     @POST
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/")
-    public Response post(TradeItemJson inputJson) {
-    	TradeItemEntity inputEntity = new TradeItemEntity();
-    	BeanUtils.copyProperties(inputJson, inputEntity);
+    public Response post(TradeListJson requestJson) {
+    	TradeListEntity requestEntity = new TradeListEntity();
+    	BeanUtils.copyProperties(requestJson, requestEntity);
     	
-    	tradeItemDao.save(inputEntity);
+    	tradeListDao.save(requestEntity);
     	
-    	TradeItemJson result = new TradeItemJson();
-    	BeanUtils.copyProperties(inputEntity, result);
-    	
+    	TradeListJson result = new TradeListJson();
+    	BeanUtils.copyProperties(requestEntity, result);
     	
         return Response.ok().entity(result).build();
     }
@@ -48,14 +50,12 @@ public class TradeItemService {
     public Response get() {
     	List<TradeItemJson> result = new ArrayList<>();
     	
-    	
-    	List<TradeItemEntity> searchResult = tradeItemDao.search();
-    	for (TradeItemEntity e : searchResult) {
+    	List<TradeListEntity> searchResult = tradeListDao.search();
+    	for (TradeListEntity e : searchResult) {
     		TradeItemJson j = new TradeItemJson();
 			BeanUtils.copyProperties(e, j);
 			result.add(j);
 		}
-    	
     	
         return Response.ok().entity(result).build();
     }
