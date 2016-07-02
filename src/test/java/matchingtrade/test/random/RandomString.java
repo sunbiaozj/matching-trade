@@ -1,8 +1,8 @@
-package matchingtrade.test.util;
+package matchingtrade.test.random;
 
 import java.util.Random;
 
-public class RandomNameGenerator {
+public class RandomString {
 	
 	String[] adjectives = {
 			"able",
@@ -27,11 +27,23 @@ public class RandomNameGenerator {
 			"cane",
 	};
 	
-	public String get() {
-		Random random = new Random();
+	String[] prepositions = {
+		"with",
+		"plus",
+		"and"
+	};
+	
+	private Random random = new Random();
+	
+	public String nextName() {
 		int aPosition = random.nextInt(adjectives.length);
 		int nPosition = random.nextInt(noums.length);
 		return adjectives[aPosition] + " " +noums[nPosition];
+	}
+
+	public String nextDescription() {
+		int pPosition = random.nextInt(prepositions.length);
+		return nextName() + " " + prepositions[pPosition] + " " + nextName();
 	}
 
 }

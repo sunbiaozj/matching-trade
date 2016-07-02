@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import matchingtrade.service.json.TradeListJson;
-import matchingtrade.test.util.RandomNameGenerator;
+import matchingtrade.test.random.TradeListRandom;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,12 +24,10 @@ public class TradeListPostTest {
 	@Test
 	@Rollback(false)
 	public void post() {
-		TradeListJson requestJson = new TradeListJson();
-		requestJson.setName(new RandomNameGenerator().get());
+		TradeListJson requestJson = new TradeListRandom().get();
 		Response response = tradeListService.post(requestJson);
-		
 		TradeListJson responseJson = (TradeListJson) response.getEntity();
-		
+
 		Assert.assertTrue(Status.OK.getStatusCode() == response.getStatus());
 		Assert.assertNotNull(responseJson);
 		Assert.assertNotNull(responseJson.getTradeListId());

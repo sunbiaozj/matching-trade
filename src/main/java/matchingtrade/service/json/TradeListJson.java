@@ -1,12 +1,21 @@
 package matchingtrade.service.json;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 public class TradeListJson {
 
 	private Integer tradeListId;
 	private String name;
+	
+	private Set<TradeItemJson> tradeItems = new LinkedHashSet<TradeItemJson>();
 
 	public String getName() {
 		return name;
+	}
+
+	public Set<TradeItemJson> getTradeItems() {
+		return tradeItems;
 	}
 
 	public Integer getTradeListId() {
@@ -17,13 +26,12 @@ public class TradeListJson {
 		this.name = name;
 	}
 
+	public void setTradeItems(Set<TradeItemJson> tradeItems) {
+		this.tradeItems = tradeItems;
+	}
+
 	public void setTradeListId(Integer tradeListId) {
 		this.tradeListId = tradeListId;
 	}
 
-	@Override
-	public String toString() {
-		return "TradeListJson [tradeListId=" + tradeListId + ", name=" + name
-				+ "]";
-	}
 }
