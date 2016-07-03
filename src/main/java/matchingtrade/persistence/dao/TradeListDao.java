@@ -21,7 +21,7 @@ public class TradeListDao {
 	@Transactional
 	public void save(TradeListEntity tradeListEntity) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(tradeListEntity);
+		session.saveOrUpdate(tradeListEntity);
 	}
 	
 	@Transactional

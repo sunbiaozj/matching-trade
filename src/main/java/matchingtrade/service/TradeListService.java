@@ -17,7 +17,7 @@ import matchingtrade.persistence.entity.TradeListEntity;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.transformer.TradeListTransformer;
 
-@Path("/tradeitem")
+@Path("/tradelist")
 @Service
 public class TradeListService {
 

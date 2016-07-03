@@ -22,6 +22,7 @@
 	<jaxrs:server id="matchingTradeServer" address="/mt">
 		<jaxrs:serviceBeans>
 			<bean class="matchingtrade.service.TradeItemService" />
+			<bean class="matchingtrade.service.TradeListService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
