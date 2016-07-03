@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import matchingtrade.persistence.dao.TradeItemDao;
 import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.service.json.TradeItemJson;
+import matchingtrade.transformer.TradeItemTransformer;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,9 @@ public class TradeItemService {
     @Consumes("application/json")
     @Path("/")
     public Response post(TradeItemJson inputJson) {
-    	TradeItemEntity inputEntity = new TradeItemEntity();
+    	TradeItemTransformer transformer = new TradeItemTransformer();
+    	TradeItemEntity inputEntity  = transformer.transform(inputJson);
+    	
     	BeanUtils.copyProperties(inputJson, inputEntity);
     	
     	tradeItemDao.save(inputEntity);

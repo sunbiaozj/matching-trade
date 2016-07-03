@@ -5,29 +5,40 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="trade_item")
 public class TradeItemEntity {
 
-	@Id
-	@Column(name="trade_item_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer tradeItemId;
-	private String description;
 	private String name;
+	private String description;
 	
+//	private TradeListEntity tradeList;
+//	@ManyToOne
+//	public TradeListEntity getTradeList() {
+//		return tradeList;
+//	}
+//
+//	public void setTradeList(TradeListEntity tradeList) {
+//		this.tradeList = tradeList;
+//	}
+
 	@Column(name="description", length=500, nullable=true, unique=false)
 	public String getDescription() {
 		return description;
 	}
 
-	@Column(name="description", length=120, nullable=false, unique=false)
+	@Column(name="name", length=120, nullable=false, unique=false)
 	public String getName() {
 		return name;
 	}
 
+	@Id
+	@Column(name="trade_item_id")
+	@GeneratedValue
 	public Integer getTradeItemId() {
 		return tradeItemId;
 	}
@@ -43,9 +54,30 @@ public class TradeItemEntity {
 	public void setTradeItemId(Integer tradeItemId) {
 		this.tradeItemId = tradeItemId;
 	}
-
+	
 	@Override
-	public String toString(){
-		return "tradeItemId="+tradeItemId+", name="+name+", description="+description;
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		} else if (!(other instanceof TradeListEntity)) {
+			return false;
+		}
+		TradeItemEntity otherCasted = (TradeItemEntity) other;
+		if (tradeItemId != null && otherCasted.getTradeItemId() != null) {
+			return  false;
+		} else if (!tradeItemId.equals(otherCasted.getTradeItemId())){
+			return false;
+		}
+		return true;
 	}
+	
+	@Override
+	public int hashCode() {
+		int salt = 1;
+		if (tradeItemId != null) {
+			salt = tradeItemId;
+		}
+		return super.hashCode() * salt;
+	}
+	
 }

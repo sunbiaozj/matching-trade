@@ -1,8 +1,5 @@
 package matchingtrade.service;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.random.TradeListRandom;
 
@@ -25,12 +22,12 @@ public class TradeListPostTest {
 	@Rollback(false)
 	public void post() {
 		TradeListJson requestJson = new TradeListRandom().get();
-		Response response = tradeListService.post(requestJson);
-		TradeListJson responseJson = (TradeListJson) response.getEntity();
+		TradeListJson responseJson = (TradeListJson) tradeListService.post(requestJson).getEntity();
 
-		Assert.assertTrue(Status.OK.getStatusCode() == response.getStatus());
 		Assert.assertNotNull(responseJson);
 		Assert.assertNotNull(responseJson.getTradeListId());
+		Assert.assertNotNull(responseJson.getTradeItems());
+		Assert.assertTrue(responseJson.getTradeItems().size() > 0);
 	}
 
 }

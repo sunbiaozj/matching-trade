@@ -24,8 +24,6 @@ public class TradeItemPostTest {
 		TradeItemJson request = new TradeItemRandom().get();
 		TradeItemJson response = (TradeItemJson) tradeItemService.post(request).getEntity();
 		
-		
-		
 		Assert.assertNotNull(response);
 		Assert.assertNotNull(response.getTradeItemId());
 	}

@@ -21,9 +21,13 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
-		<!-- TODO: Configure h2database to local project directory -->
 		<property name="url" value="jdbc:h2:./target/h2db/h2database-local-db-file" />
 		<property name="username" value="username" />
 		<property name="password" value="password" />
@@ -45,11 +49,5 @@
 			</props>
 		</property>
 	</bean>
-
-	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
-	<bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
 </beans>
