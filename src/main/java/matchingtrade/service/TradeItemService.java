@@ -9,14 +9,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import matchingtrade.persistence.dao.TradeItemDao;
 import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.transformer.TradeItemTransformer;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Path("/tradeitem")
 @Service
@@ -29,18 +28,13 @@ public class TradeItemService {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/")
-    public Response post(TradeItemJson inputJson) {
+    public Response post(TradeItemJson requestJson) {
     	TradeItemTransformer transformer = new TradeItemTransformer();
-    	TradeItemEntity inputEntity  = transformer.transform(inputJson);
+    	TradeItemEntity requestEntity  = transformer.transform(requestJson);
     	
-    	BeanUtils.copyProperties(inputJson, inputEntity);
-    	
-    	tradeItemDao.save(inputEntity);
-    	
-    	TradeItemJson result = new TradeItemJson();
-    	BeanUtils.copyProperties(inputEntity, result);
-    	
-    	
+    	tradeItemDao.save(requestEntity);
+
+    	TradeItemJson result = transformer.transform(requestEntity);
         return Response.ok().entity(result).build();
     }
     
@@ -50,15 +44,12 @@ public class TradeItemService {
     @Path("/")
     public Response get() {
     	List<TradeItemJson> result = new ArrayList<>();
-    	
+    	TradeItemTransformer transformer = new TradeItemTransformer();
     	
     	List<TradeItemEntity> searchResult = tradeItemDao.search();
     	for (TradeItemEntity e : searchResult) {
-    		TradeItemJson j = new TradeItemJson();
-			BeanUtils.copyProperties(e, j);
-			result.add(j);
+			result.add(transformer.transform(e));
 		}
-    	
     	
         return Response.ok().entity(result).build();
     }

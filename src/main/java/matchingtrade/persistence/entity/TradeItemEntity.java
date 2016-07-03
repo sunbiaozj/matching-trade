@@ -3,9 +3,7 @@ package matchingtrade.persistence.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,16 +14,6 @@ public class TradeItemEntity {
 	private String name;
 	private String description;
 	
-//	private TradeListEntity tradeList;
-//	@ManyToOne
-//	public TradeListEntity getTradeList() {
-//		return tradeList;
-//	}
-//
-//	public void setTradeList(TradeListEntity tradeList) {
-//		this.tradeList = tradeList;
-//	}
-
 	@Column(name="description", length=500, nullable=true, unique=false)
 	public String getDescription() {
 		return description;

@@ -15,5 +15,14 @@ public class TradeItemTransformer {
 		BeanUtils.copyProperties(json, result);
 		return result;
 	}
+	
+	public TradeItemJson transform(TradeItemEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+		TradeItemJson result = new TradeItemJson();
+		BeanUtils.copyProperties(entity, result);
+		return result;
+	}
 
 }
