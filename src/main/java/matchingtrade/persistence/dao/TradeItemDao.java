@@ -25,6 +25,12 @@ public class TradeItemDao {
 	}
 	
 	@Transactional
+	public TradeItemEntity get(Integer tradeItemId) {
+		Session session = sessionFactory.getCurrentSession();
+		return (TradeItemEntity) session.get(TradeItemEntity.class, tradeItemId);
+	}
+	
+	@Transactional
 	public List<TradeItemEntity> search() {
 		Session session = sessionFactory.getCurrentSession();
 		Query query=session.createQuery("FROM TradeItemEntity");

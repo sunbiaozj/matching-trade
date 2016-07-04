@@ -1,15 +1,15 @@
 package matchingtrade.service.json;
 
-public class TradeItemJson {
+public class TradeItemJson extends Json {
 
 	private Integer tradeItemId;
 	private String description;
 	private String name;
-
+	
 	public String getDescription() {
 		return description;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -30,8 +30,4 @@ public class TradeItemJson {
 		this.tradeItemId = tradeItemId;
 	}
 
-	@Override
-	public String toString() {
-		return "tradeItemId=" + tradeItemId + ", name=" + name + ", description=" + description;
-	}
 }
