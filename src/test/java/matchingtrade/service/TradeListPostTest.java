@@ -22,7 +22,7 @@ public class TradeListPostTest {
 	@Rollback(false)
 	public void post() {
 		TradeListJson requestJson = new TradeListRandom().get();
-		TradeListJson responseJson = (TradeListJson) tradeListService.post(requestJson).getEntity();
+		TradeListJson responseJson = tradeListService.post(requestJson);
 
 		Assert.assertNotNull(responseJson);
 		Assert.assertNotNull(responseJson.getTradeListId());

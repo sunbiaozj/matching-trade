@@ -1,6 +1,6 @@
 package matchingtrade.service.json;
 
-public class TradeItemJson extends Json {
+public class TradeItemJson extends JsonLinkSupport {
 
 	private Integer tradeItemId;
 	private String description;

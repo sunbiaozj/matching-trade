@@ -22,7 +22,7 @@ public class TradeItemGetTest {
 	@Test
 	@Rollback(false)
 	public void get() {
-		List<TradeItemJson> responseEntity = (List<TradeItemJson>) tradeItemService.get().getEntity();
+		List<TradeItemJson> responseEntity = tradeItemService.get();
 		Assert.assertNotNull(responseEntity);
 		Assert.assertTrue(responseEntity.size() > 0);
 	}

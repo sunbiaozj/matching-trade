@@ -10,8 +10,9 @@ package matchingtrade.service.json;
 
  * @author rafael.santos.bra@gmail.com
  */
-public class JsonResponse extends Json {
+public class JsonResponse {
 	
+	private String _requestedUri;
 	private String _pagination;
 	private Json data;
 
@@ -19,12 +20,20 @@ public class JsonResponse extends Json {
 		return _pagination;
 	}
 
-	public void set_pagination(String _pagination) {
-		this._pagination = _pagination;
+	public String get_requestedUri() {
+		return _requestedUri;
 	}
 
 	public Json getData() {
 		return data;
+	}
+
+	public void set_pagination(String _pagination) {
+		this._pagination = _pagination;
+	}
+
+	public void set_requestedUri(String _requestedUri) {
+		this._requestedUri = _requestedUri;
 	}
 
 	public void setData(Json data) {
