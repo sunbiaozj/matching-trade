@@ -85,6 +85,7 @@
 			<bean class="matchingtrade.service.TradeListService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
+			<bean class="matchingtrade.service.interceptor.ResponseInterceptor"/>
 			<ref bean="jsonProvider"/>
 		</jaxrs:providers>
 	</jaxrs:server>

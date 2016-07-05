@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 
 import matchingtrade.persistence.dao.TradeItemDao;
 import matchingtrade.persistence.entity.TradeItemEntity;
+import matchingtrade.service.json.JsonFactory;
 import matchingtrade.service.json.TradeItemJson;
-import matchingtrade.service.util.JsonFactory;
 import matchingtrade.transformer.TradeItemTransformer;
 
 @Path("/tradeitem")
 @Service
-public class TradeItemService extends RestfulService {
+public class TradeItemService {
 	
 	@Autowired
 	TradeItemDao tradeItemDao;
@@ -36,7 +36,6 @@ public class TradeItemService extends RestfulService {
     	TradeItemEntity requestEntity  = transformer.transform(requestJson);
     	tradeItemDao.save(requestEntity);
     	TradeItemJson result = transformer.transform(requestEntity);
-    	JsonFactory.getLinks(this, result, true);
         return Response.ok(result).build();
     }
     
@@ -49,7 +48,6 @@ public class TradeItemService extends RestfulService {
     	List<TradeItemEntity> searchResult = tradeItemDao.search();
     	for (TradeItemEntity e : searchResult) {
     		TradeItemJson j = transformer.transform(e);
-    		JsonFactory.getLinks(this, j, true);
     		result.add(j);
 		}
         return Response.ok().entity(result).build();
@@ -59,10 +57,9 @@ public class TradeItemService extends RestfulService {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{tradeItemId}")
-    public Response get(@PathParam("tradeItemId") Integer tradeItemId) {
+    public TradeItemJson get(@PathParam("tradeItemId") Integer tradeItemId) {
     	TradeItemEntity tradeItemEntity = tradeItemDao.get(tradeItemId);
     	TradeItemJson result = transformer.transform(tradeItemEntity);
-    	JsonFactory.getLinks(this, result, true);
-        return Response.ok(result).build();
+        return result;
     }
 }
