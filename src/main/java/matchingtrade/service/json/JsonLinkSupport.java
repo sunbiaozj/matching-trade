@@ -3,10 +3,13 @@ package matchingtrade.service.json;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public abstract class JsonLinkSupport implements Json {
 	
 	private Set<JsonLink> _links = new HashSet<JsonLink>();
 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	public Set<JsonLink> get_links() {
 		return _links;
 	}

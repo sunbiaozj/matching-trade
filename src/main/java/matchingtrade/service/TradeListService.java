@@ -16,7 +16,7 @@ import matchingtrade.service.json.JsonArrayList;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.transformer.TradeListTransformer;
 
-@Path("/tradelist")
+@Path("/tradelists")
 @Service
 public class TradeListService {
 

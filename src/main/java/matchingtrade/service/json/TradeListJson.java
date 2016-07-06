@@ -3,7 +3,7 @@ package matchingtrade.service.json;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class TradeListJson {
+public class TradeListJson extends JsonLinkSupport {
 
 	private Integer tradeListId;
 	private String name;
