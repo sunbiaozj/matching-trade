@@ -3,7 +3,6 @@ package matchingtrade.transformer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
-import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.persistence.entity.TradeListEntity;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.service.json.TradeListJson;
@@ -32,16 +31,8 @@ public class TradeListTransformer {
 		if (entity == null) {
 			return null;
 		}
-		
 		TradeListJson result = new TradeListJson();
 		BeanUtils.copyProperties(entity, result, "tradeItems");
-		
-		if (!CollectionUtils.isEmpty(entity.getTradeItems())) {
-			TradeItemTransformer transformer = new TradeItemTransformer();
-			for (TradeItemEntity e : entity.getTradeItems()) {
-				result.getTradeItems().add(transformer.transform(e));
-			}
-		}
 		return result;
 	}
 

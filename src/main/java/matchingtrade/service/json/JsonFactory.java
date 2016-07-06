@@ -10,40 +10,56 @@ import matchingtrade.service.TradeListService;
 
 public class JsonFactory {
 
+	private JsonLink buildLinks(String baseUri) {
+		JsonLink self = new JsonLink();
+		self.setHref(baseUri);
+		self.setRel("_self");
+		return self;
+	}
+
+	private void buildLinks(String baseUri, Set<JsonLink> result, TradeItemJson jsonAsTradeItem) {
+		String resourceUri = Link.fromResource(TradeItemService.class).build().getUri().toString();
+		JsonLink self = new JsonLink();
+		self.setHref(baseUri + resourceUri + "/" + jsonAsTradeItem.getTradeItemId());
+		self.setRel("_self");
+		result.add(self);
+	}
+
+	private void buildLinks(String baseUri, Set<JsonLink> result, TradeListJson jsonAsTradeList) {
+		String tradeListUri = Link.fromResource(TradeListService.class).build().getUri().toString();
+		JsonLink self = new JsonLink();
+		self.setHref(baseUri + tradeListUri + "/" + jsonAsTradeList.getTradeListId());
+		self.setRel("_self");
+		result.add(self);
+		
+		JsonLink tradeItem = new JsonLink();
+		tradeItem.setHref(baseUri + tradeListUri + "/" + jsonAsTradeList.getTradeListId() + "/" + "tradeitems");
+		tradeItem.setRel("tradeItems");
+		result.add(tradeItem);
+	}
+
 	public Set<JsonLink> getLinks(String baseUri, Json json) {
+		// Result to be returned
 		Set<JsonLink> result = new HashSet<JsonLink>();
+		
+		// Build links for TradeItemJson
 		if (json instanceof TradeItemJson) {
-			String resourceUri = Link.fromResource(TradeItemService.class).build().getUri().toString();
-			JsonLink l = new JsonLink();
-			l.setHref(baseUri + resourceUri + "/" + ((TradeItemJson) json).getTradeItemId());
-			l.setRel("_self");
-			result.add(l);
-			
+			TradeItemJson jsonAsTradeItem = (TradeItemJson) json;
+			buildLinks(baseUri, result, jsonAsTradeItem);
 			return result;
 		}
-		
+
+		// Build links for TradeListJson
 		if (json instanceof TradeListJson) {
-			String tradeListUri = Link.fromResource(TradeListService.class).build().getUri().toString();
-			JsonLink self = new JsonLink();
-			self.setHref(baseUri + tradeListUri + "/" + ((TradeListJson) json).getTradeListId());
-			self.setRel("_self");
-			result.add(self);
-			
-			String tradeItemUri = Link.fromResource(TradeItemService.class).build().getUri().toString();
-			JsonLink tradeItem = new JsonLink();
-			tradeItem.setHref(baseUri + tradeItemUri);
-			tradeItem.setRel("tradeItem");
-			result.add(tradeItem);
-			
+			TradeListJson jsonAsTradeList = (TradeListJson) json;
+			buildLinks(baseUri, result, jsonAsTradeList);
 			return result;
 		}
 		
-		
+		// Build links for JsonResponse
 		if (json instanceof JsonResponse) {
-			JsonLink l = new JsonLink();
-			l.setHref(baseUri);
-			l.setRel("_self");
-			result.add(l);
+			JsonLink self = buildLinks(baseUri);
+			result.add(self);
 		}
 		return result;
 	}

@@ -32,4 +32,10 @@ public class TradeListDao {
 		List<TradeListEntity> result = query.list();
 		return result;
 	}
+
+	@Transactional
+	public TradeListEntity get(Integer tradeListId) {
+		Session session = sessionFactory.getCurrentSession();
+		return (TradeListEntity) session.get(TradeListEntity.class, tradeListId);
+	}
 }
