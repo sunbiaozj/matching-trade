@@ -1,5 +1,5 @@
 import { bootstrap }    from '@angular/platform-browser-dynamic';
 
-import { AppComponent } from './app.component';
+import { MatchingTradeAppComponent } from './matching-trade-app.component';
 
-bootstrap(AppComponent);
+bootstrap(MatchingTradeAppComponent);
