@@ -18,7 +18,10 @@ export class TradeItemListComponent implements OnInit {
   tradeItems: TradeItem[];
 
   ngOnInit() {
-    this.tradeItems = this.tradeItemService.search();
+    let searchResult = this.tradeItemService.search();
+    searchResult
+      .then(data => this.tradeItems = data)
+      .catch(error => console.log(error));
   }
 
 }
