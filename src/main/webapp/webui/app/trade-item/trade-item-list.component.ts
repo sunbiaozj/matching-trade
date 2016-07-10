@@ -8,15 +8,19 @@ import {TradeItemService} from './trade-item.service';
   templateUrl: 'app/trade-item/trade-item-list.html'
 })
 export class TradeItemListComponent implements OnInit {
-  constructor(private tradeItemService: TradeItemService) { }
-
   tradeItems: TradeItem[];
+
+  constructor(private tradeItemService: TradeItemService) { }
 
   ngOnInit() {
     let searchResult = this.tradeItemService.search();
     searchResult
       .then(data => this.tradeItems = data)
       .catch(error => console.log(error));
+  }
+
+  editTradeItem(tradeItem: TradeItem) {
+    alert(tradeItem);
   }
 
 }
