@@ -8,7 +8,7 @@ import {TradeItemService} from './trade-item.service';
   template: `
   <h1>Trade Item List</h1>
   <ul>
-    <li *ngFor="let tradeItem of tradeItems">{{tradeItem.id}}-{{tradeItem.name}}</li>
+    <li *ngFor="let tradeItem of tradeItems">{{tradeItem.tradeItemId}}-{{tradeItem.name}}</li>
   </ul>
   `
 })

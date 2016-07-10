@@ -1,4 +1,4 @@
 export class TradeItem {
-    id: number;
+    tradeItemId: number;
     name:string;
 }
