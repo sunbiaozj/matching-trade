@@ -5,12 +5,7 @@ import {TradeItemService} from './trade-item.service';
 @Component({
   selector: 'trade-item-list',
   providers: [TradeItemService],
-  template: `
-  <h1>Trade Item List</h1>
-  <ul>
-    <li *ngFor="let tradeItem of tradeItems">{{tradeItem.tradeItemId}}-{{tradeItem.name}}</li>
-  </ul>
-  `
+  templateUrl: 'app/trade-item/trade-item-list.html'
 })
 export class TradeItemListComponent implements OnInit {
   constructor(private tradeItemService: TradeItemService) { }
