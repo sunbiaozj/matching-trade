@@ -1,7 +1,6 @@
 import {TradeItem} from './trade-item';
 
 export class TradeItemTransformer {
-
     dataArrayToJson(data:any[]):TradeItem[] {
         let result:Array<TradeItem> = new Array<TradeItem>();
         data.forEach(e => {
