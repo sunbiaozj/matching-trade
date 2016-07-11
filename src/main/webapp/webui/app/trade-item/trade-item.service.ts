@@ -15,5 +15,11 @@ export class TradeItemService {
             .then(response => this.transformer.dataArrayToJson(response.json().data) )
             .catch(error => console.log(error));
     }
+
+    save(tradeItem: TradeItem) {
+        return this.httpService.post(this.url, tradeItem)
+            .then(response => this.transformer.dataObjetToJson(response.json().data))
+            .catch(error => console.log(error));
+    }
     
 }

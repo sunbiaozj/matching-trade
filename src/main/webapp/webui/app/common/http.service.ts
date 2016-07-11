@@ -8,15 +8,24 @@ import { Headers, Http } from '@angular/http';
 
 @Injectable()
 export class HttpService {
-    serviceUrl:string = '/matching-trade/services/mt';
+    serviceUrl: string = '/matching-trade/services/mt';
 
     constructor(private http: Http) { }
 
-    get(url:string): Promise<any> {
-         return this.http.get(`${this.serviceUrl}/${url}`)
-               .toPromise()
-               .then(response => response )
-               .catch(error => error);
+    get(url: string): Promise<any> {
+        return this.http.get(`${this.serviceUrl}/${url}`)
+            .toPromise()
+            .then(response => response)
+            .catch(error => error);
     }
-    
+
+    post(url: string, data: any): Promise<any> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http
+            .post(`${this.serviceUrl}/${url}`, JSON.stringify(data), { headers: headers })
+            .toPromise()
+            .then(response => response)
+            .catch(error => error);
+    }
+
 }

@@ -11,11 +11,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let tradeItem of tradeItems" (click)="editTradeItem(tradeItem)">
+                <tr *ngFor="let tradeItem of tradeItems" (click)="selectTradeItem(tradeItem)">
                     <td>{{tradeItem.tradeItemId}}</td>
                     <td>{{tradeItem.name}}</td>
                 </tr>
             </tbody>
         </table>
+        
+        <trade-item-editor [tradeItem]="selectedTradeItem"></trade-item-editor>
+
     </div>
 </div>

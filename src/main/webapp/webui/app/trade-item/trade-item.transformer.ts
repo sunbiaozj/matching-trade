@@ -12,7 +12,7 @@ export class TradeItemTransformer {
 
     dataObjetToJson(data:any):TradeItem {
         let result:TradeItem = new TradeItem();
-        result.tradeItemId = data.id;
+        result.tradeItemId = data.tradeItemId;
         result.name = data.name;
         return result;
     }
