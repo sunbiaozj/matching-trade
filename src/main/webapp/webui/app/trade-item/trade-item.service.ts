@@ -5,21 +5,20 @@ import { TradeItemTransformer } from './trade-item.transformer';
 
 @Injectable()
 export class TradeItemService {
-    url:string = 'tradeitems';
+    url: string = 'tradeitems';
     transformer = new TradeItemTransformer();
 
-    constructor(private httpService: HttpService) { }    
+    constructor(private httpService: HttpService) { }
 
     search(): Promise<TradeItem[]> {
+        console.log("serarc");
         return this.httpService.get(this.url)
-            .then(response => this.transformer.dataArrayToJson(response.json().data) )
-            .catch(error => console.log(error));
+            .then(response => this.transformer.dataArrayToJson(response.json().data));
     }
 
     save(tradeItem: TradeItem) {
         return this.httpService.post(this.url, tradeItem)
-            .then(response => this.transformer.dataObjetToJson(response.json().data))
-            .catch(error => console.log(error));
+            .then(response => this.transformer.dataObjetToJson(response.json().data));
     }
-    
+
 }
