@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
+import { NavBarAppComponent } from './common/nav-bar-app.component';
+
 import { ErrorAppComponent } from './common/error-app.component';
 import { ErrorAppService } from './common/error-app-service';
 import { HttpService } from './common/http.service';
@@ -13,10 +15,10 @@ import 'rxjs/add/operator/toPromise';
 @Component({
 	selector: 'matching-trade-app',
 	providers: [HTTP_PROVIDERS, HttpService, ErrorAppService],
-	directives: [TradeItemListComponent, ErrorAppComponent],
+	directives: [TradeItemListComponent, NavBarAppComponent, ErrorAppComponent],
 	template: `
+	<nav-bar-app></nav-bar-app>
 	<error-app></error-app>
-	<h1>Matching Trade</h1>
 	<trade-item-list></trade-item-list>
 	`
 })
