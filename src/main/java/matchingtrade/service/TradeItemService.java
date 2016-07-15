@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,7 +32,21 @@ public class TradeItemService {
     @Consumes("application/json")
     @Path("/")
     public TradeItemJson post(TradeItemJson requestJson) {
-    	TradeItemEntity requestEntity  = transformer.transform(requestJson);
+    	TradeItemEntity requestEntity = transformer.transform(requestJson);
+    	
+    	tradeItemDao.save(requestEntity);
+    	
+    	TradeItemJson result = transformer.transform(requestEntity);
+        return result;
+    }
+    
+    @PUT
+    @Produces("application/json")
+    @Consumes("application/json")
+    @Path("/")
+    public TradeItemJson put(TradeItemJson requestJson) {
+    	TradeItemEntity requestEntity = tradeItemDao.get(requestJson.getTradeItemId());
+    	transformer.transform(requestJson, requestEntity);
     	
     	tradeItemDao.save(requestEntity);
     	

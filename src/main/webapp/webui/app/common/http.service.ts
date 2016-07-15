@@ -6,26 +6,36 @@ import { Headers, Http } from '@angular/http';
 //import { HTTP_PROVIDERS } from '@angular/http';
 //import 'rxjs/add/operator/toPromise';
 
+import { ErrorAppService } from '../common/error-app-service';
+
 @Injectable()
 export class HttpService {
-    serviceUrl: string = '/matching-trade/services/mt';
+    private serviceUrl: string = '/matching-trade/services/mt';
+    private requestHeaders = new Headers({ 'Content-Type': 'application/json' });
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private errorAppService: ErrorAppService) { }
 
-    get(url: string): Promise<any> {
+    public get(url: string): Promise<any> {
         return this.http.get(`${this.serviceUrl}/${url}`)
             .toPromise()
             .then(response => response)
-            .catch(error => error);
+            .catch(error => this.errorAppService.addError(error));
     }
 
-    post(url: string, data: any): Promise<any> {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+    public post(url: string, data: any): Promise<any> {
         return this.http
-            .post(`${this.serviceUrl}/${url}`, JSON.stringify(data), { headers: headers })
+            .post(`${this.serviceUrl}/${url}`, JSON.stringify(data), { headers: this.requestHeaders })
             .toPromise()
             .then(response => response)
-            .catch(error => error);
+            .catch(error => this.errorAppService.addError(error));
+    }
+
+    public put(url: string, data: any): Promise<any> {
+        return this.http
+            .put(`${this.serviceUrl}/${url}`, JSON.stringify(data), { headers: this.requestHeaders })
+            .toPromise()
+            .then(response => response)
+            .catch(error => this.errorAppService.addError(error));
     }
 
 }

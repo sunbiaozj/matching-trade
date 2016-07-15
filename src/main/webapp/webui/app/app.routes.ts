@@ -11,7 +11,7 @@ const routes: RouterConfig = [
     path: 'trade-item/trade-item-list',
     component: TradeItemListComponent
   }, {
-    path: 'trade-item/trade-item-editor',
+    path: 'trade-item/trade-item-editor/:tradeItemId',
     component: TradeItemEditorComponent
   }
 ];

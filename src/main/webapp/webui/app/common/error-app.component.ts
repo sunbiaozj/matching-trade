@@ -14,15 +14,11 @@ export class ErrorAppComponent implements OnInit {
 
     ngOnInit() {
         this.errorAppService.getErrorObservable().subscribe((error: string) => {
-            this.addError(error);
+            this.errors.push(error);
         });
     }
 
-    public addError(s: string): void {
-        this.errors.push(s);
-    }
-
-    public clearErrors(): void {
+    private clearErrors(): void {
         this.errors = [];
     }
 

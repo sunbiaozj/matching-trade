@@ -21,7 +21,7 @@ public class TradeItemDao {
 	@Transactional
 	public void save(TradeItemEntity tradeItemEntity) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(tradeItemEntity);
+		session.saveOrUpdate(tradeItemEntity);
 	}
 	
 	@Transactional

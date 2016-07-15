@@ -5,20 +5,31 @@ import { TradeItemTransformer } from './trade-item.transformer';
 
 @Injectable()
 export class TradeItemService {
-    url: string = 'tradeitems';
-    transformer = new TradeItemTransformer();
+    private url: string = 'tradeitems';
+    private transformer = new TradeItemTransformer();
 
     constructor(private httpService: HttpService) { }
 
-    search(): Promise<TradeItem[]> {
-        console.log("serarc");
-        return this.httpService.get(this.url)
-            .then(response => this.transformer.dataArrayToJson(response.json().data));
+    public get(tradeItemId: number): Promise<TradeItem> {
+        console.log("gettradeitem");
+        return this.httpService
+            .get(this.url + "/" + tradeItemId)
+            .then(response => this.transformer.dataObjetToJson(response.json().data));
     }
 
-    save(tradeItem: TradeItem) {
-        return this.httpService.post(this.url, tradeItem)
-            .then(response => this.transformer.dataObjetToJson(response.json().data));
+    public save(tradeItem: TradeItem): Promise<TradeItem> {
+        if (tradeItem.tradeItemId) {
+            return this.httpService.put(this.url, tradeItem)
+                .then(response => this.transformer.dataObjetToJson(response.json().data));       
+        } else {
+            return this.httpService.post(this.url, tradeItem)
+                .then(response => this.transformer.dataObjetToJson(response.json().data));
+        }
+    }
+
+    public search(): Promise<TradeItem[]> {
+        return this.httpService.get(this.url)
+            .then(response => this.transformer.dataArrayToJson(response.json().data));
     }
 
 }
