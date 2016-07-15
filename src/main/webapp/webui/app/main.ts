@@ -1,4 +1,16 @@
 import { bootstrap } from '@angular/platform-browser-dynamic';
-import { AppComponent } from './app.component';
+import { provide } from '@angular/core';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-bootstrap(AppComponent);
+import { AppComponent } from './app.component';
+import { appRouterProviders } from './app.routes';
+
+/*
+ * Using HashLocationStrategy
+ * See: https://angular.io/docs/ts/latest/guide/router.html#!#browser-url-styles
+ */
+bootstrap(AppComponent, [
+  appRouterProviders,
+  { provide: LocationStrategy, useClass: HashLocationStrategy }
+])
+.catch(err => console.error(err));
