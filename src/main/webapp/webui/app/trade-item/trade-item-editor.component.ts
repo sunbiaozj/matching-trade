@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
+import {ROUTE_URLS} from '../app.routes';
 
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
@@ -17,7 +19,7 @@ export class TradeItemEditorComponent implements OnInit {
   private toogleClass: string = 'disabled';
   private uiState: number = 0; // bitwase | 0 = clean; 1 = dirty; 2 = saved;
 
-  constructor(private route: ActivatedRoute, private tradeItemService: TradeItemService) { }
+  constructor(private location: Location, private route: ActivatedRoute, private tradeItemService: TradeItemService) { }
 
   public ngOnInit() {
     let tradeItemId = +this.route.snapshot.params['tradeItemId'];
@@ -25,6 +27,12 @@ export class TradeItemEditorComponent implements OnInit {
       .then(response => this.tradeItem = response)
       .catch(error => console.log(error));
 
+  }
+
+  private navigate(s: string): void {
+    if (s == "back") {
+      this.location.back();
+    }
   }
 
   private save(t: TradeItem): void {
@@ -40,12 +48,11 @@ export class TradeItemEditorComponent implements OnInit {
   }
 
   private setUiState(n: number): void {
-    if ( n == 0 || n == 2) {
+    if (n == 0 || n == 2) {
       this.toogleClass = 'disabled';
-    } else if ( n == 1) {
+    } else if (n == 1) {
       this.toogleClass = 'enabled';
     }
-
     this.uiState = n;
   }
 

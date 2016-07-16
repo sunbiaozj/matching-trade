@@ -20,8 +20,6 @@ import 'rxjs/add/operator/toPromise';
 	template: `
 	<nav-bar-app></nav-bar-app>
 	<error-app></error-app>
-	<a [routerLink]="['trade-item/trade-item-list']">list</a>
-    <a [routerLink]="['trade-item/trade-item-editor']">editor</a>
 	<router-outlet></router-outlet>
 	`
 })

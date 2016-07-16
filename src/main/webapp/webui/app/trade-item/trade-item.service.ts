@@ -11,7 +11,6 @@ export class TradeItemService {
     constructor(private httpService: HttpService) { }
 
     public get(tradeItemId: number): Promise<TradeItem> {
-        console.log("gettradeitem");
         return this.httpService
             .get(this.url + "/" + tradeItemId)
             .then(response => this.transformer.dataObjetToJson(response.json().data));

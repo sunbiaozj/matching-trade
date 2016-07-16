@@ -13,7 +13,7 @@
             <tbody>
                 <tr *ngFor="let tradeItem of tradeItems" (click)="navigateToTradeItem(tradeItem)">
                     <td>{{tradeItem.tradeItemId}}</td>
-                    <td>{{tradeItem.name}}</td>
+                    <td>{{tradeItem.name}} <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span> </td>
                 </tr>
             </tbody>
         </table>
