@@ -19,6 +19,8 @@ import {TradeItemService} from './trade-item.service';
 })
 export class TradeItemEditorComponent implements OnInit {
   private tradeItemId: number;
+
+  private isSaved: boolean;
   private formGroup: FormGroup;
   private nameFormControl: FormControl = new FormControl('', Validators.required);
 
@@ -63,6 +65,7 @@ export class TradeItemEditorComponent implements OnInit {
     let tradeItem: TradeItem = this.transformFormGroupToTradeItem(this.formGroup);
     this.save(tradeItem);
     // TODO: Reset formGroup when new Angular 2 version is available. See: https://github.com/angular/angular/pull/9974
+    this.isSaved = true;
   }
 
 
