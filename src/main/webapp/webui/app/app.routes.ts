@@ -4,7 +4,8 @@ import {TradeItemEditorComponent} from './trade-item/trade-item-editor.component
 
 export const ROUTE_URLS = {
   TRADE_ITEM_LIST: "trade-item/trade-item-list",
-  TRADE_ITEM_EDITOR: "trade-item/trade-item-editor/:tradeItemId"
+  TRADE_ITEM_EDIT: "trade-item/trade-item-editor/:tradeItemId",
+  TRADE_ITEM_NEW: "trade-item/trade-item-editor"
 }; 
 
 const routes: RouterConfig = [
@@ -16,7 +17,10 @@ const routes: RouterConfig = [
     path: ROUTE_URLS.TRADE_ITEM_LIST,
     component: TradeItemListComponent
   }, {
-    path: ROUTE_URLS.TRADE_ITEM_EDITOR,
+    path: ROUTE_URLS.TRADE_ITEM_EDIT,
+    component: TradeItemEditorComponent
+  }, {
+    path: ROUTE_URLS.TRADE_ITEM_NEW,
     component: TradeItemEditorComponent
   }
 ];

@@ -49,6 +49,9 @@ export class TradeItemEditorComponent implements OnInit {
   public ngOnInit() {
     // GET TradeItem based on URL parameter tradeItemId.
     this.tradeItemId = +this.route.snapshot.params['tradeItemId'];
+    if (!this.tradeItemId) {
+      return;
+    }
     this.tradeItemService
       .get(this.tradeItemId)
       .then(response => {
@@ -65,7 +68,6 @@ export class TradeItemEditorComponent implements OnInit {
     let tradeItem: TradeItem = this.transformFormGroupToTradeItem(this.formGroup);
     this.save(tradeItem);
     // TODO: Reset formGroup when new Angular 2 version is available. See: https://github.com/angular/angular/pull/9974
-    this.isSaved = true;
   }
 
 
@@ -73,6 +75,7 @@ export class TradeItemEditorComponent implements OnInit {
     this.tradeItemService.save(t)
       .then(response => {
         this.loadFormGroupFromTradeItem(response);
+        this.isSaved = true;
       }
       ).catch(error => console.log(error));
   }
@@ -88,6 +91,7 @@ export class TradeItemEditorComponent implements OnInit {
 
   private loadFormGroupFromTradeItem(t: TradeItem) {
     this.nameFormControl.updateValue(t.name);
+    this.tradeItemId = t.tradeItemId;
   }
 
 }

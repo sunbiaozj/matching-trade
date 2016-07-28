@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {ROUTE_URLS} from '../app.routes';
 
 import { ErrorAppService } from '../common/error-app-service';
 
@@ -19,6 +20,11 @@ export class TradeItemListComponent implements OnInit {
   
   constructor(private router: Router, private tradeItemService: TradeItemService, private errorAppService: ErrorAppService) { }
 
+  private addTradeItem() {
+    let link = [ROUTE_URLS.TRADE_ITEM_NEW];
+    this.router.navigate(link);
+  }
+
   ngOnInit() {
     let searchResult = this.tradeItemService.search();
     searchResult
@@ -26,7 +32,7 @@ export class TradeItemListComponent implements OnInit {
       .catch(error => this.errorAppService.addError(error) );
   }
 
-  navigateToTradeItem(tradeItem: TradeItem) {
+  private navigateToTradeItem(tradeItem: TradeItem) {
     this.selectedTradeItem = tradeItem;
     let link = ['/trade-item/trade-item-editor', tradeItem.tradeItemId ];
     this.router.navigate(link);
