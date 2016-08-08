@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://cxf.apache.org/jaxrs
-		http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context
@@ -18,14 +13,12 @@
 		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
-		
 
-	<context:annotation-config/>
-	<context:property-placeholder />
-
-	<context:component-scan base-package="
-		matchingtrade.persistence.dao,
-		matchingtrade.persistence.entity,
-		matchingtrade.service"/>
-
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:./target/h2db/h2database-local-db-file" />
+		<property name="username" value="username" />
+		<property name="password" value="password" />
+	</bean>
+	
 </beans>

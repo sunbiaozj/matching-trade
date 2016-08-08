@@ -1,6 +1,5 @@
 package matchingtrade.service;
 import java.util.List;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;

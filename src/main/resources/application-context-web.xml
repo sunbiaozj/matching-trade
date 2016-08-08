@@ -22,6 +22,7 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="application-context-common.xml" />
 	<import resource="application-context-apache-cxf.xml" />
+	<import resource="file:${configuration.path:src/config/dev}/application-context-config.xml" />
 	<import resource="application-context-hibernate.xml" />
 
 </beans>
