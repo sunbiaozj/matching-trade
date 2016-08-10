@@ -8,13 +8,22 @@ import { ROUTE_URLS } from '../app.routes';
 })
 export class NavBarAppComponent {
 
-	constructor(private router: Router) {}
+	constructor(private router: Router) { }
 
-	private navigate(s:string) {
-		if (s == "trade-items") {
-			let link = [ROUTE_URLS.TRADE_ITEM_LIST];
-			this.router.navigate(link);
+	private navigate(s: string) {
+		let link: any;
+		switch (s) {
+			case "trade-items":
+				link = [ROUTE_URLS.TRADE_ITEM_LIST];
+				break;
+			case "authentication":
+				link = [ROUTE_URLS.AUTHENTICATION];
+				break;
+			default:
+				// Does nothing
+				break;
 		}
+		this.router.navigate(link);
 	}
 
 }
