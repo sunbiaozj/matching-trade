@@ -11,12 +11,7 @@ import { ErrorAppService } from '../common/error-app-service';
 export class AuthenticationComponent implements OnInit {
   
   constructor(private router: Router, private errorAppService: ErrorAppService) { }
-
-  // private addTradeItem() {
-  //   let link = [ROUTE_URLS.TRADE_ITEM_NEW];
-  //   this.router.navigate(link);
-  // }
-
+  
   ngOnInit() {
     let href:string = window.location.href;
     let webuiIndex:number = href.indexOf("webui");

@@ -27,5 +27,8 @@
 		matchingtrade.persistence.dao,
 		matchingtrade.persistence.entity,
 		matchingtrade.service"/>
+		
+	<!-- Initialize ApplicationContextAware of ApplicationContextProvider -->
+	<bean id="applicationContextProvider" class="matchingtrade.util.ApplicationContextProvider"/>
 
 </beans>
