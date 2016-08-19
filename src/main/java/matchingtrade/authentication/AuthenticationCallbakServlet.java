@@ -60,7 +60,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 		request.getSession().setAttribute("isEmailVerified", userDetailMap.get("verified_email"));
 		
 		// Done. Let's redirect user to index.jsp
-		response.sendRedirect("/matching-trade/webui/");
+		response.sendRedirect("/webui/");
 	}
 
 	private String obtainAccessToken(String codeParameter) throws IOException, ClientProtocolException {

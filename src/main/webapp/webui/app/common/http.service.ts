@@ -10,7 +10,7 @@ import { ErrorAppService } from '../common/error-app-service';
 
 @Injectable()
 export class HttpService {
-    private serviceUrl: string = '/matching-trade/services/mt';
+    private serviceUrl: string = '/services/mt';
     private requestHeaders = new Headers({ 'Content-Type': 'application/json' });
 
     constructor(private http: Http, private errorAppService: ErrorAppService) { }

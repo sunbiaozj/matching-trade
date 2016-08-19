@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
-import { NavBarAppComponent } from './common/nav-bar-app.component';
+import { NavBarAppComponent } from './navigation-bar/navigation-bar.component';
 import { ErrorAppComponent } from './common/error-app.component';
 import { ErrorAppService } from './common/error-app-service';
 
@@ -18,7 +18,7 @@ import 'rxjs/add/operator/toPromise';
 	providers: [HTTP_PROVIDERS, HttpService, ErrorAppService],
 	directives: [ROUTER_DIRECTIVES, NavBarAppComponent, ErrorAppComponent],
 	template: `
-	<nav-bar-app></nav-bar-app>
+	<navigation-bar></navigation-bar>
 	<error-app></error-app>
 	<router-outlet></router-outlet>
 	`

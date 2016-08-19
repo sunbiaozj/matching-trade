@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { ROUTE_URLS } from '../app.routes';
 
 @Component({
-	selector: 'nav-bar-app',
-	templateUrl: 'app/common/nav-bar-app.html'
+	selector: 'navigation-bar',
+	templateUrl: 'app/navigation-bar/navigation-bar.html'
 })
 export class NavBarAppComponent {
 
