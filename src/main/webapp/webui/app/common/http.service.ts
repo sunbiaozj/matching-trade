@@ -15,8 +15,15 @@ export class HttpService {
 
     constructor(private http: Http, private errorAppService: ErrorAppService) { }
 
-    public get(url: string): Promise<any> {
-        return this.http.get(`${this.serviceUrl}/${url}`)
+    public get(url: string, basic?:boolean): Promise<any> {
+        let targetUrl: string;
+        if (basic) {
+            targetUrl = url;
+        } else {
+            targetUrl = `${this.serviceUrl}/${url}`;
+        }
+
+        return this.http.get(targetUrl)
             .toPromise()
             .then(response => response)
             .catch(error => this.errorAppService.addError(error));
