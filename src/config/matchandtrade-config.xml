@@ -26,7 +26,7 @@
 	<bean id="authenticationProperties" class="matchingtrade.configuration.AuthenticationProperties">
 		<property name="clientId" value="YOUR_CLIENT_ID"/>
 		<property name="clientSecret" value="YOUR_CLIENT_SECRET"/>
-		<property name="redirectURI" value="YOUR_REDIRECT_URI"/>
+		<property name="redirectURI" value="YOUR_REDIRECT_URL"/>
 	</bean>
 	
 </beans>
