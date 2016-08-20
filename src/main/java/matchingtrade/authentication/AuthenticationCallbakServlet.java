@@ -58,9 +58,10 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 		request.getSession().setAttribute("email", userDetailMap.get("email"));
 		request.getSession().setAttribute("name", userDetailMap.get("name"));
 		request.getSession().setAttribute("isEmailVerified", userDetailMap.get("verified_email"));
+		request.getSession().setAttribute("isAuthenticated", true);
 		
-		// Done. Let's redirect user to index.jsp
-		response.sendRedirect("/webui/");
+		// Done. Let's redirect the request
+		response.sendRedirect("/webui/#/authentication/existing-user");
 	}
 
 	private String obtainAccessToken(String codeParameter) throws IOException, ClientProtocolException {

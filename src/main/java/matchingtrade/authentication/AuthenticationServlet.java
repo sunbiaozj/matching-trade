@@ -82,11 +82,7 @@ public class AuthenticationServlet extends HttpServlet {
 		Map <String, Object> resultMap = new HashMap<>();
 		resultMap.put("email", request.getSession().getAttribute("email"));
 		resultMap.put("name", request.getSession().getAttribute("name"));
-		resultMap.put("isEmailVerified", request.getSession().getAttribute("isEmailVerified"));
-		resultMap.put("sessionCreationTime", request.getSession().getCreationTime());
-		resultMap.put("sessionLastAccessedTime", request.getSession().getLastAccessedTime());
-		resultMap.put("sessionMaxInactiveInterval", request.getSession().getMaxInactiveInterval());
-		resultMap.put("sessionIsNew", request.getSession().isNew());
+		resultMap.put("isAuthenticated", request.getSession().getAttribute("isAuthenticated")==null?false:true );
 		resultMap.put("sessionId", request.getSession().getId());
 		String result = JsonUtil.toJson(resultMap);
 		return result;

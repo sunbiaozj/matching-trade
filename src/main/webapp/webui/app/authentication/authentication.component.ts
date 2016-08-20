@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ROUTE_URLS} from '../app.routes';
+import {ActivatedRoute} from '@angular/router';
+
 
 import { ErrorAppService } from '../common/error-app-service';
 
@@ -13,20 +15,25 @@ import {AuthenticationService} from './authentication.service';
 })
 export class AuthenticationComponent implements OnInit {
   private authenticatedEmail: string;
-  
-  constructor(private router: Router, private errorAppService: ErrorAppService, private authenticationService: AuthenticationService) { }
-  
+  private authenticationStatus: string;
+
+  constructor(
+    private router: Router,
+    private errorAppService: ErrorAppService,
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService) { }
+
   ngOnInit() {
     let authenticationPromise = this.authenticationService.get();
     authenticationPromise.then(authentication => this.authenticatedEmail = authentication.email);
+
+    // GET authentication/:status from URL parameter
+    this.authenticationStatus = this.route.snapshot.params['status'];
+
   }
 
-  private signIn():void {
-    let href:string = window.location.href;
-    let webuiIndex:number = href.indexOf("webui");
-    let baseURL = href.substring(0, webuiIndex);
-    let authenticationURL = baseURL + "authenticate";
-    window.location.assign(authenticationURL);
+  private authenticate(): void {
+    window.location.assign("/authenticate");
   }
 
 }

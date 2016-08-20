@@ -24,7 +24,7 @@
         </li>
         <li>
           <a href="#" (click)="navigate('authentication')" data-toggle="collapse">
-            Sign-<span *ngIf="authenticatedEmail">out</span><span *ngIf="!authenticatedEmail">in</span><span class="sr-only"></span>
+            <span *ngIf="isAuthenticated">Sing-out</span><span *ngIf="!isAuthenticated">Sing-up</span><span class="sr-only"></span>
           </a>
         </li>
       </ul>
