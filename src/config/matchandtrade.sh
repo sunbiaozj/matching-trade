@@ -8,24 +8,30 @@
 # Short-Description: initscript for Match And Trade Webserver
 ### END INIT INFO
 
+####
 # Big thanks to https://leonid.shevtsov.me/post/how-to-make-a-java-daemon-with-start-stop-daemon/
 # Author: Rafael Santos<rafael.santos.bra@gmail.com>
+# Match and Trade init.d script parameters, in most cases you only need to change the variables starting with $MATCHANDTRADE_*
+#####
+MATCHANDTRADE_ROOT_DIRECTORY="/home/match-and-trade"
+MATCHANDTRADE_EXEC_JAR_COMMAND_LINE="-httpPort 80 -resetExtract -extractDirectory $MATCHANDTRADE_ROOT_DIRECTORY/matchandtrade-tomcat-extract-dir -Dmatchandtrade.config.file=$MATCHANDTRADE_ROOT_DIRECTORY/config/matchandtrade-config.xml"
+MATCHANDTRADE_LOG_FILE="$MATCHANDTRADE_ROOT_DIRECTORY/log/matchandtrade.log"
 
 # Do NOT "set -e"
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Match and Trade Webserver"
 NAME="matchandtrade.sh"
-# PLACE_HOLDER : Change CWD accordingly
-CWD=/home/match-and-trade
+CWD=$MATCHANDTRADE_ROOT_DIRECTORY
 USER=root
 GROUP=root
 JAVA=/usr/bin/java
 JVM_ARGS=
-# PLACE_HOLDER : Change JAVA_PATH accordingly
 JAR_PATH=/home/match-and-trade/matchandtrade.jar
-# PLACE_HOLDER : Change JAVA_ARGS accordingly
-JAVA_ARGS="$JVM_ARGS -jar $JAR_PATH -httpPort 80 -resetExtract -extractDirectory /home/match-and-trade/matchandtrade-tomcat-extract-dir -Dmatchandtrade.config.file=/home/match-and-trade/matchandtrade-config.xml"
+JAVA_ARGS="$JVM_ARGS -jar $JAR_PATH $MATCHANDTRADE_EXEC_JAR_COMMAND_LINE"
+
+
+
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
@@ -65,7 +71,7 @@ do_start()
     --exec $JAVA \
     --test > /dev/null \
     || return 1
-  # export environment variables here
+  # FIXME: export environment variables here
   # export PORT=8080
   start-stop-daemon --start \
     --quiet \
@@ -76,8 +82,8 @@ do_start()
     --group $GROUP \
     --chdir $CWD \
     --background \
-    --exec $JAVA \
-    -- $JAVA_ARGS \
+    --startas /bin/bash \
+    -- -c "exec $JAVA $JAVA_ARGS > $MATCHANDTRADE_LOG_FILE 2>&1" \
     || return 2
 }
 
