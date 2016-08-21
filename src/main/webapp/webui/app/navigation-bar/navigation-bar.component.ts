@@ -17,7 +17,9 @@ export class NavBarAppComponent implements OnInit {
 
 	ngOnInit() {
     	let authenticationPromise = this.authenticationService.get();
-    	authenticationPromise.then(authentication => this.isAuthenticated = authentication.isAuthenticated);
+    	authenticationPromise.then(authentication => {
+			this.isAuthenticated = authentication.isAuthenticated
+		});
 	}
 
 	private navigate(s: string) {
