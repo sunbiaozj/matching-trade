@@ -32,7 +32,7 @@ export class AuthenticationComponent implements OnInit {
 
   }
 
-  private authenticate(): void {
+  public static authenticate(): void {
     window.location.assign("/authenticate");
   }
 

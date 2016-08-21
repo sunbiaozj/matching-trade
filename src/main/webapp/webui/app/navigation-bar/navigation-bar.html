@@ -14,17 +14,14 @@
     <div class="collapse navbar-collapse" id="navbar-collapse-dropdown">
       <ul class="nav navbar-nav">
         <li>
-          <a data-toggle="collapse">Trades<span class="sr-only">(current)</span></a>
+          <a href="#" (click)="navigate('home')" data-toggle="collapse">Home</a>
         </li>
         <li>
-          <a data-toggle="collapse">Trade List<span class="sr-only"></span></a>
-        </li>
-        <li>
-          <a href="#" (click)="navigate('trade-items')" data-toggle="collapse">Trade Items<span class="sr-only"></span></a>
+          <a href="#" (click)="navigate('trade-items')" data-toggle="collapse">Trade Items</a>
         </li>
         <li>
           <a href="#" (click)="navigate('authentication')" data-toggle="collapse">
-            <span *ngIf="isAuthenticated">Sing-out</span><span *ngIf="!isAuthenticated">Sing-up</span><span class="sr-only"></span>
+            <span *ngIf="isAuthenticated">Sing-out</span><span *ngIf="!isAuthenticated">Sing-up</span>
           </a>
         </li>
       </ul>
