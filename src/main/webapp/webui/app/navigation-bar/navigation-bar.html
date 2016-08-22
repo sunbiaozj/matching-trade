@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default">
   <div class="container navbar-left">
 
     <div class="navbar-header">
@@ -18,10 +18,11 @@
         <li *ngIf="isAuthenticated">
           <a href="#/trade-item/trade-item-list" data-toggle="collapse" data-target=".navbar-collapse.in">Trade Items</a>
         </li>        
-        <li>
-          <a href="#/authentication" data-toggle="collapse" data-target=".navbar-collapse.in">
-            <span *ngIf="isAuthenticated">Sing-out</span><span *ngIf="!isAuthenticated">Sing-in</span>
-          </a>
+        <li *ngIf="!isAuthenticated">
+          <a href="#/authentication/signin" data-toggle="collapse" data-target=".navbar-collapse.in">Sing-in</a>
+        </li>
+        <li *ngIf="isAuthenticated">
+          <a href="#/authentication/signout" data-toggle="collapse" data-target=".navbar-collapse.in">Sing-out</a>
         </li>
       </ul>
     </div>

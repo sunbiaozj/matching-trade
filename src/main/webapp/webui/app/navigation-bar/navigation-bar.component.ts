@@ -7,8 +7,7 @@ import {HomeComponent} from '../home/home.component';
 
 @Component({
 	selector: 'navigation-bar',
-	templateUrl: 'app/navigation-bar/navigation-bar.html',
-	providers: [AuthenticationService]
+	templateUrl: 'app/navigation-bar/navigation-bar.html'
 })
 export class NavBarAppComponent implements OnInit {
 	private isAuthenticated: boolean;
@@ -16,10 +15,8 @@ export class NavBarAppComponent implements OnInit {
 	constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
 	ngOnInit() {
-    	let authenticationPromise = this.authenticationService.get();
-    	authenticationPromise.then(authentication => {
-			this.isAuthenticated = authentication.isAuthenticated
-		});
+    	let authenticationPromise = this.authenticationService.getLastAuthentication();
+    	authenticationPromise.then(authentication => this.isAuthenticated = authentication.isAuthenticated);
 	}
 
 	private navigate(s: string) {

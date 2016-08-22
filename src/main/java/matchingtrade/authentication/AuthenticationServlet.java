@@ -27,26 +27,45 @@ public class AuthenticationServlet extends HttpServlet {
 	private ApplicationContext context = ApplicationContextProvider.getApplicationContext();
 	private AuthenticationProperties authenticationProperties = (AuthenticationProperties) context.getBean("authenticationProperties");
 	
+	/**
+	 * Delegates the request to the correct action.
+	 * If request.getRequestURI() ends in 'info' it returns information about the session.
+	 * If request.getRequestURI() ends in 'singout' it ends the session.
+	 * Otherwhise proceeds with the regular user authentication process.
+	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Return Authentication Info
-		if (isInfoRequest(request)) {
+		AuthenticationAction targetAction = getAuthenticationAction(request);
+		if (targetAction == AuthenticationAction.INFO) {
 			response.getWriter().append(getAuthenticationInfo(request, response));
+		} else if (targetAction == AuthenticationAction.SIGNOUT) {
+			singOut(request, response);
 		} else {
 			sendAuthenticationRequest(request, response);
 		}
 	}
 
-	/*
-	 * Returns true if the last URL path parameter is 'info'
+	private void singOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.getSession().invalidate();
+		response.sendRedirect("/");
+	}
+
+	/**
+	 * Returns the corresponding AuthenticationAction for this request
 	 */
-	private boolean isInfoRequest(HttpServletRequest request) {
-		boolean result = false;
+	private AuthenticationAction getAuthenticationAction(HttpServletRequest request) {
+		AuthenticationAction result = null;
 		int lastPathIndex = request.getRequestURI().lastIndexOf("/");
 		if (lastPathIndex > 0) {
-			result = request.getRequestURI().substring(lastPathIndex).endsWith("info");
+			String lastPath = request.getRequestURI().substring(lastPathIndex+1);
+			result = AuthenticationAction.get(lastPath);
 		}
-		return result;
+		
+		if (result == null) {
+			return AuthenticationAction.AUTHENTICATE;
+		} else {
+			return result;
+		}
 	}
 
 	private void sendAuthenticationRequest(HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, IOException {

@@ -21,3 +21,11 @@
 .pad-sm {
     padding: 10px
 }
+
+.navbar{
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+    background-color: rgb(210, 60, 5);
+}
