@@ -36,7 +36,7 @@ public class UserEntity {
 		return email;
 	}
 
-	@Column(name = "name", length = 120, nullable = false, unique = false)
+	@Column(name = "name", length = 150, nullable = false, unique = false)
 	public String getName() {
 		return name;
 	}
@@ -50,7 +50,7 @@ public class UserEntity {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int prime = 11;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		return result;

@@ -28,6 +28,10 @@
 		<property name="clientSecret" value="YOUR_CLIENT_SECRET"/>
 		<property name="redirectURI" value="YOUR_REDIRECT_URL"/>
 	</bean>
+	<!--
+		For testing purposes use "AuthenticationOAuthTestExistingUser" if you want to mock an authentication server.
+		<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
+	-->
 	<bean id="authenticationRequestRedirect" class="matchingtrade.authentication.AuthenticationRequestRedirectGoogle"/>
 	
 </beans>

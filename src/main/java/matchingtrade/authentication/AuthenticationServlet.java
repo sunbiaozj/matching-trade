@@ -2,10 +2,7 @@ package matchingtrade.authentication;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +20,7 @@ public class AuthenticationServlet extends HttpServlet {
 	
 	private static final ApplicationContext context = ApplicationContextProvider.getApplicationContext();
 	private static final AuthenticationProperties authenticationProperties = (AuthenticationProperties) context.getBean("authenticationProperties");
-	private static final AuthenticationRequestRedirect authenticationRequestRedirect = (AuthenticationRequestRedirect) context.getBean("authenticationRequestRedirect");
+	private static final AuthenticationOAuth authenticationOAuth = (AuthenticationOAuth) context.getBean("authenticationOAuth");
 
 	
 	/**
@@ -40,7 +37,7 @@ public class AuthenticationServlet extends HttpServlet {
 		} else if (targetAction == AuthenticationAction.SIGNOUT) {
 			singOut(request, response);
 		} else {
-			sendAuthenticationRequest(request, response);
+			redirectToAuthenticationServer(request, response);
 		}
 	}
 
@@ -67,20 +64,25 @@ public class AuthenticationServlet extends HttpServlet {
 	}
 
 	private String getAuthenticationInfo(HttpServletRequest request, HttpServletResponse response) {
-		Map <String, Object> resultMap = new HashMap<>();
-		resultMap.put("userId", request.getSession().getAttribute("userId"));
-		resultMap.put("email", request.getSession().getAttribute("email"));
-		resultMap.put("name", request.getSession().getAttribute("name"));
-		resultMap.put("isAuthenticated", request.getSession().getAttribute("isAuthenticated")==null?false:true );
-		resultMap.put("sessionId", request.getSession().getId());
-		String result = JsonUtil.toJson(resultMap);
+		User user = (User) request.getSession().getAttribute("user");
+//		Map <String, Object> resultMap = new HashMap<>();
+//		resultMap.put("userId", request.getSession().getAttribute("userId"));
+//		resultMap.put("email", request.getSession().getAttribute("email"));
+//		resultMap.put("name", request.getSession().getAttribute("name"));
+//		resultMap.put("isAuthenticated", request.getSession().getAttribute("isAuthenticated")==null?false:true );
+//		resultMap.put("sessionId", request.getSession().getId());
+//		String result = JsonUtil.toJson(resultMap);
+		String result = JsonUtil.toJson(user);
 		return result;
 	}
 
-	private void sendAuthenticationRequest(HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, IOException {
+	private void redirectToAuthenticationServer(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 		// 1. Create an anti-forgery state token
 		String state = generateAntiForgeryToken();
-		authenticationRequestRedirect.sendAuthenticationRedirect(request, response, state, authenticationProperties.getClientId(), authenticationProperties.getRedirectURI());
+		request.getSession().setAttribute("authenticationState", state);
+
+		// 2. Send an authentication request to Google
+		authenticationOAuth.redirectToAuthorizationServer(response, state, authenticationProperties.getClientId(), authenticationProperties.getRedirectURI());
 	}
 	
 	private void singOut(HttpServletRequest request, HttpServletResponse response) throws IOException {

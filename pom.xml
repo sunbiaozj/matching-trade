@@ -176,6 +176,9 @@
 				</executions>
 				<configuration>
 					<path>/</path>
+					<!-- TODO: We need to create testing maven profile and use useTestClasspath only for testing, we do not need testing classpath in production -->
+					<!-- if you want to use test dependencies rather than only runtime -->
+      				<useTestClasspath>true</useTestClasspath>
 				</configuration>
 			</plugin>
 			
