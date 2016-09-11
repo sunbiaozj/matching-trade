@@ -3,8 +3,6 @@ package matchingtrade.authentication;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.client.utils.URIBuilder;
 import org.springframework.context.ApplicationContext;
 
 import matchingtrade.configuration.AuthenticationProperties;
@@ -24,14 +21,16 @@ import matchingtrade.util.JsonUtil;
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 373664290851751809L;
 	
-	private ApplicationContext context = ApplicationContextProvider.getApplicationContext();
-	private AuthenticationProperties authenticationProperties = (AuthenticationProperties) context.getBean("authenticationProperties");
+	private static final ApplicationContext context = ApplicationContextProvider.getApplicationContext();
+	private static final AuthenticationProperties authenticationProperties = (AuthenticationProperties) context.getBean("authenticationProperties");
+	private static final AuthenticationRequestRedirect authenticationRequestRedirect = (AuthenticationRequestRedirect) context.getBean("authenticationRequestRedirect");
+
 	
 	/**
 	 * Delegates the request to the correct action.
 	 * If request.getRequestURI() ends in 'info' it returns information about the session.
-	 * If request.getRequestURI() ends in 'singout' it ends the session.
-	 * Otherwhise proceeds with the regular user authentication process.
+	 * If request.getRequestURI() ends in 'sing-out' it ends the session.
+	 * Otherwise proceeds with the regular user authentication process.
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,9 +44,8 @@ public class AuthenticationServlet extends HttpServlet {
 		}
 	}
 
-	private void singOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		request.getSession().invalidate();
-		response.sendRedirect("/");
+	private String generateAntiForgeryToken() {
+	  return new BigInteger(130, new SecureRandom()).toString(32);
 	}
 
 	/**
@@ -68,35 +66,6 @@ public class AuthenticationServlet extends HttpServlet {
 		}
 	}
 
-	private void sendAuthenticationRequest(HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, IOException {
-		// 1. Create an anti-forgery state token
-		String state = generateAntiForgeryToken();
-		request.getSession().setAttribute("authenticationState", state);
-		
-		// 2. Send an authentication request to Google
-		URI uri = null;
-		try {
-			uri = new URIBuilder()
-			        .setScheme("https")
-			        .setHost("accounts.google.com")
-			        .setPath("/o/oauth2/v2/auth")
-			        .setParameter("client_id", authenticationProperties.getClientId())
-			        .setParameter("response_type", "code")
-			        .setParameter("scope", "openid email profile" )
-			        .setParameter("redirect_uri", authenticationProperties.getRedirectURI())
-			        .setParameter("state", state)
-			        .build();
-		} catch (URISyntaxException e) {
-			System.err.println("Error building uri. Exception message: " + e.getMessage() );
-		}
-		System.out.println(uri.toURL().toString());
-		response.sendRedirect(uri.toURL().toString());
-	}
-
-	private String generateAntiForgeryToken() {
-	  return new BigInteger(130, new SecureRandom()).toString(32);
-	}
-	
 	private String getAuthenticationInfo(HttpServletRequest request, HttpServletResponse response) {
 		Map <String, Object> resultMap = new HashMap<>();
 		resultMap.put("userId", request.getSession().getAttribute("userId"));
@@ -106,5 +75,16 @@ public class AuthenticationServlet extends HttpServlet {
 		resultMap.put("sessionId", request.getSession().getId());
 		String result = JsonUtil.toJson(resultMap);
 		return result;
+	}
+
+	private void sendAuthenticationRequest(HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, IOException {
+		// 1. Create an anti-forgery state token
+		String state = generateAntiForgeryToken();
+		authenticationRequestRedirect.sendAuthenticationRedirect(request, response, state, authenticationProperties.getClientId(), authenticationProperties.getRedirectURI());
+	}
+	
+	private void singOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.getSession().invalidate();
+		response.sendRedirect("/");
 	}
 }

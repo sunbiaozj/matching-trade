@@ -28,5 +28,6 @@
 		<property name="clientSecret" value="YOUR_CLIENT_SECRET"/>
 		<property name="redirectURI" value="YOUR_REDIRECT_URL"/>
 	</bean>
+	<bean id="authenticationRequestRedirect" class="matchingtrade.authentication.AuthenticationRequestRedirectGoogle"/>
 	
 </beans>

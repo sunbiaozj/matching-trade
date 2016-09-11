@@ -79,8 +79,10 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 
 	/*
 	 * Check if there is a user for the given email.
-	 * If not, then save the user in the local database and return true.
-	 * If yes, then return false.
+	 * If not, then save a new user in the local database.
+	 * If yes, then return the exiting user.
+	 * 
+	 * @return updated UserEntity.
 	 */
 	private UserEntity updateUserInfo(String email, String name) {
 		UserDao userDao = (UserDao) context.getBean(UserDao.class);
@@ -92,7 +94,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 			userDao.save(u);
 			return u;
 		} else {
-			return null;
+			return userEntity;
 		}
 	}
 

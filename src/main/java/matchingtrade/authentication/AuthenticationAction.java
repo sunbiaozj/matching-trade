@@ -18,7 +18,7 @@ public enum AuthenticationAction {
 		case "authenticate":
 			result = AuthenticationAction.AUTHENTICATE;
 			break;
-		case "signout":
+		case "sign-out":
 			result = AuthenticationAction.SIGNOUT;
 			break;
 		default:
