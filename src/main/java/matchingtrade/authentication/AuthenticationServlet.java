@@ -99,6 +99,7 @@ public class AuthenticationServlet extends HttpServlet {
 	
 	private String getAuthenticationInfo(HttpServletRequest request, HttpServletResponse response) {
 		Map <String, Object> resultMap = new HashMap<>();
+		resultMap.put("userId", request.getSession().getAttribute("userId"));
 		resultMap.put("email", request.getSession().getAttribute("email"));
 		resultMap.put("name", request.getSession().getAttribute("name"));
 		resultMap.put("isAuthenticated", request.getSession().getAttribute("isAuthenticated")==null?false:true );

@@ -63,10 +63,18 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 		request.getSession().setAttribute("isAuthenticated", true);
 		
 		// 7. Update user information in the local database
-		boolean isNewUser = updateUserInfo(userDetailMap.get("email").toString(), userDetailMap.get("name").toString());
+		UserEntity userEntity = updateUserInfo(userDetailMap.get("email").toString(), userDetailMap.get("name").toString());
+		if (userEntity != null) {
+			request.getSession().setAttribute("userId", userEntity.getUserId());
+		}
+		boolean isNewUser = true;
+		if (userEntity.getUserId() != null) {
+			isNewUser = false;
+		}
 		
 		// Done. Let's redirect the request
-		response.sendRedirect("/webui/#/authentication/existing-user?isNewUser="+isNewUser);
+		String userStatusPathParam = isNewUser ? "new-user" : "existing-user";
+		response.sendRedirect("/webui/#/authentication/" + userStatusPathParam);
 	}
 
 	/*
@@ -74,7 +82,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 	 * If not, then save the user in the local database and return true.
 	 * If yes, then return false.
 	 */
-	private boolean updateUserInfo(String email, String name) {
+	private UserEntity updateUserInfo(String email, String name) {
 		UserDao userDao = (UserDao) context.getBean(UserDao.class);
 		UserEntity userEntity = userDao.get(email);
 		if (userEntity == null) {
@@ -82,9 +90,10 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 			u.setEmail(email);
 			u.setName(name);
 			userDao.save(u);
-			return true;
+			return u;
+		} else {
+			return null;
 		}
-		return false;
 	}
 
 	private String obtainAccessToken(String codeParameter) throws IOException, ClientProtocolException {

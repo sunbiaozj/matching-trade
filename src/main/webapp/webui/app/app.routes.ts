@@ -3,6 +3,7 @@ import {AuthenticationComponent} from './authentication/authentication.component
 import {HomeComponent} from './home/home.component';
 import {TradeItemListComponent} from './trade-item/trade-item-list.component';
 import {TradeItemEditorComponent} from './trade-item/trade-item-editor.component';
+import {UserProfileEditorComponent} from './user/user-profile-editor.component'
 
 export const ROUTE_URLS = {
   AUTHENTICATION: "authentication",
@@ -10,7 +11,8 @@ export const ROUTE_URLS = {
   HOME: "home",
   TRADE_ITEM_LIST: "trade-item/trade-item-list",
   TRADE_ITEM_EDIT: "trade-item/trade-item-editor/:tradeItemId",
-  TRADE_ITEM_NEW: "trade-item/trade-item-editor"
+  TRADE_ITEM_NEW: "trade-item/trade-item-editor",
+  USER_PROFILE_EDIT: "user/profile-editor",
 };
 
 const routes: RouterConfig = [
@@ -36,6 +38,9 @@ const routes: RouterConfig = [
   }, {
     path: ROUTE_URLS.TRADE_ITEM_NEW,
     component: TradeItemEditorComponent
+  }, {
+    path: ROUTE_URLS.USER_PROFILE_EDIT,
+    component: UserProfileEditorComponent
   }
 ];
 

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ROUTE_URLS} from '../app.routes';
 
 import {ErrorAppService} from '../common/error-app-service';
 
@@ -16,6 +17,7 @@ export class AuthenticationComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
@@ -28,21 +30,28 @@ export class AuthenticationComponent implements OnInit {
       this.userName = authentication.name;
     });
 
+    // new-user: user has been redirected from authentication and is a new user. Let's redirect it to the profile page.
     // existing-user: user has been redirected from authentication and is an existing user. Do nothing for now, it can be useful in the future.
-    // signin: user wants to Sign-in. Do nothing here because the user will be presented with 'authentication.html'.
-    // signout: user wants to Sing-out. Redirect to /authenticate/signout
-    if (this.authenticationStatus == 'signout') {
-      this.singOut();
+    // sign-in: user wants to Sign-in. Do nothing here because the user will be presented with 'authentication.html'.
+    // sign-out: user wants to Sing-out. Redirect to /authenticate/sign-out
+    switch (this.authenticationStatus) {
+      case 'sign-out':
+        window.location.assign("/authenticate/sign-out");
+        break;
+      case 'sign-in':
+        window.location.assign("/authenticate");
+        break;
+      case 'new-user':
+        this.router.navigate([ROUTE_URLS.USER_PROFILE_EDIT]);
+        break;                
+      default:
+        break;
     }
+
   }
 
   public authenticate(): void {
     window.location.assign("/authenticate");
   }
-
-  public singOut(): void {
-    window.location.assign("/authenticate/signout");
-  }
-
 
 }

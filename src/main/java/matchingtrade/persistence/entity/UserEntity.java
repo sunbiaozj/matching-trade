@@ -42,7 +42,7 @@ public class UserEntity {
 	}
 
 	@Id
-	@Column(name = "trade_item_id")
+	@Column(name = "user_id")
 	@GeneratedValue
 	public Integer getUserId() {
 		return userId;

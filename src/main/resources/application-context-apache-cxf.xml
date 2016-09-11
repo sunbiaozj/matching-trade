@@ -76,6 +76,7 @@
 		<jaxrs:serviceBeans>
 			<bean class="matchingtrade.service.TradeItemService" />
 			<bean class="matchingtrade.service.TradeListService" />
+			<bean class="matchingtrade.service.UserService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="matchingtrade.service.interceptor.ResponseInterceptor"/>

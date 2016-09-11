@@ -10,7 +10,7 @@ export class HomeComponent {
 
 	private authenticate() {
 		// Create AuthenticationComponent object without dependency injection (no need of DI) for this case.
-		let authenticationComponent: AuthenticationComponent = new AuthenticationComponent(null, null);
+		let authenticationComponent: AuthenticationComponent = new AuthenticationComponent(null, null, null);
 		// Use same as in AuthenticationComponent.authenticate()
 		authenticationComponent.authenticate();
 	}

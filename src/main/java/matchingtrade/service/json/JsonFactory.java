@@ -7,6 +7,7 @@ import javax.ws.rs.core.Link;
 
 import matchingtrade.service.TradeItemService;
 import matchingtrade.service.TradeListService;
+import matchingtrade.service.UserService;
 
 public class JsonFactory {
 
@@ -37,6 +38,14 @@ public class JsonFactory {
 		tradeItem.setRel("tradeItems");
 		result.add(tradeItem);
 	}
+	
+	private void buildLinks(String baseUri, Set<JsonLink> result, UserJson jsonAsUserJson) {
+		String resourceUri = Link.fromResource(UserService.class).build().getUri().toString();
+		JsonLink self = new JsonLink();
+		self.setHref(baseUri + resourceUri + "/" + jsonAsUserJson.getUserId());
+		self.setRel("_self");
+		result.add(self);
+	}
 
 	public Set<JsonLink> getLinks(String baseUri, Json json) {
 		// Result to be returned
@@ -53,6 +62,13 @@ public class JsonFactory {
 		if (json instanceof TradeListJson) {
 			TradeListJson jsonAsTradeList = (TradeListJson) json;
 			buildLinks(baseUri, result, jsonAsTradeList);
+			return result;
+		}
+		
+		// Build links for UserJson
+		if (json instanceof UserJson) {
+			UserJson jsonAsUserJson = (UserJson) json;
+			buildLinks(baseUri, result, jsonAsUserJson);
 			return result;
 		}
 		
