@@ -9,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 @SuiteClasses({
 		TradeItemPostTest.class,
 		TradeItemGetTest.class,
-		TradeListPostTest.class
+		TradeListPostTest.class,
+		UserPostTest.class,
+		UserGetTest.class
 	})
 
 @ContextConfiguration(locations={"/application-context-web.xml"})

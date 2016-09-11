@@ -47,7 +47,7 @@ public class TradeListService {
     @Consumes("application/json")
     @Path("/")
     public List<TradeListJson> get() {    	
-    	List<TradeListEntity> searchResult = tradeListDao.search();
+    	List<TradeListEntity> searchResult = tradeListDao.getAll();
     	
     	TradeListTransformer transformer = new TradeListTransformer();
     	List<TradeListJson> result = new JsonArrayList<TradeListJson>();

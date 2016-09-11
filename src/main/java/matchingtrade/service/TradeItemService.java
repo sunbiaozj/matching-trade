@@ -59,7 +59,7 @@ public class TradeItemService {
     @Consumes("application/json")
     @Path("/")
     public List<TradeItemJson> get() {
-    	List<TradeItemEntity> searchResult = tradeItemDao.search();
+    	List<TradeItemEntity> searchResult = tradeItemDao.getAll();
     	
     	List<TradeItemJson> result = new JsonArrayList<TradeItemJson>();
     	for (TradeItemEntity e : searchResult) {

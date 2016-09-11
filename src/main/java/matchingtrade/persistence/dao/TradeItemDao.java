@@ -31,7 +31,7 @@ public class TradeItemDao {
 	}
 	
 	@Transactional
-	public List<TradeItemEntity> search() {
+	public List<TradeItemEntity> getAll() {
 		Session session = sessionFactory.getCurrentSession();
 		Query query=session.createQuery("FROM TradeItemEntity");
 		@SuppressWarnings("unchecked")

@@ -26,6 +26,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import matchingtrade.configuration.AuthenticationProperties;
+import matchingtrade.persistence.dao.UserDao;
+import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.util.ApplicationContextProvider;
 
 public class AuthenticationCallbakServlet extends HttpServlet {
@@ -60,8 +62,29 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 		request.getSession().setAttribute("isEmailVerified", userDetailMap.get("verified_email"));
 		request.getSession().setAttribute("isAuthenticated", true);
 		
+		// 7. Update user information in the local database
+		boolean isNewUser = updateUserInfo(userDetailMap.get("email").toString(), userDetailMap.get("name").toString());
+		
 		// Done. Let's redirect the request
-		response.sendRedirect("/webui/#/authentication/existing-user");
+		response.sendRedirect("/webui/#/authentication/existing-user?isNewUser="+isNewUser);
+	}
+
+	/*
+	 * Check if there is a user for the given email.
+	 * If not, then save the user in the local database and return true.
+	 * If yes, then return false.
+	 */
+	private boolean updateUserInfo(String email, String name) {
+		UserDao userDao = (UserDao) context.getBean(UserDao.class);
+		UserEntity userEntity = userDao.get(email);
+		if (userEntity == null) {
+			UserEntity u = new UserEntity();
+			u.setEmail(email);
+			u.setName(name);
+			userDao.save(u);
+			return true;
+		}
+		return false;
 	}
 
 	private String obtainAccessToken(String codeParameter) throws IOException, ClientProtocolException {
