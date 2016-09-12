@@ -29,3 +29,14 @@
     border: 1px solid transparent;
     background-color: rgb(210, 60, 5);
 }
+
+input[disabled].form-clear-disabled {
+    background-color: white;
+    border: none;
+    outline: none;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    padding: 0px;
+}

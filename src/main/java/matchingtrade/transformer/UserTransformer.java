@@ -21,6 +21,7 @@ public class UserTransformer {
 			result = new UserEntity();
 		}
 		
+		result.setEmail(json.getEmail());
 		result.setName(json.getName());
 		result.setUserId(json.getUserId());
 		return result;
@@ -31,9 +32,10 @@ public class UserTransformer {
 			return null;
 		}
 		UserJson result = new UserJson();
+		result.setEmail(entity.getEmail());
 		result.setName(entity.getName());
 		result.setUserId(entity.getUserId());
 		return result;
 	}
-
+	
 }

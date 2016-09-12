@@ -3,10 +3,6 @@
     <div *ngIf="!isAuthenticated" class="panel-heading">Sign-in</div>
     <div class="panel-body">
 
-        <div *ngIf="isAuthenticated">
-            <h2> Welcome back {{userName}}</h2>
-        </div>
-
         <div *ngIf="!isAuthenticated" class="text-center">
             <div>Sign-in using your existing Google account.<div>
             <a href="javascript:void(0)" (click)="authenticate()"><img src="/webui/img/google/btn_google_signin_dark_normal_web.png" /></a>

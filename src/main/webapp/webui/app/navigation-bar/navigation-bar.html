@@ -18,11 +18,14 @@
         <li *ngIf="isAuthenticated">
           <a href="#/trade-item/trade-item-list" data-toggle="collapse" data-target=".navbar-collapse.in">Trade Items</a>
         </li>        
+        <li *ngIf="isAuthenticated">
+          <a href="#/user/profile-editor" data-toggle="collapse" data-target=".navbar-collapse.in">Account</a>
+        </li>
         <li *ngIf="!isAuthenticated">
-          <a href="#/authentication/sign-in" data-toggle="collapse" data-target=".navbar-collapse.in">Sing-in</a>
+          <a href="#/authentication/sign-in" data-toggle="collapse" data-target=".navbar-collapse.in">Sign-in</a>
         </li>
         <li *ngIf="isAuthenticated">
-          <a href="#/authentication/sign-out" data-toggle="collapse" data-target=".navbar-collapse.in">Sing-out</a>
+          <a href="/authenticate/sign-out" data-toggle="collapse" data-target=".navbar-collapse.in">Sign-out</a>
         </li>
       </ul>
     </div>

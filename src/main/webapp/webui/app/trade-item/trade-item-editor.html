@@ -4,10 +4,6 @@
         <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
             <div *ngIf="isSaved" class="alert alert-success" role="alert">Item saved.</div>
             <div class="form-group">
-                <label for="tradeItemId">Id</label>
-                <input type="text" [value]="tradeItemId || ''" class="form-control" id="tradeItemId" readonly>
-            </div>
-            <div class="form-group">
                 <label for="tradeItemName">Name</label>
                 <input type="text" [formControl]="nameFormControl" class="form-control" id="tradeItemName" placeholder="Name of the item">
                 <div *ngIf="!nameFormControl.valid && nameFormControl.dirty" class="alert alert-danger" role="alert">Name is required.</div>

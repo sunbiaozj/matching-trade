@@ -35,15 +35,12 @@ export class AuthenticationComponent implements OnInit {
     // sign-in: user wants to Sign-in. Do nothing here because the user will be presented with 'authentication.html'.
     // sign-out: user wants to Sing-out. Redirect to /authenticate/sign-out
     switch (this.authenticationStatus) {
-      case 'sign-out':
-        window.location.assign("/authenticate/sign-out");
-        break;
-      case 'sign-in':
-        window.location.assign("/authenticate");
-        break;
       case 'new-user':
         this.router.navigate([ROUTE_URLS.USER_PROFILE_EDIT]);
-        break;                
+        break;
+      case 'existing-user':
+        this.router.navigate([ROUTE_URLS.TRADE_ITEM_LIST]);
+        break;                      
       default:
         break;
     }

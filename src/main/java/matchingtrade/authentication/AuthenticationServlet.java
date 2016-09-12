@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.ApplicationContext;
 
 import matchingtrade.configuration.AuthenticationProperties;
+import matchingtrade.persistence.dao.UserDao;
+import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.util.ApplicationContextProvider;
 import matchingtrade.util.JsonUtil;
 
@@ -65,15 +67,25 @@ public class AuthenticationServlet extends HttpServlet {
 
 	private String getAuthenticationInfo(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getSession().getAttribute("user");
-//		Map <String, Object> resultMap = new HashMap<>();
-//		resultMap.put("userId", request.getSession().getAttribute("userId"));
-//		resultMap.put("email", request.getSession().getAttribute("email"));
-//		resultMap.put("name", request.getSession().getAttribute("name"));
-//		resultMap.put("isAuthenticated", request.getSession().getAttribute("isAuthenticated")==null?false:true );
-//		resultMap.put("sessionId", request.getSession().getId());
-//		String result = JsonUtil.toJson(resultMap);
-		String result = JsonUtil.toJson(user);
-		return result;
+		// If session does not contain information from the user, then return an empty JSON string.
+		if (user == null) {
+			return "{}";
+		}
+		// If session contains information from the user but the user.userId is null, then return the user information from the session 
+		else if (user.getUserId() == null) {
+			String result = JsonUtil.toJson(user);
+			return result;
+		}
+		// Otherwise update the user from the session with the UserEntity.name and UserEntity.email from the local database to avoid potential synchronization problems.
+		else {
+			UserDao userDao = (UserDao) context.getBean(UserDao.class);
+			UserEntity userEntity = userDao.get(user.getUserId());
+			user.setEmail(userEntity.getEmail());
+			user.setName(userEntity.getName());
+			request.getSession().setAttribute("user", user);
+			String result = JsonUtil.toJson(user);
+			return result;
+		}
 	}
 
 	private void redirectToAuthenticationServer(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
