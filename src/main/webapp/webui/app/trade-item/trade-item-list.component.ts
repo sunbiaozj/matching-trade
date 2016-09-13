@@ -15,6 +15,7 @@ import {TradeItemService} from './trade-item.service';
   templateUrl: 'app/trade-item/trade-item-list.html'
 })
 export class TradeItemListComponent implements OnInit {
+  isLoading: boolean = true;
   tradeItems: TradeItem[];
   selectedTradeItem: TradeItem;
   
@@ -28,7 +29,10 @@ export class TradeItemListComponent implements OnInit {
   ngOnInit() {
     let searchResult = this.tradeItemService.search();
     searchResult
-      .then(data => this.tradeItems = data)
+      .then(data => {
+        this.tradeItems = data;
+        this.isLoading = false;
+      })
       .catch(error => this.errorAppService.addError(error) );
   }
 
