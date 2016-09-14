@@ -3,8 +3,8 @@ import { Component, ViewChild } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
 import { NavBarAppComponent } from './navigation-bar/navigation-bar.component';
-import { ErrorAppComponent } from './common/error-app.component';
-import { ErrorAppService } from './common/error-app-service';
+import { MessengerComponent } from './common/messenger.component';
+import { MessangerService } from './common/messenger.service';
 
 import { HttpService } from './common/http.service';
 
@@ -17,11 +17,11 @@ import 'rxjs/add/operator/toPromise';
 
 @Component({
 	selector: 'matching-trade-app',
-	providers: [HTTP_PROVIDERS, HttpService, ErrorAppService, AuthenticationService],
-	directives: [ROUTER_DIRECTIVES, NavBarAppComponent, ErrorAppComponent],
+	providers: [HTTP_PROVIDERS, HttpService, MessangerService, AuthenticationService],
+	directives: [ROUTER_DIRECTIVES, NavBarAppComponent, MessengerComponent],
 	template: `
 	<navigation-bar></navigation-bar>
-	<error-app></error-app>
+	<messenger></messenger>
 	<router-outlet></router-outlet>
 	`
 })

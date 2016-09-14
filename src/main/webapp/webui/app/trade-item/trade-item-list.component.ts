@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ROUTE_URLS} from '../app.routes';
 
-import { ErrorAppService } from '../common/error-app-service';
+import { MessangerService } from '../common/messenger.service';
 
 import {TradeItem} from './trade-item';
 import {TradeItemEditorComponent} from './trade-item-editor.component';
@@ -19,7 +19,7 @@ export class TradeItemListComponent implements OnInit {
   tradeItems: TradeItem[];
   selectedTradeItem: TradeItem;
   
-  constructor(private router: Router, private tradeItemService: TradeItemService, private errorAppService: ErrorAppService) { }
+  constructor(private router: Router, private tradeItemService: TradeItemService, private messengerService: MessangerService) { }
 
   private addTradeItem() {
     let link = [ROUTE_URLS.TRADE_ITEM_NEW];
@@ -33,7 +33,7 @@ export class TradeItemListComponent implements OnInit {
         this.tradeItems = data;
         this.isLoading = false;
       })
-      .catch(error => this.errorAppService.addError(error) );
+      .catch(error => this.messengerService.setError(error) );
   }
 
   private navigateToTradeItem(tradeItem: TradeItem) {

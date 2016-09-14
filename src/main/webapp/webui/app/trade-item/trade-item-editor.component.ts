@@ -10,6 +10,8 @@ import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormC
 
 import {TradeItem} from './trade-item';
 import {TradeItemService} from './trade-item.service';
+import {MessangerService} from '../common/messenger.service';
+
 
 @Component({
   selector: 'trade-item-list',
@@ -27,7 +29,8 @@ export class TradeItemEditorComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private tradeItemService: TradeItemService) {    
+    private tradeItemService: TradeItemService,
+    private messengerService: MessangerService) {    
     this.formGroup = new FormGroup({
         description: this.descriptionFormControl,
         name: this.nameFormControl
@@ -67,6 +70,7 @@ export class TradeItemEditorComponent implements OnInit {
     }
     let tradeItem: TradeItem = this.transformFormGroupToTradeItem(this.formGroup);
     this.save(tradeItem);
+    this.messengerService.setMessage("Item saved.");
     // TODO: Reset formGroup when new Angular 2 version is available. See: https://github.com/angular/angular/pull/9974
     this.navigate('back');
   }

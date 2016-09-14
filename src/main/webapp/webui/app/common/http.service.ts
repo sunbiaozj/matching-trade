@@ -6,14 +6,14 @@ import { Headers, Http } from '@angular/http';
 //import { HTTP_PROVIDERS } from '@angular/http';
 //import 'rxjs/add/operator/toPromise';
 
-import { ErrorAppService } from '../common/error-app-service';
+import { MessangerService } from '../common/messenger.service';
 
 @Injectable()
 export class HttpService {
     private serviceUrl: string = '/services/mt';
     private requestHeaders = new Headers({ 'Content-Type': 'application/json' });
 
-    constructor(private http: Http, private errorAppService: ErrorAppService) { }
+    constructor(private http: Http, private messengerService: MessangerService) { }
 
     public get(url: string, basic?:boolean): Promise<any> {
         let targetUrl: string;
@@ -26,7 +26,7 @@ export class HttpService {
         return this.http.get(targetUrl)
             .toPromise()
             .then(response => response)
-            .catch(error => this.errorAppService.addError(error));
+            .catch(error => this.messengerService.setError(error));
     }
 
     public post(url: string, data: any): Promise<any> {
@@ -34,7 +34,7 @@ export class HttpService {
             .post(`${this.serviceUrl}/${url}`, JSON.stringify(data), { headers: this.requestHeaders })
             .toPromise()
             .then(response => response)
-            .catch(error => this.errorAppService.addError(error));
+            .catch(error => this.messengerService.setError(error));
     }
 
     public put(url: string, data: any): Promise<any> {
@@ -42,7 +42,7 @@ export class HttpService {
             .put(`${this.serviceUrl}/${url}`, JSON.stringify(data), { headers: this.requestHeaders })
             .toPromise()
             .then(response => response)
-            .catch(error => this.errorAppService.addError(error));
+            .catch(error => this.messengerService.setError(error));
     }
 
 }

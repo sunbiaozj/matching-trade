@@ -57,3 +57,10 @@ input[disabled].form-clear-disabled {
 .break-line {
     margin-bottom: 15px;
 }
+
+.message {
+    text-align: center;
+    background-color: lightskyblue;
+    color: darkblue;
+    margin-bottom: 5px;
+}
