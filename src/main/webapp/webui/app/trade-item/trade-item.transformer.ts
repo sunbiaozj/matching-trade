@@ -14,6 +14,7 @@ export class TradeItemTransformer {
         let result:TradeItem = new TradeItem();
         result.tradeItemId = data.tradeItemId;
         result.name = data.name;
+        result.description = data.description;
         return result;
     }
 

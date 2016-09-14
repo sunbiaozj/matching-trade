@@ -18,11 +18,10 @@ import {TradeItemService} from './trade-item.service';
   templateUrl: 'app/trade-item/trade-item-editor.html'
 })
 export class TradeItemEditorComponent implements OnInit {
-  private tradeItemId: number;
-
-  private isSaved: boolean;
-  private formGroup: FormGroup;
+  private descriptionFormControl: FormControl = new FormControl();
   private nameFormControl: FormControl = new FormControl('', Validators.required);
+  private formGroup: FormGroup;
+  private tradeItemId: number;
 
   constructor(
     private location: Location,
@@ -30,13 +29,14 @@ export class TradeItemEditorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private tradeItemService: TradeItemService) {    
     this.formGroup = new FormGroup({
+        description: this.descriptionFormControl,
         name: this.nameFormControl
     });
   }
 
 
   private navigate(s: string): void {
-    if (s == "back") {
+    if (s == 'back') {
       this.location.back();
     }
   }
@@ -68,6 +68,7 @@ export class TradeItemEditorComponent implements OnInit {
     let tradeItem: TradeItem = this.transformFormGroupToTradeItem(this.formGroup);
     this.save(tradeItem);
     // TODO: Reset formGroup when new Angular 2 version is available. See: https://github.com/angular/angular/pull/9974
+    this.navigate('back');
   }
 
 
@@ -75,23 +76,23 @@ export class TradeItemEditorComponent implements OnInit {
     this.tradeItemService.save(t)
       .then(response => {
         this.loadFormGroupFromTradeItem(response);
-        this.isSaved = true;
-      }
-      ).catch(error => console.log(error));
+      }).catch(error => console.log(error));
   }
 
 
   private transformFormGroupToTradeItem(f: FormGroup): TradeItem {
     let result: TradeItem = new TradeItem();
     result.tradeItemId = this.tradeItemId;
+    result.description = this.descriptionFormControl.value;
     result.name = this.nameFormControl.value;
     return result;
   }
 
 
   private loadFormGroupFromTradeItem(t: TradeItem) {
-    this.nameFormControl.updateValue(t.name);
     this.tradeItemId = t.tradeItemId;
+    this.descriptionFormControl.updateValue(t.description);
+    this.nameFormControl.updateValue(t.name);
   }
 
 }
