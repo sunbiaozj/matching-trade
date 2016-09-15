@@ -19,12 +19,12 @@ import {UserService} from './user.service';
   templateUrl: 'app/user/user-profile-editor.html'
 })
 export class UserProfileEditorComponent implements OnInit {
-  private userId: number;
+  private isLoading: boolean = true;
   private email: string;
-
+  private emailFormControl: FormControl = new FormControl('');
   private formGroup: FormGroup;
   private nameFormControl: FormControl = new FormControl('', Validators.required);
-  private emailFormControl: FormControl = new FormControl('');
+  private userId: number;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -55,7 +55,7 @@ export class UserProfileEditorComponent implements OnInit {
       this.userId = authentication.userId;
       this.email = authentication.email;
       this.nameFormControl.updateValue(authentication.name);
-       console.log("UserName" + authentication.name);
+      this.isLoading = false;
     });
   }
 

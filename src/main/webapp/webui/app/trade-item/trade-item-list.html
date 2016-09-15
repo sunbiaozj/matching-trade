@@ -2,29 +2,34 @@
     <div class="panel-heading">Trade Items</div>
     <div class="panel-body">
 
-        <div class="data-grid-10" [class.loading-indicator]="isLoading">
-            <table class="table table-striped table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th width="35px">Id</th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let tradeItem of tradeItems" (click)="navigateToTradeItem(tradeItem)">
-                        <td>{{tradeItem.tradeItemId}}</td>
-                        <td>{{tradeItem.name}} <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span>                        </td>
-                    </tr>
-                </tbody>
-            </table>        
-        </div>
+        <div *ngIf="isLoading" style="height: 470px" [class.loading-indicator]="isLoading"></div>
 
-        <div class="break-line"></div>
-        
-        <div class="text-right">
-            <button type="button" (click)="addTradeItem()" class="btn btn-primary">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
-            </button>
+        <div *ngIf="!isLoading">
+            <div class="data-grid-10">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="35px">Id</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tradeItem of tradeItems" (click)="navigateToTradeItem(tradeItem)">
+                            <td>{{tradeItem.tradeItemId}}</td>
+                            <td>{{tradeItem.name}}<span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="break-line"></div>
+
+            <div class="text-right">
+                <button type="button" (click)="addTradeItem()" class="btn btn-primary" [disabled]="isLoading">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
+                </button>
+            </div>
+
         </div>
     </div>
 </div>

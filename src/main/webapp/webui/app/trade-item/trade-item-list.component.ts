@@ -15,9 +15,9 @@ import {TradeItemService} from './trade-item.service';
   templateUrl: 'app/trade-item/trade-item-list.html'
 })
 export class TradeItemListComponent implements OnInit {
-  isLoading: boolean = true;
-  tradeItems: TradeItem[];
-  selectedTradeItem: TradeItem;
+  private isLoading: boolean = true;
+  private tradeItems: TradeItem[];
+  private selectedTradeItem: TradeItem;
   
   constructor(private router: Router, private tradeItemService: TradeItemService, private messengerService: MessangerService) { }
 

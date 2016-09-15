@@ -8,6 +8,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { appRouterProviders } from './app.routes';
 
+// Enable Production Mode. See: https://github.com/angular/angular/issues/6189
+//import {enableProdMode} from '@angular/core';
+//enableProdMode();
 
 /*
  * Using HashLocationStrategy

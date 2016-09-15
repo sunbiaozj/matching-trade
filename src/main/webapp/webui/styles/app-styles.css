@@ -50,7 +50,10 @@ input[disabled].form-clear-disabled {
 
 .data-grid-10 {
     width: 100%;
-    height: 320px;
+    border-style: solid;
+    border-width: thin;
+    border-color: #dddddd;
+    height: 410px;
     table-layout: fixed;
 }
 
