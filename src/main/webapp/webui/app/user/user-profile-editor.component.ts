@@ -1,17 +1,15 @@
-import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
 import {ROUTE_URLS} from '../app.routes';
-
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 
 import {AuthenticationService} from '../authentication/authentication.service';
-
+import {MessangerService} from '../common/messenger.service';
 import {User} from './user';
 import {UserService} from './user.service';
-
-import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 
 
 @Component({
@@ -29,11 +27,12 @@ export class UserProfileEditorComponent implements OnInit {
   private emailFormControl: FormControl = new FormControl('');
 
   constructor(
-    private location: Location,
-    private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private userService: UserService,
-    private formBuilder: FormBuilder) {    
+    private formBuilder: FormBuilder,
+    private location: Location,
+    private messangerService: MessangerService,
+    private route: ActivatedRoute,
+    private userService: UserService) {    
     this.formGroup = new FormGroup({
         name: this.nameFormControl
     });
@@ -45,11 +44,12 @@ export class UserProfileEditorComponent implements OnInit {
     user.email = this.email;
     user.name = this.formGroup.controls["name"].value;
     this.userService.save(user);
+    this.messangerService.setMessage("Account details saved.");
   }
 
   public ngOnInit() {
     console.log("UserProfileEditorComponent.onInit()");
-    // We do not want to use this.authenticationService.getLastAuthentication() because we want the most udpated data in this case.
+    // We do not want to use this.authenticationService.getLastAuthentication() in this case because we want the most udpated data from the server on this component
     let authenticationPromise = this.authenticationService.get();
     authenticationPromise.then(authentication => {
       this.userId = authentication.userId;

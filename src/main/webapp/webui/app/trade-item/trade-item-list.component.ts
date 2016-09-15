@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ROUTE_URLS} from '../app.routes';
 
-import { MessangerService } from '../common/messenger.service';
+import {MessangerService} from '../common/messenger.service';
 
 import {TradeItem} from './trade-item';
 import {TradeItemEditorComponent} from './trade-item-editor.component';

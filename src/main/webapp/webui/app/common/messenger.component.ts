@@ -17,12 +17,12 @@ import {MessangerService} from './messenger.service';
                 height: "30px"
             })),
             transition('inactive => active',
-                animate(200, style({
+                animate('200ms linear', style({
                     transform: 'translateY(100%)', height: "30px"})
                 )
             ),
             transition('active => inactive',
-                animate(200, style({
+                animate('200ms linear' , style({
                     transform: 'translateY(-100%)', height: "0px"})
                 )
             )
