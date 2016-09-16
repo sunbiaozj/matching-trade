@@ -4,13 +4,15 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import matchingtrade.persistence.SearchCriteria;
 import matchingtrade.persistence.entity.TradeItemEntity;
+import matchingtrade.util.PersistanceUtil;
 
 @Component
 public class TradeItemDao {
@@ -31,11 +33,16 @@ public class TradeItemDao {
 	}
 	
 	@Transactional
-	public List<TradeItemEntity> getAll() {
+	public List<TradeItemEntity> get(SearchCriteria searchCriteria) {
 		Session session = sessionFactory.getCurrentSession();
-		Query query=session.createQuery("FROM TradeItemEntity");
+		Criteria cr = session.createCriteria(TradeItemEntity.class);
+		
+		if (searchCriteria != null) {
+			PersistanceUtil.applyPaginationToCriteria(searchCriteria.getPagination(), cr);
+		}
+
 		@SuppressWarnings("unchecked")
-		List<TradeItemEntity> result = query.list();
+		List<TradeItemEntity> result = cr.list();
 		return result;
 	}
 }

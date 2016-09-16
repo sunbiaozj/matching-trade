@@ -8,10 +8,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import matchingtrade.persistence.SearchCriteria;
 import matchingtrade.persistence.dao.TradeItemDao;
 import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.service.json.JsonArrayList;
@@ -58,9 +60,11 @@ public class TradeItemService {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/")
-    public List<TradeItemJson> get() {
-    	List<TradeItemEntity> searchResult = tradeItemDao.getAll();
-    	
+    public List<TradeItemJson> get(
+    		@QueryParam("_page") Integer _page,
+    		@QueryParam("_limit") Integer _limit) {
+    	SearchCriteria sc = new SearchCriteria(_page, _limit);
+    	List<TradeItemEntity> searchResult = tradeItemDao.get(sc);
     	List<TradeItemJson> result = new JsonArrayList<TradeItemJson>();
     	for (TradeItemEntity e : searchResult) {
     		TradeItemJson j = transformer.transform(e);
