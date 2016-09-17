@@ -1,5 +1,7 @@
 package matchingtrade.service.json;
 
+import matchingtrade.common.Pagination;
+
 /**
  * Basic Json functionality. Includes Hypermedia (HATEOAS) handling using links.
  * 
@@ -13,10 +15,11 @@ package matchingtrade.service.json;
 public class JsonResponse {
 	
 	private String _requestedUri;
-	private String _pagination;
+	private Pagination _pagination;
 	private Json data;
 
-	public String get_pagination() {
+
+	public Pagination get_pagination() {
 		return _pagination;
 	}
 
@@ -28,7 +31,7 @@ public class JsonResponse {
 		return data;
 	}
 
-	public void set_pagination(String _pagination) {
+	public void set_pagination(Pagination _pagination) {
 		this._pagination = _pagination;
 	}
 

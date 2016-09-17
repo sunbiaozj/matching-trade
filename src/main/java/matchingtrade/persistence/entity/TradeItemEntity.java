@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="trade_item")
-public class TradeItemEntity {
+public class TradeItemEntity implements matchingtrade.persistence.Entity{
 
 	private Integer tradeItemId;
 	private String name;

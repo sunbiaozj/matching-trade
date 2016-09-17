@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
 
+import matchingtrade.common.util.ApplicationContextProvider;
 import matchingtrade.configuration.AuthenticationProperties;
 import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.UserEntity;
-import matchingtrade.util.ApplicationContextProvider;
 
 public class AuthenticationCallbakServlet extends HttpServlet {
 	private static final long serialVersionUID = -6183491052218601077L;

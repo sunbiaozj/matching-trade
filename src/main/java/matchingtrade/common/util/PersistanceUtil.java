@@ -1,8 +1,9 @@
-package matchingtrade.util;
+package matchingtrade.common.util;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 
-import matchingtrade.persistence.Pagination;
+import matchingtrade.common.Pagination;
 
 public class PersistanceUtil {
 
@@ -18,5 +19,17 @@ public class PersistanceUtil {
 			criteria.setFirstResult(firstResult);
 			criteria.setMaxResults(pagination.getLimit());
 		}
+	}
+	
+	/**
+	 * Return the row count for the criteria.
+	 * <b>Warning</b>: This method will clear the current criteria projection.
+	 * @param criteria
+	 */
+	public static Long getRowCount(Criteria criteria) {
+		criteria.setProjection(Projections.rowCount());
+		Long result = (Long) criteria.uniqueResult();
+		criteria.setProjection(null);
+		return result;
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import matchingtrade.common.SearchResult;
 import matchingtrade.service.json.TradeItemJson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -24,9 +25,10 @@ public class TradeItemGetTest {
 	@Test
 	@Rollback(false)
 	public void get() {
-		List<TradeItemJson> response = tradeItemService.get(null, null);
-		assertNotNull(response);
-		assertTrue(response.size() > 0);
+		SearchResult<TradeItemJson> response = tradeItemService.get(null, null);
+		List<TradeItemJson> result = response.getResultList();
+		assertNotNull(result);
+		assertTrue(result.size() > 0);
 	}
 
 }

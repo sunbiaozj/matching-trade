@@ -29,6 +29,6 @@
 		matchingtrade.service"/>
 		
 	<!-- Initialize ApplicationContextAware of ApplicationContextProvider -->
-	<bean id="applicationContextProvider" class="matchingtrade.util.ApplicationContextProvider"/>
+	<bean id="applicationContextProvider" class="matchingtrade.common.util.ApplicationContextProvider"/>
 
 </beans>

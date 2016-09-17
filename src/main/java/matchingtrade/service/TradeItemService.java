@@ -13,7 +13,8 @@ import javax.ws.rs.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import matchingtrade.persistence.SearchCriteria;
+import matchingtrade.common.SearchCriteria;
+import matchingtrade.common.SearchResult;
 import matchingtrade.persistence.dao.TradeItemDao;
 import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.service.json.JsonArrayList;
@@ -60,17 +61,20 @@ public class TradeItemService {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/")
-    public List<TradeItemJson> get(
+    public SearchResult<TradeItemJson> get(
     		@QueryParam("_page") Integer _page,
     		@QueryParam("_limit") Integer _limit) {
     	SearchCriteria sc = new SearchCriteria(_page, _limit);
-    	List<TradeItemEntity> searchResult = tradeItemDao.get(sc);
-    	List<TradeItemJson> result = new JsonArrayList<TradeItemJson>();
-    	for (TradeItemEntity e : searchResult) {
+    	SearchResult<TradeItemEntity> searchResultEntity = tradeItemDao.get(sc);
+    	
+    	List<TradeItemJson> resultList = new JsonArrayList<TradeItemJson>();
+    	for (TradeItemEntity e : searchResultEntity.getResultList()) {
     		TradeItemJson j = transformer.transform(e);
-    		result.add(j);
+    		resultList.add(j);
 		}
-        return result;
+
+    	SearchResult<TradeItemJson> searchResultJson = new SearchResult<TradeItemJson>(resultList, searchResultEntity.getPagination());
+        return searchResultJson;
     }
     
     @GET

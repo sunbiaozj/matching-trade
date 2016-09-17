@@ -10,9 +10,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import matchingtrade.persistence.SearchCriteria;
+import matchingtrade.common.Pagination;
+import matchingtrade.common.SearchCriteria;
+import matchingtrade.common.SearchResult;
+import matchingtrade.common.util.PersistanceUtil;
 import matchingtrade.persistence.entity.TradeItemEntity;
-import matchingtrade.util.PersistanceUtil;
 
 @Component
 public class TradeItemDao {
@@ -33,16 +35,23 @@ public class TradeItemDao {
 	}
 	
 	@Transactional
-	public List<TradeItemEntity> get(SearchCriteria searchCriteria) {
+	public SearchResult<TradeItemEntity> get(SearchCriteria searchCriteria) {
 		Session session = sessionFactory.getCurrentSession();
-		Criteria cr = session.createCriteria(TradeItemEntity.class);
+		Criteria criteria = session.createCriteria(TradeItemEntity.class);
 		
+		Long resultCount = PersistanceUtil.getRowCount(criteria);
 		if (searchCriteria != null) {
-			PersistanceUtil.applyPaginationToCriteria(searchCriteria.getPagination(), cr);
+			PersistanceUtil.applyPaginationToCriteria(searchCriteria.getPagination(), criteria);
 		}
-
+		
 		@SuppressWarnings("unchecked")
-		List<TradeItemEntity> result = cr.list();
+		List<TradeItemEntity> resultList = criteria.list();
+
+		Pagination resultPagination = new Pagination(
+				searchCriteria.getPagination().getPage(),
+				searchCriteria.getPagination().getLimit(),
+				resultCount);
+		SearchResult<TradeItemEntity> result = new SearchResult<TradeItemEntity>(resultList, resultPagination);
 		return result;
 	}
 }

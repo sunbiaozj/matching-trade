@@ -1,4 +1,4 @@
-package matchingtrade.util;
+package matchingtrade.common.util;
 
 public class Util {
 

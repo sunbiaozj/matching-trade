@@ -1,7 +1,7 @@
 package matchingtrade.validator;
 
+import matchingtrade.common.util.Util;
 import matchingtrade.service.json.UserJson;
-import matchingtrade.util.Util;
 
 public class UserValidator {
 	

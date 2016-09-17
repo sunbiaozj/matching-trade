@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
 
+import matchingtrade.common.util.ApplicationContextProvider;
+import matchingtrade.common.util.JsonUtil;
 import matchingtrade.configuration.AuthenticationProperties;
 import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.UserEntity;
-import matchingtrade.util.ApplicationContextProvider;
-import matchingtrade.util.JsonUtil;
 
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 373664290851751809L;
