@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import matchingtrade.common.Pagination;
 import matchingtrade.common.SearchCriteria;
 import matchingtrade.common.SearchResult;
-import matchingtrade.common.util.PersistanceUtil;
+import matchingtrade.common.util.PersistenceUtil;
 import matchingtrade.persistence.entity.TradeItemEntity;
 
 @Component
@@ -39,19 +39,14 @@ public class TradeItemDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(TradeItemEntity.class);
 		
-		Long resultCount = PersistanceUtil.getRowCount(criteria);
-		if (searchCriteria != null) {
-			PersistanceUtil.applyPaginationToCriteria(searchCriteria.getPagination(), criteria);
-		}
+		Pagination resultPagination = PersistenceUtil.getPagination(searchCriteria.getPagination(), criteria);
 		
 		@SuppressWarnings("unchecked")
 		List<TradeItemEntity> resultList = criteria.list();
 
-		Pagination resultPagination = new Pagination(
-				searchCriteria.getPagination().getPage(),
-				searchCriteria.getPagination().getLimit(),
-				resultCount);
 		SearchResult<TradeItemEntity> result = new SearchResult<TradeItemEntity>(resultList, resultPagination);
 		return result;
 	}
+
+
 }

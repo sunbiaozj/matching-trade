@@ -1,5 +1,7 @@
 package matchingtrade.service.json;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import matchingtrade.common.Pagination;
 
 /**
@@ -15,6 +17,7 @@ import matchingtrade.common.Pagination;
 public class JsonResponse {
 	
 	private String _requestedUri;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Pagination _pagination;
 	private Json data;
 

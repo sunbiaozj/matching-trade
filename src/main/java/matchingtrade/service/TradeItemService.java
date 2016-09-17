@@ -13,6 +13,7 @@ import javax.ws.rs.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import matchingtrade.common.Pagination;
 import matchingtrade.common.SearchCriteria;
 import matchingtrade.common.SearchResult;
 import matchingtrade.persistence.dao.TradeItemDao;
@@ -64,7 +65,7 @@ public class TradeItemService {
     public SearchResult<TradeItemJson> get(
     		@QueryParam("_page") Integer _page,
     		@QueryParam("_limit") Integer _limit) {
-    	SearchCriteria sc = new SearchCriteria(_page, _limit);
+    	SearchCriteria sc = new SearchCriteria(new Pagination(_page, _limit));
     	SearchResult<TradeItemEntity> searchResultEntity = tradeItemDao.get(sc);
     	
     	List<TradeItemJson> resultList = new JsonArrayList<TradeItemJson>();
@@ -76,6 +77,8 @@ public class TradeItemService {
     	SearchResult<TradeItemJson> searchResultJson = new SearchResult<TradeItemJson>(resultList, searchResultEntity.getPagination());
         return searchResultJson;
     }
+
+
     
     @GET
     @Produces("application/json")

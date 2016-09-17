@@ -2,6 +2,7 @@ package matchingtrade.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -13,7 +14,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import matchingtrade.common.Pagination;
 import matchingtrade.common.SearchCriteria;
+import matchingtrade.common.SearchResult;
 import matchingtrade.persistence.dao.TradeItemDao;
 import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.service.json.TradeItemJson;
@@ -42,7 +45,7 @@ public class PaginationTest {
 	@Test
 	@Rollback(false)
 	public void page1Limit3() {
-		SearchCriteria sc = new SearchCriteria(1, 3);
+		SearchCriteria sc = new SearchCriteria(new Pagination(1, 3));
 		List<TradeItemEntity> result = tradeItemDao.get(sc).getResultList();
 		assertNotNull(result);
 		assertEquals(3, result.size());
@@ -55,7 +58,7 @@ public class PaginationTest {
 	@Test
 	@Rollback(false)
 	public void page2Limit1() {
-		SearchCriteria sc = new SearchCriteria(2, 1);
+		SearchCriteria sc = new SearchCriteria(new Pagination(2, 1));
 		List<TradeItemEntity> result = tradeItemDao.get(sc).getResultList();
 		assertNotNull(result);
 		assertEquals(1, result.size());
@@ -66,7 +69,7 @@ public class PaginationTest {
 	@Test
 	@Rollback(false)
 	public void page2Limit2() {
-		SearchCriteria sc = new SearchCriteria(2, 2);
+		SearchCriteria sc = new SearchCriteria(new Pagination(2, 2));
 		List<TradeItemEntity> result = tradeItemDao.get(sc).getResultList();
 		assertNotNull(result);
 		assertEquals(2, result.size());
@@ -74,5 +77,16 @@ public class PaginationTest {
 			TradeItemEntity tie = result.get(i);
 			assertEquals(i+3, tie.getTradeItemId().intValue());
 		}
+	}
+	
+	@Test
+	@Rollback(false)
+	public void pageNegativeLimitNegative() {
+		SearchCriteria sc = new SearchCriteria(new Pagination(-1, -2));
+		SearchResult<TradeItemEntity> result = tradeItemDao.get(sc);
+		assertNotNull(result);
+		assertTrue(result.getPagination().getLimit() == null);
+		assertTrue(result.getPagination().getPage() == null);
+		assertTrue(result.getPagination().getTotal() > 0);
 	}
 }
