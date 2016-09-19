@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../common/http.service';
+import { HttpService } from '../common/http/http.service';
 import {Authentication} from './authentication';
 import {AuthenticationTransformer} from "./authentication.transformer";
 

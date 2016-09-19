@@ -4,7 +4,7 @@ import {Headers, Http} from '@angular/http';
 //import { HTTP_PROVIDERS } from '@angular/http';
 //import 'rxjs/add/operator/toPromise';
 
-import { MessangerService } from '../common/messenger.service';
+import { MessangerService } from '../messenger/messenger.service';
 
 @Injectable()
 export class HttpService {

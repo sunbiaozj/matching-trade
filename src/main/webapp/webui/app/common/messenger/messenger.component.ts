@@ -5,7 +5,7 @@ import {MessangerService} from './messenger.service';
 
 @Component({
     selector: 'messenger',
-    templateUrl: 'app/common/messenger.html',
+    templateUrl: 'app/common/messenger/messenger.html',
     animations: [
         trigger('messageState', [
             state('inactive', style({

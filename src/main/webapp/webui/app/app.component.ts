@@ -2,11 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
-import { NavBarAppComponent } from './navigation-bar/navigation-bar.component';
-import { MessengerComponent } from './common/messenger.component';
-import { MessangerService } from './common/messenger.service';
+import { NavBarAppComponent } from './common/navigation-bar/navigation-bar.component';
+import { MessengerComponent } from './common/messenger/messenger.component';
+import { MessangerService } from './common/messenger/messenger.service';
 import { RouterService } from './common/router/router.service';
-import { HttpService } from './common/http.service';
+import { HttpService } from './common/http/http.service';
 
 import { AuthenticationService } from './authentication/authentication.service';
 

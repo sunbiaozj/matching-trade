@@ -9,7 +9,7 @@ import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormC
 
 import {TradeItem} from './trade-item';
 import {TradeItemService} from './trade-item.service';
-import {MessangerService} from '../common/messenger.service';
+import {MessangerService} from '../common/messenger/messenger.service';
 import {RouterService} from '../common/router/router.service';
 
 @Component({

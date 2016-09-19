@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 // import {ROUTE_URLS} from '../app.routes';
 
-import {MessangerService} from '../common/messenger.service';
+import {MessangerService} from '../common/messenger/messenger.service';
 
 import {AuthenticationService} from './authentication.service';
 

@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 
-import {AuthenticationService} from '../authentication/authentication.service';
-import {HomeComponent} from '../home/home.component';
+import {AuthenticationService} from '../../authentication/authentication.service';
+import {HomeComponent} from '../../home/home.component';
 
 @Component({
 	selector: 'navigation-bar',
-	templateUrl: 'app/navigation-bar/navigation-bar.html'
+	templateUrl: 'app/common/navigation-bar/navigation-bar.html'
 })
 export class NavBarAppComponent implements OnInit {
 	private isAuthenticated: boolean;

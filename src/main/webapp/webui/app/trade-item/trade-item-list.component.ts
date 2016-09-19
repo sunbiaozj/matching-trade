@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {MessangerService} from '../common/messenger.service';
+import {MessangerService} from '../common/messenger/messenger.service';
 import {RouterService} from '../common/router/router.service';
 import {TradeItem} from './trade-item';
 import {TradeItemEditorComponent} from './trade-item-editor.component';

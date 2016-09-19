@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 
 import {AuthenticationService} from '../authentication/authentication.service';
-import {MessangerService} from '../common/messenger.service';
+import {MessangerService} from '../common/messenger/messenger.service';
 import {User} from './user';
 import {UserService} from './user.service';
 
