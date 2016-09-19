@@ -35,7 +35,7 @@ export class AuthenticationComponent implements OnInit {
     // sign-out: user wants to Sing-out. Redirect to /authenticate/sign-out
     switch (this.authenticationStatus) {
       case 'new-user':
-        this.routerService.navigate([this.routerService.routes.ROUTE_URLS.USER_PROFILE_EDIT]);
+        this.routerService.navigate([this.routerService.routes.USER_PROFILE_EDIT]);
         break;
       case 'existing-user':
         this.routerService.navigate([this.routerService.routes.TRADE_ITEM_LIST]);

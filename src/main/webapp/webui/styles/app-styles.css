@@ -53,7 +53,7 @@ input[disabled].form-clear-disabled {
     border-style: solid;
     border-width: thin;
     border-color: #dddddd;
-    height: 410px;
+    height: 411px;
     table-layout: fixed;
 }
 
@@ -66,4 +66,11 @@ input[disabled].form-clear-disabled {
     background-color: lightskyblue;
     color: darkblue;
     margin-bottom: 5px;
+}
+
+.pagination {
+    margin: 5px;
+}
+.table {
+    margin: 0px;
 }

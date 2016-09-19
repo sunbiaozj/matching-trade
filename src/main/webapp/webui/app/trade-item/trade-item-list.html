@@ -2,7 +2,7 @@
     <div class="panel-heading">Trade Items</div>
     <div class="panel-body">
 
-        <div *ngIf="isLoading" style="height: 470px" [class.loading-indicator]="isLoading"></div>
+        <div *ngIf="isLoading" style="height: 464px" [class.loading-indicator]="isLoading"></div>
 
         <div *ngIf="!isLoading">
             <div class="data-grid-10">
@@ -21,15 +21,19 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="break-line"></div>
-
             <div class="text-right">
-                <button type="button" (click)="addTradeItem()" class="btn btn-primary" [disabled]="isLoading">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
-                </button>
+                <ul class="pagination">
+                    <li *ngFor="let p of pagination.getPages()"><a (click)="getTradeItems(p.number)">{{p.number}}</a></li>
+                </ul>
             </div>
-
         </div>
+
+        <div class="break-line"></div>
+        <div class="text-right">
+            <button type="button" (click)="addTradeItem()" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
+            </button>
+        </div>
+
     </div>
 </div>
