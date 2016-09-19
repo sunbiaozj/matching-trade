@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {MessangerService} from '../common/messenger/messenger.service';
+import {MessengerService} from '../common/messenger/messenger.service';
 import {RouterService} from '../common/router/router.service';
 import {TradeItem} from './trade-item';
 import {TradeItemEditorComponent} from './trade-item-editor.component';
@@ -19,7 +19,7 @@ export class TradeItemListComponent implements OnInit {
   
   constructor(
     private routerService: RouterService,
-    private tradeItemService: TradeItemService, private messengerService: MessangerService) { }
+    private tradeItemService: TradeItemService, private messengerService: MessengerService) { }
 
   private addTradeItem() {
 

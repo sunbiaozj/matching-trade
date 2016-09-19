@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Input, trigger, state, style, transition, animate} from '@angular/core'; // Animations
 
-import {MessangerService} from './messenger.service';
+import {MessengerService} from './messenger.service';
 
 @Component({
     selector: 'messenger',
@@ -34,7 +34,7 @@ export class MessengerComponent implements OnInit {
     private errors: string[] = [];
     private message: MessageWrapper = new MessageWrapper();
 
-    constructor(private messengerService: MessangerService) { };
+    constructor(private messengerService: MessengerService) { };
 
     ngOnInit() {
         this.messengerService.getErrorObservable().subscribe(

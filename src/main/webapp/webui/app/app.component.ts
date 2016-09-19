@@ -4,7 +4,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 
 import { NavBarAppComponent } from './common/navigation-bar/navigation-bar.component';
 import { MessengerComponent } from './common/messenger/messenger.component';
-import { MessangerService } from './common/messenger/messenger.service';
+import { MessengerService } from './common/messenger/messenger.service';
 import { RouterService } from './common/router/router.service';
 import { HttpService } from './common/http/http.service';
 
@@ -17,7 +17,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Component({
 	selector: 'matching-trade-app',
-	providers: [HTTP_PROVIDERS, HttpService, MessangerService, AuthenticationService, RouterService],
+	providers: [HTTP_PROVIDERS, HttpService, MessengerService, AuthenticationService, RouterService],
 	directives: [ROUTER_DIRECTIVES, NavBarAppComponent, MessengerComponent],
 	template: `
 	<navigation-bar></navigation-bar>

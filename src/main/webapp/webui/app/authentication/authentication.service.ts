@@ -36,4 +36,9 @@ export class AuthenticationService {
             return result;
         }
     }
+
+    public static authenticate(): void {
+        window.location.assign("/authenticate");
+    }
+
 }

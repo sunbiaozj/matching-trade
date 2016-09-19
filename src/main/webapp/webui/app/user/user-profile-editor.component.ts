@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 
 import {AuthenticationService} from '../authentication/authentication.service';
-import {MessangerService} from '../common/messenger/messenger.service';
+import {MessengerService} from '../common/messenger/messenger.service';
 import {User} from './user';
 import {UserService} from './user.service';
 
@@ -28,7 +28,7 @@ export class UserProfileEditorComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private location: Location,
-    private messangerService: MessangerService,
+    private messangerService: MessengerService,
     private route: ActivatedRoute,
     private userService: UserService) {    
     this.formGroup = new FormGroup({

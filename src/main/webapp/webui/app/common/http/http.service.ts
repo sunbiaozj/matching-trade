@@ -4,14 +4,14 @@ import {Headers, Http} from '@angular/http';
 //import { HTTP_PROVIDERS } from '@angular/http';
 //import 'rxjs/add/operator/toPromise';
 
-import { MessangerService } from '../messenger/messenger.service';
+import { MessengerService } from '../messenger/messenger.service';
 
 @Injectable()
 export class HttpService {
     private serviceUrl: string = '/services/mt';
     private requestHeaders = new Headers({ 'Content-Type': 'application/json' });
 
-    constructor(private http: Http, private messengerService: MessangerService) { }
+    constructor(private http: Http, private messengerService: MessengerService) { }
 
     public get(url: string, basic?:boolean): Promise<any> {
         let targetUrl: string;

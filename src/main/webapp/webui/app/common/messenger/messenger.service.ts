@@ -3,7 +3,7 @@ import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class MessangerService {
+export class MessengerService {
 
   private errorSubject: Subject<string> = new Subject<string>();
   private messageSubject: Subject<string> = new Subject<string>();

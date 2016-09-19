@@ -9,7 +9,7 @@ import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormC
 
 import {TradeItem} from './trade-item';
 import {TradeItemService} from './trade-item.service';
-import {MessangerService} from '../common/messenger/messenger.service';
+import {MessengerService} from '../common/messenger/messenger.service';
 import {RouterService} from '../common/router/router.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class TradeItemEditorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private routerService: RouterService,
     private tradeItemService: TradeItemService,
-    private messengerService: MessangerService) {    
+    private messengerService: MessengerService) {    
     this.formGroup = new FormGroup({
         description: this.descriptionFormControl,
         name: this.nameFormControl

@@ -1,18 +1,31 @@
-import {Component} from '@angular/core';
-import {AuthenticationComponent} from '../authentication/authentication.component';
+import {Component, OnInit} from '@angular/core';
+
+import {AuthenticationService} from '../authentication/authentication.service';
+import {MessengerService} from '../common/messenger/messenger.service';
 
 @Component({
 	selector: 'home',
+	providers: [AuthenticationService],
 	templateUrl: 'app/home/home.html'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 	private isAuthenticated: boolean = false;
 
+	constructor(
+		private authenticationService: AuthenticationService,
+		private messengerService: MessengerService) { }
+
 	private authenticate() {
-		// Create AuthenticationComponent object without dependency injection (no need of DI) for this case.
-		let authenticationComponent: AuthenticationComponent = new AuthenticationComponent(null, null, null);
-		// Use same as in AuthenticationComponent.authenticate()
-		authenticationComponent.authenticate();
+		// Use same as in AuthenticationService.authenticate()
+		AuthenticationService.authenticate();
+	}
+
+	ngOnInit() {
+		this.authenticationService.getLastAuthentication().then(
+			authentication => this.isAuthenticated = authentication.isAuthenticated
+		).catch(
+			error => this.messengerService.setError(error)
+		)
 	}
 
 }
