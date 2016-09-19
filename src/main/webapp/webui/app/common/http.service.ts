@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
-
+import {Component, Injectable} from '@angular/core';
+import {Headers, Http} from '@angular/http';
 // TODO: Move HTTP related imports from MatchingTradeApp to HttpService class, need to inject HTTP_PROVIDERS
 //import { HTTP_PROVIDERS } from '@angular/http';
 //import 'rxjs/add/operator/toPromise';

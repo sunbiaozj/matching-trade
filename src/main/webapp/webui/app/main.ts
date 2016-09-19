@@ -6,7 +6,7 @@ import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { appRouterProviders } from './app.routes';
+import { appRouterProviders } from './common/router/routes';
 
 // Enable Production Mode. See: https://github.com/angular/angular/issues/6189
 //import {enableProdMode} from '@angular/core';

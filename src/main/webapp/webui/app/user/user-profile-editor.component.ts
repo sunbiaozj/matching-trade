@@ -1,7 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {ROUTE_URLS} from '../app.routes';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
@@ -10,7 +9,6 @@ import {AuthenticationService} from '../authentication/authentication.service';
 import {MessangerService} from '../common/messenger.service';
 import {User} from './user';
 import {UserService} from './user.service';
-
 
 @Component({
   selector: 'trade-item-list',

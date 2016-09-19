@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {ROUTE_URLS} from '../app.routes';
 
 import {MessangerService} from '../common/messenger.service';
-
+import {RouterService} from '../common/router/router.service';
 import {TradeItem} from './trade-item';
 import {TradeItemEditorComponent} from './trade-item-editor.component';
 import {TradeItemService} from './trade-item.service';
@@ -19,11 +17,13 @@ export class TradeItemListComponent implements OnInit {
   private tradeItems: TradeItem[];
   private selectedTradeItem: TradeItem;
   
-  constructor(private router: Router, private tradeItemService: TradeItemService, private messengerService: MessangerService) { }
+  constructor(
+    private routerService: RouterService,
+    private tradeItemService: TradeItemService, private messengerService: MessangerService) { }
 
   private addTradeItem() {
-    let link = [ROUTE_URLS.TRADE_ITEM_NEW];
-    this.router.navigate(link);
+
+    this.routerService.navigate([this.routerService.routes.TRADE_ITEM_NEW]);
   }
 
   ngOnInit() {
@@ -38,8 +38,8 @@ export class TradeItemListComponent implements OnInit {
 
   private navigateToTradeItem(tradeItem: TradeItem) {
     this.selectedTradeItem = tradeItem;
-    let link = ['/trade-item/trade-item-editor', tradeItem.tradeItemId ];
-    this.router.navigate(link);
+    let link = [this.routerService.routes.TRADE_ITEM_EDIT, tradeItem.tradeItemId];
+    this.routerService.navigate(link);
   }
 
 }

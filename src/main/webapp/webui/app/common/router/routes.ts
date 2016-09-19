@@ -1,11 +1,11 @@
 import {provideRouter, RouterConfig}  from '@angular/router';
-import {AuthenticationComponent} from './authentication/authentication.component';
-import {HomeComponent} from './home/home.component';
-import {TradeItemListComponent} from './trade-item/trade-item-list.component';
-import {TradeItemEditorComponent} from './trade-item/trade-item-editor.component';
-import {UserProfileEditorComponent} from './user/user-profile-editor.component'
+import {AuthenticationComponent} from '../../authentication/authentication.component';
+import {HomeComponent} from '../../home/home.component';
+import {TradeItemListComponent} from '../../trade-item/trade-item-list.component';
+import {TradeItemEditorComponent} from '../../trade-item/trade-item-editor.component';
+import {UserProfileEditorComponent} from '../../user/user-profile-editor.component'
 
-export const ROUTE_URLS = {
+export const ROUTES = {
   AUTHENTICATION: "authentication",
   AUTHENTICATION_CALLBACK: "authentication/:status",
   HOME: "home",
@@ -18,28 +18,28 @@ export const ROUTE_URLS = {
 const routes: RouterConfig = [
   {
     path: '',
-    redirectTo: ROUTE_URLS.HOME,
+    redirectTo: ROUTES.HOME,
     pathMatch: 'full'
   }, {
-    path: ROUTE_URLS.AUTHENTICATION,
+    path: ROUTES.AUTHENTICATION,
     component: AuthenticationComponent
   }, {
-    path: ROUTE_URLS.AUTHENTICATION_CALLBACK,
+    path: ROUTES.AUTHENTICATION_CALLBACK,
     component: AuthenticationComponent
   }, {
-    path: ROUTE_URLS.HOME,
+    path: ROUTES.HOME,
     component: HomeComponent
   }, {
-    path: ROUTE_URLS.TRADE_ITEM_LIST,
+    path: ROUTES.TRADE_ITEM_LIST,
     component: TradeItemListComponent
   }, {
-    path: ROUTE_URLS.TRADE_ITEM_EDIT,
+    path: ROUTES.TRADE_ITEM_EDIT,
     component: TradeItemEditorComponent
   }, {
-    path: ROUTE_URLS.TRADE_ITEM_NEW,
+    path: ROUTES.TRADE_ITEM_NEW,
     component: TradeItemEditorComponent
   }, {
-    path: ROUTE_URLS.USER_PROFILE_EDIT,
+    path: ROUTES.USER_PROFILE_EDIT,
     component: UserProfileEditorComponent
   }
 ];

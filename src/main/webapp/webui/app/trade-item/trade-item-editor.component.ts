@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
-import {ROUTE_URLS} from '../app.routes';
 
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
@@ -11,7 +10,7 @@ import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormC
 import {TradeItem} from './trade-item';
 import {TradeItemService} from './trade-item.service';
 import {MessangerService} from '../common/messenger.service';
-
+import {RouterService} from '../common/router/router.service';
 
 @Component({
   selector: 'trade-item-list',
@@ -29,6 +28,7 @@ export class TradeItemEditorComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private routerService: RouterService,
     private tradeItemService: TradeItemService,
     private messengerService: MessangerService) {    
     this.formGroup = new FormGroup({
@@ -37,13 +37,15 @@ export class TradeItemEditorComponent implements OnInit {
     });
   }
 
-
-  private navigate(s: string): void {
-    if (s == 'back') {
-      this.location.back();
+  private navigate(destination: string): void {
+    let link: any;
+    switch (destination) {
+      case 'cancel':
+      case 'trade-item-list':
+        link = [this.routerService.routes.TRADE_ITEM_LIST];
     }
+    this.routerService.navigate(link);
   }
-
 
   /**
    * GET TradeItem based on URL parameter tradeItemId.
@@ -63,7 +65,6 @@ export class TradeItemEditorComponent implements OnInit {
       .catch(error => console.log(error));
   }
 
-
   private onSubmit() {
     if (!this.formGroup.valid) {
       return;
@@ -72,9 +73,8 @@ export class TradeItemEditorComponent implements OnInit {
     this.save(tradeItem);
     this.messengerService.setMessage("Item saved.");
     // TODO: Reset formGroup when new Angular 2 version is available. See: https://github.com/angular/angular/pull/9974
-    this.navigate('back');
+    this.navigate('trade-item-list');
   }
-
 
   private save(t: TradeItem): void {
     this.tradeItemService.save(t)
@@ -83,7 +83,6 @@ export class TradeItemEditorComponent implements OnInit {
       }).catch(error => console.log(error));
   }
 
-
   private transformFormGroupToTradeItem(f: FormGroup): TradeItem {
     let result: TradeItem = new TradeItem();
     result.tradeItemId = this.tradeItemId;
@@ -91,7 +90,6 @@ export class TradeItemEditorComponent implements OnInit {
     result.name = this.nameFormControl.value;
     return result;
   }
-
 
   private loadFormGroupFromTradeItem(t: TradeItem) {
     this.tradeItemId = t.tradeItemId;

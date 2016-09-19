@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ROUTE_URLS} from '../app.routes';
+// import {ROUTE_URLS} from '../app.routes';
 
 import {MessangerService} from '../common/messenger.service';
 
@@ -34,16 +34,16 @@ export class AuthenticationComponent implements OnInit {
     // existing-user: user has been redirected from authentication and is an existing user. Do nothing for now, it can be useful in the future.
     // sign-in: user wants to Sign-in. Do nothing here because the user will be presented with 'authentication.html'.
     // sign-out: user wants to Sing-out. Redirect to /authenticate/sign-out
-    switch (this.authenticationStatus) {
-      case 'new-user':
-        this.router.navigate([ROUTE_URLS.USER_PROFILE_EDIT]);
-        break;
-      case 'existing-user':
-        this.router.navigate([ROUTE_URLS.TRADE_ITEM_LIST]);
-        break;                      
-      default:
-        break;
-    }
+    // switch (this.authenticationStatus) {
+    //   case 'new-user':
+    //     this.router.navigate([ROUTE_URLS.USER_PROFILE_EDIT]);
+    //     break;
+    //   case 'existing-user':
+    //     this.router.navigate([ROUTE_URLS.TRADE_ITEM_LIST]);
+    //     break;                      
+    //   default:
+    //     break;
+    // }
 
   }
 
