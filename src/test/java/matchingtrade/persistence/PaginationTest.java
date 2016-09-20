@@ -46,7 +46,7 @@ public class PaginationTest {
 	@Rollback(false)
 	public void page1Limit3() {
 		SearchCriteria sc = new SearchCriteria(new Pagination(1, 3));
-		List<TradeItemEntity> result = tradeItemDao.get(sc).getResultList();
+		List<TradeItemEntity> result = tradeItemDao.search(sc).getResultList();
 		assertNotNull(result);
 		assertEquals(3, result.size());
 		for (int i=0; i<result.size(); i++) {
@@ -59,7 +59,7 @@ public class PaginationTest {
 	@Rollback(false)
 	public void page2Limit1() {
 		SearchCriteria sc = new SearchCriteria(new Pagination(2, 1));
-		List<TradeItemEntity> result = tradeItemDao.get(sc).getResultList();
+		List<TradeItemEntity> result = tradeItemDao.search(sc).getResultList();
 		assertNotNull(result);
 		assertEquals(1, result.size());
 		TradeItemEntity tie = result.get(0);
@@ -70,7 +70,7 @@ public class PaginationTest {
 	@Rollback(false)
 	public void page2Limit2() {
 		SearchCriteria sc = new SearchCriteria(new Pagination(2, 2));
-		List<TradeItemEntity> result = tradeItemDao.get(sc).getResultList();
+		List<TradeItemEntity> result = tradeItemDao.search(sc).getResultList();
 		assertNotNull(result);
 		assertEquals(2, result.size());
 		for (int i=0; i<result.size(); i++) {
@@ -83,7 +83,7 @@ public class PaginationTest {
 	@Rollback(false)
 	public void pageNegativeLimitNegative() {
 		SearchCriteria sc = new SearchCriteria(new Pagination(-1, -2));
-		SearchResult<TradeItemEntity> result = tradeItemDao.get(sc);
+		SearchResult<TradeItemEntity> result = tradeItemDao.search(sc);
 		assertNotNull(result);
 		assertTrue(result.getPagination().getLimit() == null);
 		assertTrue(result.getPagination().getPage() == null);

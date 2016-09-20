@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import matchingtrade.common.Pagination;
 import matchingtrade.common.SearchCriteria;
 import matchingtrade.common.SearchResult;
-import matchingtrade.persistence.dao.TradeItemDao;
 import matchingtrade.persistence.entity.TradeItemEntity;
+import matchingtrade.persistence.model.TradeItemModel;
 import matchingtrade.service.json.JsonArrayList;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.transformer.TradeItemTransformer;
@@ -27,7 +27,7 @@ import matchingtrade.transformer.TradeItemTransformer;
 public class TradeItemService {
 	
 	@Autowired
-	TradeItemDao tradeItemDao;
+	TradeItemModel tradeItemModel;
 	
 	private TradeItemTransformer transformer = new TradeItemTransformer();
 
@@ -37,9 +37,7 @@ public class TradeItemService {
     @Path("/")
     public TradeItemJson post(TradeItemJson requestJson) {
     	TradeItemEntity requestEntity = transformer.transform(requestJson);
-    	
-    	tradeItemDao.save(requestEntity);
-    	
+    	tradeItemModel.save(requestEntity);
     	TradeItemJson result = transformer.transform(requestEntity);
         return result;
     }
@@ -49,11 +47,9 @@ public class TradeItemService {
     @Consumes("application/json")
     @Path("/")
     public TradeItemJson put(TradeItemJson requestJson) {
-    	TradeItemEntity requestEntity = tradeItemDao.get(requestJson.getTradeItemId());
+    	TradeItemEntity requestEntity = tradeItemModel.get(requestJson.getTradeItemId());
     	transformer.transform(requestJson, requestEntity);
-    	
-    	tradeItemDao.save(requestEntity);
-    	
+    	tradeItemModel.save(requestEntity);
     	TradeItemJson result = transformer.transform(requestEntity);
         return result;
     }
@@ -66,26 +62,22 @@ public class TradeItemService {
     		@QueryParam("_page") Integer _page,
     		@QueryParam("_limit") Integer _limit) {
     	SearchCriteria sc = new SearchCriteria(new Pagination(_page, _limit));
-    	SearchResult<TradeItemEntity> searchResultEntity = tradeItemDao.get(sc);
-    	
+    	SearchResult<TradeItemEntity> searchResultEntity = tradeItemModel.search(sc);
     	List<TradeItemJson> resultList = new JsonArrayList<TradeItemJson>();
     	for (TradeItemEntity e : searchResultEntity.getResultList()) {
     		TradeItemJson j = transformer.transform(e);
     		resultList.add(j);
 		}
-
     	SearchResult<TradeItemJson> searchResultJson = new SearchResult<TradeItemJson>(resultList, searchResultEntity.getPagination());
         return searchResultJson;
     }
-
-
     
     @GET
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{tradeItemId}")
     public TradeItemJson get(@PathParam("tradeItemId") Integer tradeItemId) {
-    	TradeItemEntity tradeItemEntity = tradeItemDao.get(tradeItemId);
+    	TradeItemEntity tradeItemEntity = tradeItemModel.get(tradeItemId);
     	TradeItemJson result = transformer.transform(tradeItemEntity);
         return result;
     }

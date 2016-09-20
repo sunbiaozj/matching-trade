@@ -26,6 +26,7 @@
 	<context:component-scan base-package="
 		matchingtrade.persistence.dao,
 		matchingtrade.persistence.entity,
+		matchingtrade.persistence.model,
 		matchingtrade.service"/>
 		
 	<!-- Initialize ApplicationContextAware of ApplicationContextProvider -->

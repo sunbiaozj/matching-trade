@@ -1,11 +1,26 @@
 package matchingtrade.common.util;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 
 import matchingtrade.common.Pagination;
+import matchingtrade.common.SearchCriteria;
 
 public class PersistenceUtil {
+	
+	/**
+	 * Apply the order by from SearchCriteria to Criteria.
+	 * @param searchCriteria
+	 * @param criteria
+	 */
+	public static void applyOrderBy(SearchCriteria searchCriteria, Criteria criteria) {
+		if (!searchCriteria.getOrderBy().isEmpty()) {
+			for (Order o : searchCriteria.getOrderBy()) {
+				criteria.addOrder(o);
+			}
+		}
+	}
 
 	private static void applyPaginationToCriteria(Pagination pagination, Criteria criteria) {
 		if (pagination.getLimit() == null || pagination.getPage() == null) {

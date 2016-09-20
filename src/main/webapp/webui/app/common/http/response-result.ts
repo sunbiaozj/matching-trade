@@ -23,6 +23,9 @@ export class Pagination {
 			let p = new Page();
 			p.number = i;
 			p.limit = this.limit;
+			if (p.number == this.page) {
+				p.isActive = true;
+			}
 			result.push(p);
 		}
 		return result;
@@ -32,4 +35,5 @@ export class Pagination {
 export class Page {
 	public number: number;
 	public limit: number;
+	public isActive: boolean = false;
 }

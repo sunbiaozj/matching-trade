@@ -45,7 +45,7 @@ export class MessengerComponent implements OnInit {
             (m: string) => {
                 this.message.text = m;
                 this.message.state = "active";
-                setTimeout(() => this.clearMessages(), 5000);
+                setTimeout(() => this.clearMessages(), 3000);
             }
         );
     }

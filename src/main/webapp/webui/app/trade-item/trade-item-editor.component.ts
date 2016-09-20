@@ -71,15 +71,13 @@ export class TradeItemEditorComponent implements OnInit {
     }
     let tradeItem: TradeItem = this.transformFormGroupToTradeItem(this.formGroup);
     this.save(tradeItem);
-    this.messengerService.setMessage("Item saved.");
-    // TODO: Reset formGroup when new Angular 2 version is available. See: https://github.com/angular/angular/pull/9974
-    this.navigate('trade-item-list');
   }
 
   private save(t: TradeItem): void {
     this.tradeItemService.save(t)
       .then(response => {
-        this.loadFormGroupFromTradeItem(response);
+        this.navigate('trade-item-list');
+        this.messengerService.setMessage("Item saved.");
       }).catch(error => console.log(error));
   }
 

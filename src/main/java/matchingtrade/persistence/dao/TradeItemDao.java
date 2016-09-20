@@ -35,11 +35,12 @@ public class TradeItemDao {
 	}
 	
 	@Transactional
-	public SearchResult<TradeItemEntity> get(SearchCriteria searchCriteria) {
+	public SearchResult<TradeItemEntity> search(SearchCriteria searchCriteria) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(TradeItemEntity.class);
 		
 		Pagination resultPagination = PersistenceUtil.getPagination(searchCriteria.getPagination(), criteria);
+		PersistenceUtil.applyOrderBy(searchCriteria, criteria);
 		
 		@SuppressWarnings("unchecked")
 		List<TradeItemEntity> resultList = criteria.list();
@@ -47,6 +48,5 @@ public class TradeItemDao {
 		SearchResult<TradeItemEntity> result = new SearchResult<TradeItemEntity>(resultList, resultPagination);
 		return result;
 	}
-
 
 }

@@ -1,19 +1,28 @@
 package matchingtrade.persistence.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="trade_item")
-public class TradeItemEntity implements matchingtrade.persistence.Entity{
-
-	private Integer tradeItemId;
-	private String name;
-	private String description;
+public class TradeItemEntity implements matchingtrade.persistence.Entity {
 	
+	public enum Fields {
+		description, name, tradeItemId, updatedDateTime
+	}
+
+	private String description;
+	private String name;
+	private Integer tradeItemId;
+	private Date updatedDateTime;
+		
 	@Column(name="description", length=500, nullable=true, unique=false)
 	public String getDescription() {
 		return description;
@@ -31,6 +40,12 @@ public class TradeItemEntity implements matchingtrade.persistence.Entity{
 		return tradeItemId;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="updated_date_time", nullable=false)
+	public Date getUpdatedDateTime() {
+		return this.updatedDateTime;
+	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -39,6 +54,10 @@ public class TradeItemEntity implements matchingtrade.persistence.Entity{
 		this.name = name;
 	}
 
+	public void setUpdatedDateTime(Date updatedDateTime) {
+		this.updatedDateTime = updatedDateTime;
+	}
+	
 	public void setTradeItemId(Integer tradeItemId) {
 		this.tradeItemId = tradeItemId;
 	}
