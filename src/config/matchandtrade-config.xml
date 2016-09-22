@@ -22,16 +22,15 @@
 		<property name="password" value="password" />
 	</bean>
 
-	<!-- Authentication related properties -->
+        <!-- Authentication related properties -->
 	<bean id="authenticationProperties" class="matchingtrade.configuration.AuthenticationProperties">
 		<property name="clientId" value="YOUR_CLIENT_ID"/>
 		<property name="clientSecret" value="YOUR_CLIENT_SECRET"/>
-		<property name="redirectURI" value="YOUR_REDIRECT_URL"/>
+		<property name="redirectURI" value="/authenticatecallback"/>
 	</bean>
 	<!--
-		For testing purposes use "AuthenticationOAuthTestExistingUser" if you want to mock an authentication server.
-		<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
+	For local development and local-test use AuthenticationOAuthTestExistingUser for production and integration-test use AuthenticationOAuthGoogle.
+	<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthGoogle"/>
 	-->
-	<bean id="authenticationRequestRedirect" class="matchingtrade.authentication.AuthenticationRequestRedirectGoogle"/>
-	
+	<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
 </beans>
