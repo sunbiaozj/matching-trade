@@ -14,7 +14,7 @@
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-	<!-- Database related properties -->
+	<!-- Database properties -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
 		<property name="url" value="jdbc:h2:./target/h2db/h2database-local-db-file" />
@@ -22,16 +22,16 @@
 		<property name="password" value="password" />
 	</bean>
 
-	<!-- Authentication related properties -->
+	<!-- Authentication properties -->
 	<bean id="authenticationProperties" class="matchingtrade.configuration.AuthenticationProperties">
-		<property name="clientId" value="YOUR_CLIENT_ID"/>
-		<property name="clientSecret" value="YOUR_CLIENT_SECRET"/>
-		<property name="redirectURI" value="YOUR_REDIRECT_URL"/>
+		<property name="clientId" value="792942355859-dodbiu08gnhni0enc98cfnsuesq0m3vl.apps.googleusercontent.com"/>
+		<property name="clientSecret" value="wDN5coEvlDtV34oyx2TSiB3L"/>
+		<property name="redirectURI" value="http://localhost:8080/authenticatecallback"/>
 	</bean>
 	<!--
 		For testing purposes use "AuthenticationOAuthTestExistingUser" if you want to mock an authentication server.
 		<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
 	-->
-	<bean id="authenticationRequestRedirect" class="matchingtrade.authentication.AuthenticationRequestRedirectGoogle"/>
+	<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
 	
 </beans>

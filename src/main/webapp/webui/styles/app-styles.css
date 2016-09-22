@@ -71,6 +71,11 @@ input[disabled].form-clear-disabled {
     cursor: hand;
 }
 
+.pagination > .disabled > {
+    cursor: default;
+    cursor: default;
+}
+
 .table {
     margin: 0px;
 }

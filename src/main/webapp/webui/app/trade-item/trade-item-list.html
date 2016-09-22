@@ -23,7 +23,7 @@
             </div>
             <div class="text-right">
                 <ul class="pagination">
-                    <li *ngFor="let p of pagination.getPages()" [class.active]="p.isActive"><a (click)="getTradeItems(p.number)">{{p.number}}</a></li>
+                    <li *ngFor="let p of pagination.getPages()" [class.active]="p.isActive"><a (click)="getTradeItems(p)">{{p.number}}</a></li>
                 </ul>
             </div>
         </div>
