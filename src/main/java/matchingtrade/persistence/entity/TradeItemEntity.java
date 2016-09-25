@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="trade_item")
-public class TradeItemEntity implements matchingtrade.persistence.Entity {
+public class TradeItemEntity implements matchingtrade.persistence.entity.Entity {
 	
 	public enum Fields {
 		description, name, tradeItemId, updatedDateTime
@@ -85,6 +85,10 @@ public class TradeItemEntity implements matchingtrade.persistence.Entity {
 			salt = tradeItemId;
 		}
 		return super.hashCode() * salt;
+	}
+	
+	public TradeItemEntity() {
+		updatedDateTime = new Date();
 	}
 	
 }

@@ -1,9 +1,16 @@
 package matchingtrade.persistence.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -11,8 +18,9 @@ import javax.persistence.Table;
 public class UserEntity {
 
 	private Integer userId;
-	private String name;
 	private String email;
+	private String name;
+	private Set<TradeListEntity> tradeLists = new HashSet<>(); 
 
 	@Override
 	public boolean equals(Object obj) {
@@ -41,6 +49,14 @@ public class UserEntity {
 		return name;
 	}
 
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "user__trade_list",
+			joinColumns = @JoinColumn(name="user_id"),
+			inverseJoinColumns = @JoinColumn(name="trade_list_id"))
+	public Set<TradeListEntity> getTradeLists() {
+		return tradeLists;
+	}
+
 	@Id
 	@Column(name = "user_id")
 	@GeneratedValue
@@ -64,8 +80,12 @@ public class UserEntity {
 		this.name = name;
 	}
 
+	public void setTradeLists(Set<TradeListEntity> tradeLists) {
+		this.tradeLists = tradeLists;
+	}
+
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-
+	
 }

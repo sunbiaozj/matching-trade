@@ -116,6 +116,22 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.5.2</version>
 		</dependency>
+		
+		<!-- Apache commons-validator -->
+		<dependency>
+		    <groupId>commons-validator</groupId>
+		    <artifactId>commons-validator</artifactId>
+		    <version>1.5.1</version>
+		</dependency>
+		
+		<!-- Mockito -->
+		<!-- TODO Remove this when packaging -->
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-core</artifactId>
+		    <version>1.10.19</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -219,17 +235,6 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.10</version>
-				<configuration>
-					<projectNameTemplate>[artifactId]-[version]</projectNameTemplate>
-					<wtpmanifest>true</wtpmanifest>
-					<wtpapplicationxml>true</wtpapplicationxml>
-					<wtpversion>2.0</wtpversion>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 

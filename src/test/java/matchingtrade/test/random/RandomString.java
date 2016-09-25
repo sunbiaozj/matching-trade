@@ -38,12 +38,18 @@ public class RandomString {
 	public String nextName() {
 		int aPosition = random.nextInt(adjectives.length);
 		int nPosition = random.nextInt(noums.length);
-		return adjectives[aPosition] + " " +noums[nPosition];
+		return adjectives[aPosition] + " " + noums[nPosition] + "-" + random.nextInt(500);
 	}
 
 	public String nextDescription() {
 		int pPosition = random.nextInt(prepositions.length);
-		return nextName() + " " + prepositions[pPosition] + " " + nextName();
+		return nextName() + " " + prepositions[pPosition] + " " + nextName() + "-" + random.nextInt(500);
+	}
+	
+	public String nextEmail() {
+		int aPosition = random.nextInt(adjectives.length);
+		int nPosition = random.nextInt(noums.length);
+		return adjectives[aPosition] + noums[nPosition] + "-" + random.nextInt(500) + "@random.com";
 	}
 
 }

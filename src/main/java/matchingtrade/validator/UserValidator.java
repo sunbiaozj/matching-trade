@@ -1,23 +1,36 @@
 package matchingtrade.validator;
 
-import matchingtrade.common.util.Util;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import matchingtrade.persistence.dao.UserDao;
+import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.UserJson;
 
+@Component
 public class UserValidator {
-	
-	public void validatePost(UserJson json) {
-		if (json == null) {
-			throw new NullPointerException("Cannot POST a user using an empty UserJson");
-		}
-		if (Util.isEmpty(json.getName().trim())) {
-			throw new IllegalArgumentException("Cannot POST a user with empty UserJson.name");
+
+	@Autowired
+	private UserDao dao;
+
+	public void validateNew(UserJson json) {
+		EmailValidator validator = EmailValidator.getInstance();
+		boolean isValid = validator.isValid(json.getEmail());
+		if (!isValid) {
+			throw new IllegalArgumentException(json.getEmail() + " is not an valid email.");
 		}
 	}
-
+	
 	public void validatePut(UserJson json) {
-		validatePost(json);
+		validateNew(json);
+		
 		if (json.getUserId() == null) {
-			throw new IllegalArgumentException("Cannot PUT a user without UserJson.userId");
+			throw new IllegalArgumentException("Cannot PUT a user without UserJson.userId.");
+		}
+		UserEntity userEntity = dao.get(json.getUserId());
+		if (!userEntity.getEmail().equals(json.getEmail())) {
+			throw new IllegalArgumentException("Cannot update UserJson.email on PUT operations.");
 		}
 	}
 

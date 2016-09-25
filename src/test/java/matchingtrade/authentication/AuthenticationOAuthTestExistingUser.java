@@ -51,7 +51,7 @@ public class AuthenticationOAuthTestExistingUser implements AuthenticationOAuth 
 	public User obtainUserInformation(String accessToken) throws AuthenticationException {
 		User result = new User();
 		result.setAuthenticated(true);
-		result.setEmail(accessToken + "@" + this.getClass().getSimpleName());
+		result.setEmail(accessToken + "@" + this.getClass().getSimpleName() + ".com");
 		result.setName(accessToken);
 		result.setNewUser(true);
 		return result;

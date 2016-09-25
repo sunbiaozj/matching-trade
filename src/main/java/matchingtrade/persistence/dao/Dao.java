@@ -1,9 +1,11 @@
 package matchingtrade.persistence.dao;
 
-import matchingtrade.persistence.Entity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import matchingtrade.persistence.entity.Entity;
+
 import javax.transaction.Transactional;
 
 /**

@@ -29,7 +29,7 @@ public class TradeListEntity {
 
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(
-		name = "trade_list_to_trade_item",
+		name = "trade_list__trade_item",
 		joinColumns = @JoinColumn(name = "trade_list_id"),
 		inverseJoinColumns = @JoinColumn(name = "trade_item_id"))
 	public Set<TradeItemEntity> getTradeItems() {

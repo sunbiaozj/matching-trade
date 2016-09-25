@@ -1,4 +1,4 @@
-package matchingtrade.persistence.model;
+package matchingtrade.model;
 
 import java.util.Date;
 

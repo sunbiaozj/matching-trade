@@ -1,6 +1,7 @@
 package matchingtrade.service;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,11 +15,10 @@ import matchingtrade.authentication.User;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.IntegrationTestStore;
-import matchingtrade.test.random.TradeListRandom;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/application-context-test.xml", "/application-context-web.xml" })
-public class TradeListPostTest {
+public class TradeListGetTest {
 	
 	private SessionProvider sessionProviderMock;
 	@Autowired
@@ -36,14 +36,12 @@ public class TradeListPostTest {
 	@Test
 	@Rollback(false)
 	public void post() {
-		TradeListJson requestJson = new TradeListRandom().next();
-		TradeListJson responseJson = tradeListService.post(requestJson);
-		Assert.assertNotNull(responseJson);
-		Assert.assertNotNull(responseJson.getTradeListId());
-		Assert.assertNotNull(responseJson.getTradeItems());
-		
-		// Store it so it can be reused in other tests
-		IntegrationTestStore.put(TradeListPostTest.class.getSimpleName(), responseJson);
+		TradeListJson previousJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
+		TradeListJson responseJson = tradeListService.get(previousJson.getTradeListId());
+		assertNotNull(responseJson);
+		assertEquals(previousJson.getName(), responseJson.getName());
+		assertEquals(previousJson.getTradeItems().size(), responseJson.getTradeItems().size());
+		assertEquals(previousJson.getTradeListId(), responseJson.getTradeListId());
 	}
 
 }
