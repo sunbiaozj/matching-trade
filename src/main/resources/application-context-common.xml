@@ -24,6 +24,7 @@
 	<context:property-placeholder />
 
 	<context:component-scan base-package="
+		matchingtrade.authorization,
 		matchingtrade.persistence.dao,
 		matchingtrade.persistence.entity,
 		matchingtrade.model,

@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,10 +18,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 public class UserEntity {
+	
+	public enum Role {
+		ADMINISTRATOR, USER
+	}
 
 	private Integer userId;
 	private String email;
 	private String name;
+	private Role role;
 	private Set<TradeListEntity> tradeLists = new HashSet<>(); 
 
 	@Override
@@ -86,6 +93,16 @@ public class UserEntity {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="role", nullable=false, unique=false, length=100)
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 }

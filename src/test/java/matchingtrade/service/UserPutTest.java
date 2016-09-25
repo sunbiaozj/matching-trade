@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import matchingtrade.authentication.User;
+import matchingtrade.authorization.AuthorizationException;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.UserEntity;
@@ -44,6 +45,7 @@ public class UserPutTest {
 		userJson = userRandom.next();
 		UserTransformer userTransformer = new UserTransformer();
 		UserEntity userEntity = userTransformer.transform(userJson);
+		userEntity.setRole(UserEntity.Role.USER);
 		userDao.save(userEntity);
 		userJson = userTransformer.transform(userEntity);
 		
@@ -57,6 +59,8 @@ public class UserPutTest {
 		userMocked.setNewUser(true);
 		userMocked.setUserId(userJson.getUserId());
 		when(sessionProviderMock.getUser()).thenReturn(userMocked);
+		
+		userService.setSessionProvider(sessionProviderMock);
 		
 		// Store it so it can be reused in other tests
 		IntegrationTestStore.put(User.class.getSimpleName(), userMocked);
@@ -78,11 +82,29 @@ public class UserPutTest {
 		RandomString random = new RandomString();
 		String newEmail = random.nextEmail();
 		userJson.setEmail(newEmail);
+		boolean throwsException = false;
 		try {
 			userService.put(userJson);
-		} catch (Exception e){
-			assertTrue(e instanceof IllegalArgumentException);
+		} catch (IllegalArgumentException e){
+			throwsException = true;
 		}
+		assertTrue(throwsException);
 	}
 
+	@Test
+	@Rollback(false)
+	public void updateNameNotAuthorized() {
+		RandomString random = new RandomString();
+		String newName = random.nextName();
+		userJson.setUserId(userJson.getUserId()+1);
+		userJson.setName(newName);
+		boolean throwsException = false;
+		try {
+			userService.put(userJson);
+		} catch (AuthorizationException e){
+			throwsException = true;
+		}
+		assertTrue(throwsException);
+	}
+	
 }
