@@ -11,7 +11,7 @@ import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import matchingtrade.authorization.UserAuthorization;
+import matchingtrade.authorization.Authorization;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.UserModel;
 import matchingtrade.persistence.dao.UserDao;
@@ -25,7 +25,7 @@ import matchingtrade.validator.UserValidator;
 public class UserService {
 
 	@Autowired
-	UserAuthorization authorization;
+	Authorization authorization;
 	private SessionProvider sessionProvider;
 	@Autowired
 	private UserDao userDao;
@@ -40,7 +40,12 @@ public class UserService {
 	@Consumes("application/json")
 	@Path("/{userId}")
 	public UserJson get(@PathParam("userId") Integer userId) {
+		// Check authorization for this operation
+		authorization.validateIdentityAndDoBasicAuthorization(sessionProvider.getUser(), userId);
+		// Validate the request: nothing to validate
+		// Delegate to model layer
 		UserEntity userEntity = model.get(userId);
+		// Transform the response
 		UserJson result = transformer.transform(userEntity);
 		return result;
 	}
@@ -50,11 +55,15 @@ public class UserService {
     @Consumes("application/json")
     @Path("/")
     public UserJson put(UserJson requestJson) {
-		authorization.put(sessionProvider.getUser(), requestJson);
-    	validator.validatePut(requestJson);
+		// Check authorization for this operation
+		authorization.validateIdentityAndDoBasicAuthorization(sessionProvider.getUser(), requestJson.getUserId());
+    	// Validate the request
+		validator.validatePut(requestJson);
+    	// Delegate to model layer
     	UserEntity requestEntity = userDao.get(requestJson.getUserId());
     	transformer.transform(requestJson, requestEntity);
     	UserEntity resultEntity = model.put(requestEntity);
+    	// Transform the response
     	UserJson result = transformer.transform(resultEntity);
         return result;
     }
