@@ -72,6 +72,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 			userEntity = new UserEntity();
 			userEntity.setEmail(email);
 			userEntity.setName(name);
+			userEntity.setRole(UserEntity.Role.USER);
 			userDao.save(userEntity);
 			isNewUser = true;
 		}
