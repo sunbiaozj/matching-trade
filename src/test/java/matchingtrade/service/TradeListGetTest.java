@@ -2,6 +2,7 @@ package matchingtrade.service;
 
 import static org.junit.Assert.*;
 
+import matchingtrade.authentication.UserAuthentication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +12,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import matchingtrade.authentication.User;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.IntegrationTestStore;
@@ -29,7 +29,7 @@ public class TradeListGetTest {
 		sessionProviderMock = Mockito.mock(SessionProvider.class);
 		Mockito
 			.when(sessionProviderMock.getUser())
-			.thenReturn((User)IntegrationTestStore.get(User.class.getSimpleName()));
+			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
 		tradeListService.setSessionProvider(sessionProviderMock);
 	}
 	

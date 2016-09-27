@@ -66,7 +66,7 @@ public class AuthenticationServlet extends HttpServlet {
 	}
 
 	private String getAuthenticationInfo(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("user");
+		UserAuthentication user = (UserAuthentication) request.getSession().getAttribute("user");
 		// If session does not contain information from the user, then return an empty JSON string.
 		if (user == null) {
 			return "{}";

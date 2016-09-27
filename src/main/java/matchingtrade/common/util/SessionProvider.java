@@ -3,9 +3,8 @@ package matchingtrade.common.util;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import matchingtrade.authentication.UserAuthentication;
 import org.apache.cxf.jaxrs.ext.MessageContext;
-
-import matchingtrade.authentication.User;
 
 public class SessionProvider {
 
@@ -15,10 +14,10 @@ public class SessionProvider {
 		this.context = context;
 	}
 	
-	public User getUser() {
+	public UserAuthentication getUser() {
     	HttpServletRequest request = context.getHttpServletRequest();
     	HttpSession  session = request.getSession(true);
-        User user = (User) session.getAttribute("user");
+		UserAuthentication user = (UserAuthentication) session.getAttribute("user");
         return user;
 	}
 	

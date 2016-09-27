@@ -10,11 +10,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
+import matchingtrade.authentication.UserAuthentication;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import matchingtrade.authentication.User;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.TradeListModel;
 import matchingtrade.persistence.dao.TradeListDao;
@@ -93,7 +93,7 @@ public class TradeListService {
     	// Transform the request
     	TradeListEntity requestEntity = transformer.transform(requestJson);
     	// Delegate to model layer
-    	User user = sessionProvider.getUser();
+		UserAuthentication user = sessionProvider.getUser();
     	TradeListEntity resultEntity = model.post(user, requestEntity);
     	// Transform the response
     	TradeListJson resultJson = transformer.transform(resultEntity);

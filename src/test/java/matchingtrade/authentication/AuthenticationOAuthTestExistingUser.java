@@ -48,8 +48,8 @@ public class AuthenticationOAuthTestExistingUser implements AuthenticationOAuth 
 	}
 
 	@Override
-	public User obtainUserInformation(String accessToken) throws AuthenticationException {
-		User result = new User();
+	public UserAuthentication obtainUserInformation(String accessToken) throws AuthenticationException {
+		UserAuthentication result = new UserAuthentication();
 		result.setAuthenticated(true);
 		result.setEmail(accessToken + "@" + this.getClass().getSimpleName() + ".com");
 		result.setName(accessToken);

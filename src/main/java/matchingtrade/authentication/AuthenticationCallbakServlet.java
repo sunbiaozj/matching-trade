@@ -43,7 +43,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 				authenticationProperties.getRedirectURI());
 		
 		// 5. Obtain user information from the ID token
-		User user = authenticationOAuth.obtainUserInformation(accessToken);	
+		UserAuthentication user = authenticationOAuth.obtainUserInformation(accessToken);
 		
 		// 6. Authenticate the user
 		// Update user information in the local database
@@ -64,7 +64,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 	 * 
 	 * @return updated User.
 	 */
-	private User updateUserInfo(String email, String name) {
+	private UserAuthentication updateUserInfo(String email, String name) {
 		UserDao userDao = (UserDao) context.getBean(UserDao.class);
 		UserEntity userEntity = userDao.get(email);
 		boolean isNewUser = false;
@@ -76,7 +76,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 			userDao.save(userEntity);
 			isNewUser = true;
 		}
-		User result = new User();
+		UserAuthentication result = new UserAuthentication();
 		result.setUserId(userEntity.getUserId());
 		result.setEmail(userEntity.getEmail());
 		result.setNewUser(isNewUser);

@@ -3,6 +3,8 @@ package matchingtrade.service;
 import javax.transaction.Transactional;
 
 import static org.junit.Assert.*;
+
+import matchingtrade.authentication.UserAuthentication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +13,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import matchingtrade.authentication.User;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
 
@@ -31,7 +32,7 @@ public class UserGetTest {
 	@Test
 	@Rollback(false)
 	public void get() {
-		User user = (User) IntegrationTestStore.get(User.class.getSimpleName());
+		UserAuthentication user = (UserAuthentication) IntegrationTestStore.get(UserAuthentication.class.getSimpleName());
 		UserJson userJson = userService.get(user.getUserId());
 		assertNotNull(userJson);
 		assertNotNull(userJson.getUserId());

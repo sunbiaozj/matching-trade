@@ -2,7 +2,7 @@ package matchingtrade.authentication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User {
+public class UserAuthentication {
 
 	private Integer userId;
 	private boolean isAuthenticated = false;

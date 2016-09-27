@@ -1,9 +1,9 @@
 package matchingtrade.authorization;
 
+import matchingtrade.authentication.UserAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import matchingtrade.authentication.User;
 import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.persistence.entity.UserEntity.Role;
@@ -20,7 +20,7 @@ public class Authorization {
 	 * @param user
 	 * @return UserEntity instance of <pre>user.userId</pre>
 	 */
-	public UserEntity doBasicAuthorization(User user) {
+	public UserEntity doBasicAuthorization(UserAuthentication user) {
 		if (user == null || user.getUserId() == null) {
 			throw new AuthorizationException(AuthorizationException.Type.USER_NOT_REGISTERED);
 		}
@@ -51,7 +51,7 @@ public class Authorization {
 	 * @param userId
 	 * @return the result of <pre>doBasicAuthorization(User user)</pre>
 	 */
-	public UserEntity validateIdentityAndDoBasicAuthorization(User user, Integer userId) {
+	public UserEntity validateIdentityAndDoBasicAuthorization(UserAuthentication user, Integer userId) {
 		UserEntity userEntity = doBasicAuthorization(user);
 		validateIdentity(userEntity, userId);
 		return userEntity;

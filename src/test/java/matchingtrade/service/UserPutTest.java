@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import javax.transaction.Transactional;
 
+import matchingtrade.authentication.UserAuthentication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +16,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import matchingtrade.authentication.User;
 import matchingtrade.authorization.AuthorizationException;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.persistence.dao.UserDao;
@@ -52,7 +52,7 @@ public class UserPutTest {
 		
 		// Mock SessionProvicer
 		SessionProvider sessionProviderMock = mock(SessionProvider.class);
-		User userMocked = new User();
+		UserAuthentication userMocked = new UserAuthentication();
 		userMocked.setAuthenticated(true);
 		userMocked.setEmail(userJson.getEmail());
 		userMocked.setName(userJson.getName());
@@ -63,7 +63,7 @@ public class UserPutTest {
 		userService.setSessionProvider(sessionProviderMock);
 		
 		// Store it so it can be reused in other tests
-		IntegrationTestStore.put(User.class.getSimpleName(), userMocked);
+		IntegrationTestStore.put(UserAuthentication.class.getSimpleName(), userMocked);
 	}
 	
 	@Test

@@ -2,10 +2,10 @@ package matchingtrade.model;
 
 import javax.transaction.Transactional;
 
+import matchingtrade.authentication.UserAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import matchingtrade.authentication.User;
 import matchingtrade.persistence.dao.TradeListDao;
 import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.TradeListEntity;
@@ -21,7 +21,7 @@ public class TradeListModel {
 	UserDao userDao;
 
 	@Transactional
-	public TradeListEntity post(User user, TradeListEntity entity) {
+	public TradeListEntity post(UserAuthentication user, TradeListEntity entity) {
     	UserEntity userEntity = userDao.get(user.getUserId());
     	userEntity.getTradeLists().add(entity);
     	userDao.save(userEntity);

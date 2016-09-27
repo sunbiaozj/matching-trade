@@ -67,7 +67,7 @@ public class AuthenticationOAuthGoogle implements AuthenticationOAuth {
 	}
 
 	@Override
-	public User obtainUserInformation(String accessToken) throws AuthenticationException {
+	public UserAuthentication obtainUserInformation(String accessToken) throws AuthenticationException {
 		URI uri = null;
 		try {
 			uri = new URIBuilder()
@@ -98,7 +98,7 @@ public class AuthenticationOAuthGoogle implements AuthenticationOAuth {
 			@SuppressWarnings("unchecked")
 			Map<String,Object> userInfoMap = jacksonObjectMapper.readValue(respString.toString(), Map.class);
 
-			User result = new User();
+			UserAuthentication result = new UserAuthentication();
 			result.setEmail(userInfoMap.get("email").toString());
 			result.setName(userInfoMap.get("name").toString());
 			return result;
