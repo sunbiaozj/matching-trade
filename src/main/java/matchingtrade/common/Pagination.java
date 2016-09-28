@@ -20,9 +20,13 @@ public class Pagination {
 	public Pagination(Integer page, Integer limit, Long total) {
 		if (page != null && page > 0) {
 			this.page = page;
+		} else {
+			this.page = 1;
 		}
-		if (limit != null && limit >0) {
+		if (limit != null && limit > 0) {
 			this.limit = limit;
+		} else {
+			this.limit = 10;
 		}
 		this.total = total;
 	}

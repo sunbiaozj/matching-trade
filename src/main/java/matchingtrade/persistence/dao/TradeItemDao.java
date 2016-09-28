@@ -31,42 +31,44 @@ public class TradeItemDao extends Dao<TradeItemEntity> {
 
 	@Transactional
 	public SearchResult<TradeItemEntity> search(SearchCriteria searchCriteria) {
-		Session session = getCurrentSession();
-		Criteria ct = session.createCriteria(UserEntity.class);
+		Criteria mainCriteria = buildSearchCriteria(searchCriteria, getCurrentSession());
+		Criteria paginationCriteria = buildSearchCriteria(searchCriteria, getCurrentSession());
+		// Get pagination from paginationCriteria
+		Pagination resultPagination = PersistenceUtil.getPagination(searchCriteria.getPagination(), paginationCriteria);
+		// Apply pagination parameters to the main criteria
+		PersistenceUtil.applyPaginationToCriteria(resultPagination, mainCriteria);
+		// Set Result Transformer
+		mainCriteria.setResultTransformer(new AliasToBeanResultTransformer(TradeItemEntity.class));
+		// List results
+		List<TradeItemEntity> resultList = mainCriteria.list();
+		// Return results
+		SearchResult<TradeItemEntity> result = new SearchResult<>(resultList, resultPagination);
+		return result;
+	}
+
+	private Criteria buildSearchCriteria(SearchCriteria searchCriteria, Session session) {
+		Criteria result = session.createCriteria(UserEntity.class);
+		String tradeListsAlias = UserEntity.Field.tradeLists.toString();
+		String tradeItemAlias = TradeListEntity.Field.tradeItems.toString();
 
 		// Create Alias
-		ct.createAlias(UserEntity.Field.tradeLists.toString(), "tl");
-		ct.createAlias(UserEntity.Field.tradeLists.toString() + "." + TradeListEntity.Field.tradeItems.toString(), "ti");
+		result.createAlias(UserEntity.Field.tradeLists.toString(), tradeListsAlias);
+		result.createAlias(UserEntity.Field.tradeLists + "." + TradeListEntity.Field.tradeItems, tradeItemAlias);
 
 		// Projection List
+		tradeItemAlias+=".";
 		ProjectionList pl = Projections.projectionList();
-		pl.add(Projections.property("ti."+TradeItemEntity.Field.tradeItemId.toString()), TradeItemEntity.Field.tradeItemId.toString());
-		pl.add(Projections.property("ti."+TradeItemEntity.Field.name.toString()), TradeItemEntity.Field.name.toString());
-		pl.add(Projections.property("ti."+TradeItemEntity.Field.description.toString()), TradeItemEntity.Field.description.toString());
-		ct.setProjection(pl);
+		pl.add(Projections.property(tradeItemAlias+ TradeItemEntity.Field.tradeItemId), TradeItemEntity.Field.tradeItemId.toString());
+		pl.add(Projections.property(tradeItemAlias+TradeItemEntity.Field.name), TradeItemEntity.Field.name.toString());
+		pl.add(Projections.property(tradeItemAlias+TradeItemEntity.Field.description), TradeItemEntity.Field.description.toString());
+		result.setProjection(pl);
 
 		// Add Criterion
 		for (Criterion c : searchCriteria.getCriteria()) {
 			if (c.getField().equals(UserEntity.Field.userId)) {
-				ct.add(Restrictions.eq(UserEntity.Field.userId.toString(), c.getValue()));
+				result.add(Restrictions.eq(UserEntity.Field.userId.toString(), c.getValue()));
 			}
 		}
-
-		// Set Result Transformer
-		ct.setResultTransformer(new AliasToBeanResultTransformer(TradeItemEntity.class));
-
-		// Apply Pagination 
-//		Pagination resultPagination = PersistenceUtil.getPagination(searchCriteria.getPagination(), ct);
-
-		// Apply Order By
-//		PersistenceUtil.applyOrderBy(searchCriteria, ct);
-		
-		// List results
-		@SuppressWarnings("unchecked")
-		List<TradeItemEntity> resultList = ct.list();
-		
-		// Return results
-		SearchResult<TradeItemEntity> result = new SearchResult<>(resultList, searchCriteria.getPagination());
 		return result;
 	}
 

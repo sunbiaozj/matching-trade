@@ -42,4 +42,5 @@ public abstract class Dao<T extends Entity> {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(entity);
     }
+
 }

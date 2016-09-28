@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
+import matchingtrade.validator.TradeItemValidator;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,8 @@ public class TradeItemService {
 	@Autowired
 	private TradeItemModel model;
 	private TradeItemTransformer transformer = new TradeItemTransformer();
+	@Autowired
+	private TradeItemValidator validator;
 
     @POST
     @Produces("application/json")
@@ -84,6 +87,8 @@ public class TradeItemService {
     		@QueryParam("_limit") Integer _limit) {
     	// Check authorization for this operation
     	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
+		// Validate the request
+		validator.validateSearch(_page, _limit);
     	// Transform the request
     	SearchCriteria sc = new SearchCriteria(new Pagination(_page, _limit));
     	sc.addCriterion(UserEntity.Field.userId, sessionProvider.getUserAuthentication().getUserId());

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import matchingtrade.validator.ValidationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,11 +40,24 @@ public class TradeItemGetTest {
 	
 	@Test
 	@Rollback(false)
-	public void get() {
+	public void getWithPaginationPositive() {
 		SearchResult<TradeItemJson> response = service.get(1, 3);
 		List<TradeItemJson> result = response.getResultList();
 		assertNotNull(result);
-		assertTrue(result.size() > 0);
+		assertTrue(result.size() > 0 && result.size() <= 3);
+	}
+
+	@Test
+	@Rollback(false)
+	public void getWithPaginationNegative() {
+		boolean throwsException = false;
+		try {
+			SearchResult<TradeItemJson> response = service.get(1, -1);
+			System.out.print(response.getPagination().getTotal());
+		} catch (ValidationException e) {
+			throwsException = true;
+		}
+		assertTrue(throwsException);
 	}
 
 }

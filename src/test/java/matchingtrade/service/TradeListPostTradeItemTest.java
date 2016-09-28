@@ -33,7 +33,6 @@ public class TradeListPostTradeItemTest {
 			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
 		service.setSessionProvider(sessionProviderMock);
 	}
-	
 
 	@Test
 	@Rollback(false)
@@ -43,14 +42,6 @@ public class TradeListPostTradeItemTest {
 		TradeItemJson response = service.post(previousTradeListJson.getTradeListId(), request);
 		Assert.assertNotNull(response);
 		Assert.assertNotNull(response.getTradeItemId());
-	}
-	
-	@Test
-	@Rollback(false)
-	public void postExtraData() {
-		post();
-		post();
-		post();
 	}
 
 }

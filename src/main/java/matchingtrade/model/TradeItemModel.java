@@ -28,11 +28,6 @@ public class TradeItemModel {
 		if (searchCriteria.getOrderBy().isEmpty()) {
 			//TODO Refactor SearchCriteria.Order
 			searchCriteria.addOrderBy(Order.desc("ti."+TradeItemEntity.Field.updatedDateTime.toString()));
-			System.out.println(TradeItemEntity.Field.updatedDateTime.getClass().getSimpleName());
-			System.out.println(TradeItemEntity.Field.updatedDateTime.getClass().getName());
-			System.out.println(TradeItemEntity.Field.updatedDateTime.getClass().getDeclaringClass());
-			System.out.println(TradeItemEntity.Field.updatedDateTime.getClass().getDeclaringClass().getSimpleName());
-			System.out.println(TradeItemEntity.Field.updatedDateTime.getClass().getDeclaringClass().getCanonicalName());
 		}
     	SearchResult<TradeItemEntity> result = tradeItemDao.search(searchCriteria);
     	return result;
