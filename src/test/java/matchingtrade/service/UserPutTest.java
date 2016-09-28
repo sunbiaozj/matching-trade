@@ -58,7 +58,7 @@ public class UserPutTest {
 		userMocked.setName(userJson.getName());
 		userMocked.setNewUser(true);
 		userMocked.setUserId(userJson.getUserId());
-		when(sessionProviderMock.getUser()).thenReturn(userMocked);
+		when(sessionProviderMock.getUserAuthentication()).thenReturn(userMocked);
 		
 		userService.setSessionProvider(sessionProviderMock);
 		

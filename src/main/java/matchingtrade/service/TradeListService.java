@@ -1,7 +1,6 @@
 package matchingtrade.service;
 import java.util.List;
 
-import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,31 +9,27 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
-import matchingtrade.authentication.UserAuthentication;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import matchingtrade.authorization.TradeListAuthorization;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.TradeListModel;
-import matchingtrade.persistence.dao.TradeListDao;
-import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.persistence.entity.TradeListEntity;
 import matchingtrade.service.json.JsonArrayList;
-import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.service.json.TradeListJson;
-import matchingtrade.transformer.TradeItemTransformer;
 import matchingtrade.transformer.TradeListTransformer;
 
 @Path("/tradelists")
 @Service
 public class TradeListService {
 	
+	@Autowired
+	TradeListAuthorization authorization;
 	private SessionProvider sessionProvider;
 	@Autowired
 	private TradeListModel model;
-	@Autowired
-	private TradeListDao tradeListDao;
 	private TradeListTransformer transformer = new TradeListTransformer();
 	
     
@@ -42,15 +37,16 @@ public class TradeListService {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/")
-    public List<TradeListJson> get() {    	
-    	List<TradeListEntity> searchResult = tradeListDao.getAll();
-    	
-    	TradeListTransformer transformer = new TradeListTransformer();
+    public List<TradeListJson> get() {
+		// Check authorization for this operation
+    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
+    	// Delegate to model layer
+    	List<TradeListEntity> searchResult = model.getAll();
+    	// Transform the response
     	List<TradeListJson> result = new JsonArrayList<TradeListJson>();
     	for (TradeListEntity e : searchResult) {
 			result.add(transformer.transform(e));
 		}
-    	
         return result;
     }
 
@@ -59,42 +55,29 @@ public class TradeListService {
     @Consumes("application/json")
     @Path("/{tradeListId}")
     public TradeListJson get(@PathParam("tradeListId") Integer tradeListId) {
-    	// Validate the request
-    	// TODO: Add validation here
+    	// Check authorization for this operation
+    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
+    	authorization.authorizeGet(sessionProvider.getUserAuthentication(), tradeListId);
     	// Delegate to model layer
     	TradeListEntity tradeListEntity = model.get(tradeListId);
     	// Transform the response
-    	TradeListTransformer transformer = new TradeListTransformer();
-		return transformer.transform(tradeListEntity);
-    }
-    
-    @GET
-    @Produces("application/json")
-    @Consumes("application/json")
-    @Path("/{tradeListId}/tradeitems/")
-    @Transactional
-    public List<TradeItemJson> getTradeItems(@PathParam("tradeListId") Integer tradeListId) {
-    	List<TradeItemJson> result = new JsonArrayList<>();
-    	TradeListEntity tradeListEntity = tradeListDao.get(tradeListId);
-    	TradeItemTransformer transformer = new TradeItemTransformer();
-    	for (TradeItemEntity e : tradeListEntity.getTradeItems()) {
-    		result.add(transformer.transform(e));
-    	}
+    	TradeListJson result = transformer.transform(tradeListEntity);
 		return result;
     }
-
+    
     @POST
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/")
     public TradeListJson post(TradeListJson requestJson) {
+    	// Check authorization for this operation
+    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
     	// Validate the request
     	// TODO: Add validation here
     	// Transform the request
     	TradeListEntity requestEntity = transformer.transform(requestJson);
     	// Delegate to model layer
-		UserAuthentication user = sessionProvider.getUser();
-    	TradeListEntity resultEntity = model.post(user, requestEntity);
+    	TradeListEntity resultEntity = model.post(sessionProvider.getUserAuthentication(), requestEntity);
     	// Transform the response
     	TradeListJson resultJson = transformer.transform(resultEntity);
         return resultJson;

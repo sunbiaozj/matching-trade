@@ -28,7 +28,7 @@ public class TradeListPostTest {
 	public void before() {
 		sessionProviderMock = Mockito.mock(SessionProvider.class);
 		Mockito
-			.when(sessionProviderMock.getUser())
+			.when(sessionProviderMock.getUserAuthentication())
 			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
 		tradeListService.setSessionProvider(sessionProviderMock);
 	}

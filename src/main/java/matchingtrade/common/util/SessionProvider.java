@@ -14,7 +14,7 @@ public class SessionProvider {
 		this.context = context;
 	}
 	
-	public UserAuthentication getUser() {
+	public UserAuthentication getUserAuthentication() {
     	HttpServletRequest request = context.getHttpServletRequest();
     	HttpSession  session = request.getSession(true);
 		UserAuthentication user = (UserAuthentication) session.getAttribute("user");

@@ -14,11 +14,20 @@ import org.springframework.stereotype.Service;
 import matchingtrade.authorization.Authorization;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.UserModel;
-import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.transformer.UserTransformer;
 import matchingtrade.validator.UserValidator;
+
+
+
+// Check authorization for this operation
+// Validate the request
+// Transform the request
+// Delegate to model layer
+// Transform the response
+
+
 
 @Path("/users")
 @Service
@@ -27,8 +36,6 @@ public class UserService {
 	@Autowired
 	Authorization authorization;
 	private SessionProvider sessionProvider;
-	@Autowired
-	private UserDao userDao;
 	@Autowired
 	private UserModel model;
 	@Autowired
@@ -41,8 +48,7 @@ public class UserService {
 	@Path("/{userId}")
 	public UserJson get(@PathParam("userId") Integer userId) {
 		// Check authorization for this operation
-		authorization.validateIdentityAndDoBasicAuthorization(sessionProvider.getUser(), userId);
-		// Validate the request: nothing to validate
+		authorization.validateIdentityAndDoBasicAuthorization(sessionProvider.getUserAuthentication(), userId);
 		// Delegate to model layer
 		UserEntity userEntity = model.get(userId);
 		// Transform the response
@@ -56,12 +62,13 @@ public class UserService {
     @Path("/")
     public UserJson put(UserJson requestJson) {
 		// Check authorization for this operation
-		authorization.validateIdentityAndDoBasicAuthorization(sessionProvider.getUser(), requestJson.getUserId());
+		authorization.validateIdentityAndDoBasicAuthorization(sessionProvider.getUserAuthentication(), requestJson.getUserId());
     	// Validate the request
 		validator.validatePut(requestJson);
+		// Transform the request
+		UserEntity requestEntity = model.get(requestJson.getUserId());
+		transformer.transform(requestJson, requestEntity);
     	// Delegate to model layer
-    	UserEntity requestEntity = userDao.get(requestJson.getUserId());
-    	transformer.transform(requestJson, requestEntity);
     	UserEntity resultEntity = model.put(requestEntity);
     	// Transform the response
     	UserJson result = transformer.transform(resultEntity);

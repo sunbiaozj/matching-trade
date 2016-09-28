@@ -1,11 +1,13 @@
 package matchingtrade.model;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
-import matchingtrade.authentication.UserAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.persistence.dao.TradeListDao;
 import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.TradeListEntity;
@@ -28,8 +30,14 @@ public class TradeListModel {
     	return entity;
 	}
 
+	@Transactional
 	public TradeListEntity get(Integer tradeListId) {
 		return tradeListDao.get(tradeListId);
+	}
+	
+	@Transactional
+	public List<TradeListEntity> getAll() {
+		return tradeListDao.getAll();
 	}
 
 }

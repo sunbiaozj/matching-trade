@@ -28,14 +28,14 @@ public class TradeListGetTest {
 	public void before() {
 		sessionProviderMock = Mockito.mock(SessionProvider.class);
 		Mockito
-			.when(sessionProviderMock.getUser())
+			.when(sessionProviderMock.getUserAuthentication())
 			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
 		tradeListService.setSessionProvider(sessionProviderMock);
 	}
 	
 	@Test
 	@Rollback(false)
-	public void post() {
+	public void get() {
 		TradeListJson previousJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
 		TradeListJson responseJson = tradeListService.get(previousJson.getTradeListId());
 		assertNotNull(responseJson);
