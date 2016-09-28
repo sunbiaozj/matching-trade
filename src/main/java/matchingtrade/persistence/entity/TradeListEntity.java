@@ -20,6 +20,10 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "trade_list")
 public class TradeListEntity {
+	
+	public enum Field {
+		tradeListId, name, tradeItems, updatedDateTime
+	}
 
 	private Integer tradeListId;
 	private String name;

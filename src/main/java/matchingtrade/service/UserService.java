@@ -59,7 +59,7 @@ public class UserService {
 		UserEntity requestEntity = model.get(requestJson.getUserId());
 		transformer.transform(requestJson, requestEntity);
     	// Delegate to model layer
-    	UserEntity resultEntity = model.put(requestEntity);
+    	UserEntity resultEntity = model.save(requestEntity);
     	// Transform the response
     	UserJson result = transformer.transform(resultEntity);
         return result;

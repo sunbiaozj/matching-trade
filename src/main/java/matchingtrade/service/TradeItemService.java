@@ -22,6 +22,7 @@ import matchingtrade.common.SearchResult;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.TradeItemModel;
 import matchingtrade.persistence.entity.TradeItemEntity;
+import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.JsonArrayList;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.transformer.TradeItemTransformer;
@@ -81,8 +82,14 @@ public class TradeItemService {
     public SearchResult<TradeItemJson> get(
     		@QueryParam("_page") Integer _page,
     		@QueryParam("_limit") Integer _limit) {
+    	// Check authorization for this operation
+    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
+    	// Transform the request
     	SearchCriteria sc = new SearchCriteria(new Pagination(_page, _limit));
+    	sc.addCriterion(UserEntity.Field.userId, sessionProvider.getUserAuthentication().getUserId());
+    	// Delegate to model
     	SearchResult<TradeItemEntity> searchResultEntity = model.search(sc);
+    	// Transform the result
     	List<TradeItemJson> resultList = new JsonArrayList<TradeItemJson>();
     	for (TradeItemEntity e : searchResultEntity.getResultList()) {
     		TradeItemJson j = transformer.transform(e);

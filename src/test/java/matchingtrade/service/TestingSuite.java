@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 		UserGetTest.class,
 		TradeListPostTest.class,
 		TradeListGetTest.class,
-		TradeItemPostTest.class,
+		TradeListPostTradeItemTest.class,
 		TradeItemGetTest.class
 	})
 

@@ -10,9 +10,9 @@ public class TradeListRandom {
 		result.setName(randomGenerator.nextName());
 
 		TradeItemRandom tradeItemRandom = new TradeItemRandom();
-		result.getTradeItems().add(tradeItemRandom.get());
-		result.getTradeItems().add(tradeItemRandom.get());
-		result.getTradeItems().add(tradeItemRandom.get());
+		result.getTradeItems().add(tradeItemRandom.next());
+		result.getTradeItems().add(tradeItemRandom.next());
+		result.getTradeItems().add(tradeItemRandom.next());
 		
 		return result;
 	}

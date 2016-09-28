@@ -15,10 +15,14 @@ import org.springframework.stereotype.Service;
 
 import matchingtrade.authorization.TradeListAuthorization;
 import matchingtrade.common.util.SessionProvider;
+import matchingtrade.model.TradeItemModel;
 import matchingtrade.model.TradeListModel;
+import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.persistence.entity.TradeListEntity;
 import matchingtrade.service.json.JsonArrayList;
+import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.service.json.TradeListJson;
+import matchingtrade.transformer.TradeItemTransformer;
 import matchingtrade.transformer.TradeListTransformer;
 
 @Path("/tradelists")
@@ -31,6 +35,9 @@ public class TradeListService {
 	@Autowired
 	private TradeListModel model;
 	private TradeListTransformer transformer = new TradeListTransformer();
+	@Autowired
+	private TradeItemModel tradeItemModel;
+	private TradeItemTransformer tradeItemTransformer = new TradeItemTransformer();
 	
     
     @GET
@@ -77,9 +84,27 @@ public class TradeListService {
     	// Transform the request
     	TradeListEntity requestEntity = transformer.transform(requestJson);
     	// Delegate to model layer
-    	TradeListEntity resultEntity = model.post(sessionProvider.getUserAuthentication(), requestEntity);
+    	TradeListEntity resultEntity = model.save(sessionProvider.getUserAuthentication(), requestEntity);
     	// Transform the response
     	TradeListJson resultJson = transformer.transform(resultEntity);
+        return resultJson;
+    }
+    
+    @POST
+    @Produces("application/json")
+    @Consumes("application/json")
+    @Path("/{tradeListId}/tradeitems")
+    public TradeItemJson post(@PathParam("tradeListId") Integer tradeListId, TradeItemJson requestJson) {
+    	// Check authorization for this operation
+    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
+    	// Validate the request
+    	// TODO: Add validation here
+    	// Transform the request
+    	TradeItemEntity requestEntity = tradeItemTransformer.transform(requestJson);
+    	// Delegate to model layer
+    	TradeItemEntity resultEntity = tradeItemModel.save(tradeListId, requestEntity);
+    	// Transform the response
+    	TradeItemJson resultJson = tradeItemTransformer.transform(resultEntity);
         return resultJson;
     }
 

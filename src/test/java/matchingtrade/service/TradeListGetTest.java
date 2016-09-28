@@ -22,7 +22,7 @@ public class TradeListGetTest {
 	
 	private SessionProvider sessionProviderMock;
 	@Autowired
-	private TradeListService tradeListService;
+	private TradeListService service;
 	
 	@Before
 	public void before() {
@@ -30,14 +30,14 @@ public class TradeListGetTest {
 		Mockito
 			.when(sessionProviderMock.getUserAuthentication())
 			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
-		tradeListService.setSessionProvider(sessionProviderMock);
+		service.setSessionProvider(sessionProviderMock);
 	}
 	
 	@Test
 	@Rollback(false)
 	public void get() {
 		TradeListJson previousJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
-		TradeListJson responseJson = tradeListService.get(previousJson.getTradeListId());
+		TradeListJson responseJson = service.get(previousJson.getTradeListId());
 		assertNotNull(responseJson);
 		assertEquals(previousJson.getName(), responseJson.getName());
 		assertEquals(previousJson.getTradeItems().size(), responseJson.getTradeItems().size());

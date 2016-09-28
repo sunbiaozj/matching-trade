@@ -3,8 +3,6 @@ package matchingtrade.test;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 public class IntegrationTestStore {
 	
 	private static Map<String, Object> store = new HashMap<>();

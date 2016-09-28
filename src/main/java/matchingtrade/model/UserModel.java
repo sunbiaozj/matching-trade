@@ -21,7 +21,7 @@ public class UserModel {
 	}
 
 	@Transactional
-	public UserEntity put(UserEntity entity) {
+	public UserEntity save(UserEntity entity) {
 		userDao.save(entity);
 		return entity;
 	}

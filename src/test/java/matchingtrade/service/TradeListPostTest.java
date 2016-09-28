@@ -1,6 +1,5 @@
 package matchingtrade.service;
 
-import matchingtrade.authentication.UserAuthentication;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.IntegrationTestStore;
@@ -22,7 +22,7 @@ public class TradeListPostTest {
 	
 	private SessionProvider sessionProviderMock;
 	@Autowired
-	private TradeListService tradeListService;
+	private TradeListService service;
 	
 	@Before
 	public void before() {
@@ -30,14 +30,14 @@ public class TradeListPostTest {
 		Mockito
 			.when(sessionProviderMock.getUserAuthentication())
 			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
-		tradeListService.setSessionProvider(sessionProviderMock);
+		service.setSessionProvider(sessionProviderMock);
 	}
 	
 	@Test
 	@Rollback(false)
 	public void post() {
 		TradeListJson requestJson = new TradeListRandom().next();
-		TradeListJson responseJson = tradeListService.post(requestJson);
+		TradeListJson responseJson = service.post(requestJson);
 		Assert.assertNotNull(responseJson);
 		Assert.assertNotNull(responseJson.getTradeListId());
 		Assert.assertNotNull(responseJson.getTradeItems());
@@ -45,5 +45,5 @@ public class TradeListPostTest {
 		// Store it so it can be reused in other tests
 		IntegrationTestStore.put(TradeListPostTest.class.getSimpleName(), responseJson);
 	}
-
+	
 }

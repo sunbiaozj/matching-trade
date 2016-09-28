@@ -13,16 +13,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeItemJson;
+import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.IntegrationTestStore;
 import matchingtrade.test.random.TradeItemRandom;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/application-context-web.xml"})
-public class TradeItemPostTest {
+public class TradeListPostTradeItemTest {
 	
 	private SessionProvider sessionProviderMock;
 	@Autowired
-	private TradeItemService service;
+	private TradeListService service;
 
 	@Before
 	public void before() {
@@ -37,11 +38,19 @@ public class TradeItemPostTest {
 	@Test
 	@Rollback(false)
 	public void post() {
-		TradeItemJson request = new TradeItemRandom().get();
-		TradeItemJson response = service.post(request);
-		
+		TradeItemJson request = new TradeItemRandom().next();
+		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
+		TradeItemJson response = service.post(previousTradeListJson.getTradeListId(), request);
 		Assert.assertNotNull(response);
 		Assert.assertNotNull(response.getTradeItemId());
+	}
+	
+	@Test
+	@Rollback(false)
+	public void postExtraData() {
+		post();
+		post();
+		post();
 	}
 
 }

@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class UserEntity {
 	
+	public enum Field {
+		userId, email, name, role, tradeLists
+	}
+	
 	public enum Role {
 		ADMINISTRATOR, USER
 	}

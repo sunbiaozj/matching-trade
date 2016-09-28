@@ -23,7 +23,7 @@ public class TradeListModel {
 	UserDao userDao;
 
 	@Transactional
-	public TradeListEntity post(UserAuthentication user, TradeListEntity entity) {
+	public TradeListEntity save(UserAuthentication user, TradeListEntity entity) {
     	UserEntity userEntity = userDao.get(user.getUserId());
     	userEntity.getTradeLists().add(entity);
     	userDao.save(userEntity);
