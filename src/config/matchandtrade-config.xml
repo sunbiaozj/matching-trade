@@ -31,6 +31,9 @@
 	<!--
 		For testing purposes use "AuthenticationOAuthTestExistingUser" if you want to mock an authentication server.
 		<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
+		
+		For real OAuth implementations use "AuthenticationOAuthGoogle"
+		<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthGoogle"/>
 	-->
 	<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
 	

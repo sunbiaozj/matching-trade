@@ -21,7 +21,7 @@ import matchingtrade.persistence.entity.TradeListEntity;
 public class TradeItemDao extends Dao<TradeItemEntity> {
 
 	@Override
-	protected Class getEntityClass() {
+	protected Class<TradeItemEntity> getEntityClass() {
 		return TradeItemEntity.class;
 	}
 

@@ -9,13 +9,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 
+import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import matchingtrade.authorization.TradeItemAuthorization;
 import matchingtrade.common.Pagination;
 import matchingtrade.common.SearchCriteria;
 import matchingtrade.common.SearchResult;
+import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.TradeItemModel;
 import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.service.json.JsonArrayList;
@@ -27,8 +31,10 @@ import matchingtrade.transformer.TradeItemTransformer;
 public class TradeItemService {
 	
 	@Autowired
-	TradeItemModel tradeItemModel;
-	
+	private TradeItemAuthorization authorization;
+	private SessionProvider sessionProvider;
+	@Autowired
+	private TradeItemModel model;
 	private TradeItemTransformer transformer = new TradeItemTransformer();
 
     @POST
@@ -36,8 +42,15 @@ public class TradeItemService {
     @Consumes("application/json")
     @Path("/")
     public TradeItemJson post(TradeItemJson requestJson) {
+    	// Check authorization for this operation
+    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
+    	// Validate the request
+    	// TODO add validation
+    	// Transform the request
     	TradeItemEntity requestEntity = transformer.transform(requestJson);
-    	tradeItemModel.save(requestEntity);
+    	// Delegate to model layer
+    	model.save(requestEntity);
+    	// Transform the response
     	TradeItemJson result = transformer.transform(requestEntity);
         return result;
     }
@@ -47,9 +60,16 @@ public class TradeItemService {
     @Consumes("application/json")
     @Path("/")
     public TradeItemJson put(TradeItemJson requestJson) {
-    	TradeItemEntity requestEntity = tradeItemModel.get(requestJson.getTradeItemId());
+    	// Check authorization for this operation
+    	authorization.verifyIfUserIsAuthorizedOverTheResource(sessionProvider.getUserAuthentication(), requestJson.getTradeItemId());
+    	// Validate the request
+    	// TODO add validation
+    	// Transform the request
+    	TradeItemEntity requestEntity = model.get(requestJson.getTradeItemId());
     	transformer.transform(requestJson, requestEntity);
-    	tradeItemModel.save(requestEntity);
+    	// Delegate to model layer
+    	model.save(requestEntity);
+    	// Transform the response
     	TradeItemJson result = transformer.transform(requestEntity);
         return result;
     }
@@ -62,7 +82,7 @@ public class TradeItemService {
     		@QueryParam("_page") Integer _page,
     		@QueryParam("_limit") Integer _limit) {
     	SearchCriteria sc = new SearchCriteria(new Pagination(_page, _limit));
-    	SearchResult<TradeItemEntity> searchResultEntity = tradeItemModel.search(sc);
+    	SearchResult<TradeItemEntity> searchResultEntity = model.search(sc);
     	List<TradeItemJson> resultList = new JsonArrayList<TradeItemJson>();
     	for (TradeItemEntity e : searchResultEntity.getResultList()) {
     		TradeItemJson j = transformer.transform(e);
@@ -77,8 +97,24 @@ public class TradeItemService {
     @Consumes("application/json")
     @Path("/{tradeItemId}")
     public TradeItemJson get(@PathParam("tradeItemId") Integer tradeItemId) {
-    	TradeItemEntity tradeItemEntity = tradeItemModel.get(tradeItemId);
+    	// Check authorization for this operation
+    	authorization.verifyIfUserIsAuthorizedOverTheResource(sessionProvider.getUserAuthentication(), tradeItemId);
+    	// Delegate to model
+    	TradeItemEntity tradeItemEntity = model.get(tradeItemId);
+    	// Transform the response
     	TradeItemJson result = transformer.transform(tradeItemEntity);
         return result;
     }
+    
+	/**
+	 * Used for dependency injection by the web container using JAX-RS
+	 */
+	@Context
+	public void setContext(MessageContext context){
+		sessionProvider = new SessionProvider(context);
+	}
+	
+	public void setSessionProvider(SessionProvider sessionProvider) {
+		this.sessionProvider = sessionProvider;
+	}
 }

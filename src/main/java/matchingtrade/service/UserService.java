@@ -19,22 +19,12 @@ import matchingtrade.service.json.UserJson;
 import matchingtrade.transformer.UserTransformer;
 import matchingtrade.validator.UserValidator;
 
-
-
-// Check authorization for this operation
-// Validate the request
-// Transform the request
-// Delegate to model layer
-// Transform the response
-
-
-
 @Path("/users")
 @Service
 public class UserService {
 
 	@Autowired
-	Authorization authorization;
+	private Authorization authorization;
 	private SessionProvider sessionProvider;
 	@Autowired
 	private UserModel model;

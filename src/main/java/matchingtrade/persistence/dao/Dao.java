@@ -17,7 +17,8 @@ public abstract class Dao<T extends Entity> {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Transactional
+    @SuppressWarnings("unchecked")
+	@Transactional
     public T get(Integer id) {
         Session session = sessionFactory.getCurrentSession();
         return (T) session.get(getEntityClass(), id);
@@ -34,7 +35,7 @@ public abstract class Dao<T extends Entity> {
      *
      * @return Entity used as generic for this class
      */
-    protected abstract Class getEntityClass();
+    protected abstract Class<T> getEntityClass();
 
     @Transactional
     public void save(T entity) {
