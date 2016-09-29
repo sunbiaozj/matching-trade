@@ -25,7 +25,7 @@ import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.JsonArrayList;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.transformer.TradeItemTransformer;
-import matchingtrade.validator.TradeItemValidator;
+import matchingtrade.validator.Validator;
 
 @Path("/tradeitems")
 @Service
@@ -38,7 +38,7 @@ public class TradeItemService {
 	private TradeItemModel model;
 	private TradeItemTransformer transformer = new TradeItemTransformer();
 	@Autowired
-	private TradeItemValidator validator;
+	private Validator validator;
 
     @PUT
     @Produces("application/json")
@@ -69,7 +69,7 @@ public class TradeItemService {
     	// Check authorization for this operation
     	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
 		// Validate the request
-		validator.validateSearch(_page, _limit);
+		validator.validatePagination(_page, _limit);
     	// Transform the request
     	SearchCriteria sc = new SearchCriteria(new Pagination(_page, _limit));
     	sc.addCriterion(UserEntity.Field.userId, sessionProvider.getUserAuthentication().getUserId());

@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "trade_list")
-public class TradeListEntity {
+public class TradeListEntity implements matchingtrade.persistence.entity.Entity {
 	
 	public enum Field {
 		tradeListId, name, tradeItems, updatedDateTime

@@ -29,6 +29,7 @@ public class UserDao {
 		return (UserEntity) session.get(UserEntity.class, userId);
 	}
 
+	@Transactional
 	public UserEntity get(String email) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria c = session.createCriteria(UserEntity.class);

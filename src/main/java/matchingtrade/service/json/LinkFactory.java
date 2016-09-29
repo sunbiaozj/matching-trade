@@ -9,7 +9,7 @@ import matchingtrade.service.TradeItemService;
 import matchingtrade.service.TradeListService;
 import matchingtrade.service.UserService;
 
-public class JsonFactory {
+public class LinkFactory {
 
 	private JsonLink buildLinks(String baseUri) {
 		JsonLink self = new JsonLink();
@@ -35,7 +35,7 @@ public class JsonFactory {
 		
 		JsonLink tradeItem = new JsonLink();
 		tradeItem.setHref(baseUri + tradeListUri + "/" + jsonAsTradeList.getTradeListId() + "/" + "tradeitems");
-		tradeItem.setRel("tradeItems");
+		tradeItem.setRel("tradeitems");
 		result.add(tradeItem);
 	}
 	
@@ -45,6 +45,12 @@ public class JsonFactory {
 		self.setHref(baseUri + resourceUri + "/" + jsonAsUserJson.getUserId());
 		self.setRel("_self");
 		result.add(self);
+
+		JsonLink tradeList = new JsonLink();
+		tradeList.setHref(baseUri + resourceUri + "/" + jsonAsUserJson.getUserId() + "/" + "tradelists");
+		tradeList.setRel("tradelists");
+		result.add(tradeList);
+
 	}
 
 	public Set<JsonLink> getLinks(String baseUri, Json json) {

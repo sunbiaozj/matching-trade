@@ -8,7 +8,7 @@ import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.UserJson;
 
 @Component
-public class UserValidator {
+public class UserValidator extends Validator {
 
 	@Autowired
 	private UserDao dao;

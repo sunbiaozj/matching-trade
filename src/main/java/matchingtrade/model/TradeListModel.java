@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import matchingtrade.authentication.UserAuthentication;
+import matchingtrade.common.SearchCriteria;
+import matchingtrade.common.SearchResult;
 import matchingtrade.persistence.dao.TradeListDao;
 import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.TradeListEntity;
@@ -31,6 +33,11 @@ public class TradeListModel {
 	@Transactional
 	public TradeListEntity get(Integer tradeListId) {
 		return tradeListDao.get(tradeListId);
+	}
+
+	public SearchResult<TradeListEntity> search(SearchCriteria sc) {
+    	SearchResult<TradeListEntity> result = tradeListDao.search(sc);
+    	return result;
 	}
 	
 }

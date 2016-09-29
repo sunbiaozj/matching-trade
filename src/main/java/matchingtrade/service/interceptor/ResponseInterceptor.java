@@ -11,7 +11,7 @@ import javax.ws.rs.ext.Provider;
 import matchingtrade.common.SearchResult;
 import matchingtrade.service.json.Json;
 import matchingtrade.service.json.JsonArrayList;
-import matchingtrade.service.json.JsonFactory;
+import matchingtrade.service.json.LinkFactory;
 import matchingtrade.service.json.JsonLinkSupport;
 import matchingtrade.service.json.JsonResponse;
 
@@ -27,44 +27,49 @@ import matchingtrade.service.json.JsonResponse;
 @Provider
 public class ResponseInterceptor implements ContainerResponseFilter {
 
-	private JsonFactory jsonFactory = new JsonFactory();
+	private LinkFactory linkFactory = new LinkFactory();
 
 	@Override
 	public void filter(ContainerRequestContext request, ContainerResponseContext response) throws IOException {
-		Object responseEntity = response.getEntity();
-		if ((responseEntity instanceof SearchResult) || (responseEntity instanceof Json)) {
+		Object responseEntity = buildResponseEntity(request, response, response.getEntity());
+		response.setEntity(responseEntity);
+	}
+
+	Object buildResponseEntity(ContainerRequestContext request, ContainerResponseContext response,	Object responseEntity) {
+		Object result = responseEntity;
+		if (result instanceof SearchResult || result instanceof Json) {
 			JsonResponse jsonResponse = new JsonResponse();
 			String requestedUri = request.getUriInfo().getRequestUri().toString();
 			jsonResponse.set_requestedUri(requestedUri);
 
-			Object jsonData = null;
+			Object responseData = null;
 			
-			if (responseEntity instanceof SearchResult) {
-				SearchResult<?> searchResult = (SearchResult<?>) responseEntity;
+			if (result instanceof SearchResult) {
+				SearchResult<?> searchResult = (SearchResult<?>) result;
 				jsonResponse.set_pagination(searchResult.getPagination());
-				jsonData = searchResult.getResultList();
-			} else if (responseEntity instanceof Json) {
-				jsonData = responseEntity;
+				responseData = searchResult.getResultList();
+			} else if (result instanceof Json) {
+				responseData = result;
 			}
 
 			String baseUri = request.getUriInfo().getBaseUri().toString();
-			loadLinks(jsonData, baseUri, jsonResponse);
+			Json jsonData = loadLinks(responseData, baseUri);
+			jsonResponse.setData(jsonData);
 
 			// Assign status and the new entity to the Response
 			response.setStatus(Response.Status.OK.getStatusCode());
-			response.setEntity(jsonResponse);
+			result = jsonResponse;
 		}
+		return result;
 	}
 	
-	private void loadLinks(Object json, String baseUri, JsonResponse jsonResponse) {
-		if (json == null) {
-			return;
-		}
+	private Json loadLinks(Object json, String baseUri) {
+		Json result = null;
 		// Creates links for single Json objects
 		if (json instanceof JsonLinkSupport) {
 			JsonLinkSupport jsonData = (JsonLinkSupport) json;
-			jsonData.set_links(jsonFactory.getLinks(baseUri, jsonData));
-			jsonResponse.setData(jsonData);
+			jsonData.set_links(linkFactory.getLinks(baseUri, jsonData));
+			result = jsonData;
 		}
 
 		// Creates links for single JsonArrayList objects
@@ -74,10 +79,11 @@ public class ResponseInterceptor implements ContainerResponseFilter {
 			for (Json j : jsonData) {
 				if (j instanceof JsonLinkSupport) {
 					JsonLinkSupport jsonSupportLink = (JsonLinkSupport) j;
-					jsonSupportLink.set_links(jsonFactory.getLinks(baseUri, jsonSupportLink));
+					jsonSupportLink.set_links(linkFactory.getLinks(baseUri, jsonSupportLink));
 				}
 			}
-			jsonResponse.setData(jsonData);
+			result = jsonData;
 		}
+		return result;
 	}
 }
