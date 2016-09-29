@@ -1,6 +1,4 @@
 package matchingtrade.service;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,7 +17,6 @@ import matchingtrade.model.TradeItemModel;
 import matchingtrade.model.TradeListModel;
 import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.persistence.entity.TradeListEntity;
-import matchingtrade.service.json.JsonArrayList;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.transformer.TradeItemTransformer;
@@ -39,24 +36,6 @@ public class TradeListService {
 	private TradeItemModel tradeItemModel;
 	private TradeItemTransformer tradeItemTransformer = new TradeItemTransformer();
 	
-    
-    @GET
-    @Produces("application/json")
-    @Consumes("application/json")
-    @Path("/")
-    public List<TradeListJson> get() {
-		// Check authorization for this operation
-    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
-    	// Delegate to model layer
-    	List<TradeListEntity> searchResult = model.getAll();
-    	// Transform the response
-    	List<TradeListJson> result = new JsonArrayList<TradeListJson>();
-    	for (TradeListEntity e : searchResult) {
-			result.add(transformer.transform(e));
-		}
-        return result;
-    }
-
     @GET
     @Produces("application/json")
     @Consumes("application/json")

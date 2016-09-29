@@ -1,11 +1,8 @@
 package matchingtrade.persistence.dao;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -32,7 +29,6 @@ public class UserDao {
 		return (UserEntity) session.get(UserEntity.class, userId);
 	}
 
-	@Transactional
 	public UserEntity get(String email) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria c = session.createCriteria(UserEntity.class);
@@ -41,12 +37,4 @@ public class UserDao {
 		return result;
 	}
 	
-	@Transactional
-	public List<UserEntity> getAll() {
-		Session session = sessionFactory.getCurrentSession();
-		Query query=session.createQuery("FROM UserEntity");
-		@SuppressWarnings("unchecked")
-		List<UserEntity> result = query.list();
-		return result;
-	}
 }

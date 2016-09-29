@@ -3,7 +3,6 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,7 +10,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
-import matchingtrade.validator.TradeItemValidator;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +25,7 @@ import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.JsonArrayList;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.transformer.TradeItemTransformer;
+import matchingtrade.validator.TradeItemValidator;
 
 @Path("/tradeitems")
 @Service
@@ -41,29 +40,11 @@ public class TradeItemService {
 	@Autowired
 	private TradeItemValidator validator;
 
-    @POST
-    @Produces("application/json")
-    @Consumes("application/json")
-    @Path("/")
-    public TradeItemJson post(TradeItemJson requestJson) {
-    	// Check authorization for this operation
-    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
-    	// Validate the request
-    	// TODO add validation
-    	// Transform the request
-    	TradeItemEntity requestEntity = transformer.transform(requestJson);
-    	// Delegate to model layer
-    	model.save(requestEntity);
-    	// Transform the response
-    	TradeItemJson result = transformer.transform(requestEntity);
-        return result;
-    }
-    
     @PUT
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/")
-    public TradeItemJson put(TradeItemJson requestJson) {
+	public TradeItemJson put(TradeItemJson requestJson) {
     	// Check authorization for this operation
     	authorization.verifyIfUserIsAuthorizedOverTheResource(sessionProvider.getUserAuthentication(), requestJson.getTradeItemId());
     	// Validate the request

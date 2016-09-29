@@ -40,6 +40,7 @@ public class TradeItemDao extends Dao<TradeItemEntity> {
 		// Set Result Transformer
 		mainCriteria.setResultTransformer(new AliasToBeanResultTransformer(TradeItemEntity.class));
 		// List results
+		@SuppressWarnings("unchecked")
 		List<TradeItemEntity> resultList = mainCriteria.list();
 		// Return results
 		SearchResult<TradeItemEntity> result = new SearchResult<>(resultList, resultPagination);

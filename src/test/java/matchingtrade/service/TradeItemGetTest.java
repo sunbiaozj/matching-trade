@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import matchingtrade.validator.ValidationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +19,7 @@ import matchingtrade.common.SearchResult;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.test.IntegrationTestStore;
+import matchingtrade.validator.ValidationException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/application-context-web.xml"})
@@ -37,6 +37,16 @@ public class TradeItemGetTest {
 			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
 		service.setSessionProvider(sessionProviderMock);
 	}
+
+	@Test
+	@Rollback(false)
+	public void get() {
+		TradeItemJson previousJson = (TradeItemJson) IntegrationTestStore.get(TradeItemJson.class.getSimpleName());
+		TradeItemJson response = service.get(previousJson.getTradeItemId());
+		assertNotNull(response);
+		assertNotNull(response.getName());
+		assertNotNull(response.getDescription());
+	}	
 	
 	@Test
 	@Rollback(false)
@@ -49,15 +59,26 @@ public class TradeItemGetTest {
 
 	@Test
 	@Rollback(false)
-	public void getWithPaginationNegative() {
+	public void getWithPaginationNegativeLimit() {
 		boolean throwsException = false;
 		try {
-			SearchResult<TradeItemJson> response = service.get(1, -1);
-			System.out.print(response.getPagination().getTotal());
+			service.get(1, -1);
 		} catch (ValidationException e) {
 			throwsException = true;
 		}
 		assertTrue(throwsException);
 	}
 
+	@Test
+	@Rollback(false)
+	public void getWithPaginationNegativePage() {
+		boolean throwsException = false;
+		try {
+			service.get(-3, 3);
+		} catch (ValidationException e) {
+			throwsException = true;
+		}
+		assertTrue(throwsException);
+	}
+	
 }

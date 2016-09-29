@@ -40,7 +40,7 @@ public class UserPutTest {
 	@Rollback(false)
 	@Before
 	public void before() {
-		// Create a user which is going to be updated via PUT
+		// Create a UserJson which is going to be updated via PUT
 		UserRandom userRandom = new UserRandom();
 		userJson = userRandom.next();
 		UserTransformer userTransformer = new UserTransformer();
@@ -48,7 +48,6 @@ public class UserPutTest {
 		userEntity.setRole(UserEntity.Role.USER);
 		userDao.save(userEntity);
 		userJson = userTransformer.transform(userEntity);
-		
 		
 		// Mock SessionProvicer
 		SessionProvider sessionProviderMock = mock(SessionProvider.class);
@@ -91,6 +90,19 @@ public class UserPutTest {
 		assertTrue(throwsException);
 	}
 
+	@Test
+	@Rollback(false)
+	public void updateUserWithoutUserId() {
+		boolean throwsException = false;
+		try {
+			userJson.setUserId(null);
+			userService.put(userJson);
+		} catch (AuthorizationException e){
+			throwsException = true;
+		}
+		assertTrue(throwsException);
+	}
+	
 	@Test
 	@Rollback(false)
 	public void updateNameNotAuthorized() {

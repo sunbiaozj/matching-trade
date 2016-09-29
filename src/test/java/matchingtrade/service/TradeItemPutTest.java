@@ -1,6 +1,7 @@
 package matchingtrade.service;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,18 +14,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeItemJson;
-import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.IntegrationTestStore;
-import matchingtrade.test.random.TradeItemRandom;
+import matchingtrade.test.random.RandomString;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/application-context-web.xml"})
-public class TradeListPostTradeItemTest {
+public class TradeItemPutTest {
 	
 	private SessionProvider sessionProviderMock;
 	@Autowired
-	private TradeListService service;
-
+	private TradeItemService service;
+	
 	@Before
 	public void before() {
 		sessionProviderMock = Mockito.mock(SessionProvider.class);
@@ -36,14 +36,17 @@ public class TradeListPostTradeItemTest {
 
 	@Test
 	@Rollback(false)
-	public void post() {
-		TradeItemJson request = new TradeItemRandom().next();
-		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
-		TradeItemJson response = service.post(previousTradeListJson.getTradeListId(), request);
-		Assert.assertNotNull(response);
-		Assert.assertNotNull(response.getTradeItemId());
-		IntegrationTestStore.put(TradeItemJson.class.getSimpleName(), response);
+	public void putPositive() {
+		TradeItemJson previousJson = (TradeItemJson) IntegrationTestStore.get(TradeItemJson.class.getSimpleName());
+		RandomString random = new RandomString();
+		TradeItemJson requestJson = new TradeItemJson();
+		requestJson.setTradeItemId(previousJson.getTradeItemId());
+		requestJson.setName(random.nextName());
+		requestJson.setDescription(random.nextDescription());
+		TradeItemJson responseJson = service.put(requestJson);
+		assertNotEquals(previousJson.getDescription(), responseJson.getDescription());
+		assertNotEquals(previousJson.getName(), responseJson.getName());
+		IntegrationTestStore.put(TradeItemJson.class.getSimpleName(), responseJson);
 	}
 	
-
 }

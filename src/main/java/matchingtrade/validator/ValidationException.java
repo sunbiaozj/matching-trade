@@ -5,7 +5,9 @@ package matchingtrade.validator;
  */
 public class ValidationException extends RuntimeException {
 
-    public enum Type {
+	private static final long serialVersionUID = -8260859911615409990L;
+
+	public enum Type {
         MANDATORY_PARAMETER_MISSING, INVALID_PARAMETER
     }
 

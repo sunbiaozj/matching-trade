@@ -1,6 +1,7 @@
 package matchingtrade.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import matchingtrade.authentication.UserAuthentication;
+import matchingtrade.authorization.AuthorizationException;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
 
@@ -31,4 +33,22 @@ public class UserGetTest {
 		assertNotNull(userJson.getEmail());
 	}
 
+	@Test
+	@Rollback(false)
+	public void getInexistingUser() {
+		boolean throwsException = false;
+		try {
+			userService.get(-1000);
+		} catch (AuthorizationException e) {
+			throwsException = true;
+		}
+		assertTrue(throwsException);
+		throwsException = false;
+		try {
+			userService.get(null);
+		} catch (AuthorizationException e) {
+			throwsException = true;
+		}
+		assertTrue(throwsException);
+	}
 }

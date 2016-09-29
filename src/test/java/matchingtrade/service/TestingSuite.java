@@ -12,7 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 		TradeListPostTest.class,
 		TradeListGetTest.class,
 		TradeListPostTradeItemTest.class,
-		TradeItemGetTest.class
+		TradeItemGetTest.class,
+		TradeItemPutTest.class
 	})
 
 @ContextConfiguration(locations={"/application-context-web.xml"})

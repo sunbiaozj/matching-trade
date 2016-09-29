@@ -1,11 +1,9 @@
 package matchingtrade.common.util;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 
 import matchingtrade.common.Pagination;
-import matchingtrade.common.SearchCriteria;
 
 public class PersistenceUtil {
 

@@ -1,7 +1,5 @@
 package matchingtrade.model;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +33,4 @@ public class TradeListModel {
 		return tradeListDao.get(tradeListId);
 	}
 	
-	@Transactional
-	public List<TradeListEntity> getAll() {
-		return tradeListDao.getAll();
-	}
-
 }
