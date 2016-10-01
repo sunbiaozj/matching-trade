@@ -5,7 +5,7 @@ import matchingtrade.service.json.TradeListJson;
 public class TradeListRandom {
 	
 	public TradeListJson next() {
-		RandomString randomGenerator = new RandomString();
+		StringRandom randomGenerator = new StringRandom();
 		TradeListJson result = new TradeListJson();
 		result.setName(randomGenerator.nextName());
 
@@ -14,6 +14,12 @@ public class TradeListRandom {
 		result.getTradeItems().add(tradeItemRandom.next());
 		result.getTradeItems().add(tradeItemRandom.next());
 		
+		return result;
+	}
+	
+	public TradeListJson next(Integer tradeListId) {
+		TradeListJson result = next();
+		result.setTradeListId(tradeListId);
 		return result;
 	}
 

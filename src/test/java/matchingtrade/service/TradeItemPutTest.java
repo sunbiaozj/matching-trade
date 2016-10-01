@@ -15,7 +15,7 @@ import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.test.IntegrationTestStore;
-import matchingtrade.test.random.RandomString;
+import matchingtrade.test.random.StringRandom;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/application-context-web.xml"})
@@ -38,7 +38,7 @@ public class TradeItemPutTest {
 	@Rollback(false)
 	public void putPositive() {
 		TradeItemJson previousJson = (TradeItemJson) IntegrationTestStore.get(TradeItemJson.class.getSimpleName());
-		RandomString random = new RandomString();
+		StringRandom random = new StringRandom();
 		TradeItemJson requestJson = new TradeItemJson();
 		requestJson.setTradeItemId(previousJson.getTradeItemId());
 		requestJson.setName(random.nextName());

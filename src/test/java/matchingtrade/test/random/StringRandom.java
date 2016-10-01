@@ -2,7 +2,7 @@ package matchingtrade.test.random;
 
 import java.util.Random;
 
-public class RandomString {
+public class StringRandom {
 	
 	String[] adjectives = {
 			"able",

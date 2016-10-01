@@ -18,9 +18,8 @@ import matchingtrade.service.json.JsonResponse;
 /**
  * Response interceptor responsible for generating hypermedia for Json
  * objects.<br>
- * - If Response.getEntity() is a Json object; then, creates Hypermedia for
+ * If Response.getEntity() is a Json object; then, creates Hypermedia for
  * it.<br>
- * -
  * 
  * @author rafael.santos.bra@gmail.com
  */
@@ -31,35 +30,42 @@ public class ResponseInterceptor implements ContainerResponseFilter {
 
 	@Override
 	public void filter(ContainerRequestContext request, ContainerResponseContext response) throws IOException {
-		Object responseEntity = buildResponseEntity(request, response, response.getEntity());
-		response.setEntity(responseEntity);
+		Object responseEntity = response.getEntity();
+
+		// Assign status and respective entity to the response
+		if (responseEntity == null) {
+			response.setStatus(Response.Status.NOT_FOUND.getStatusCode());
+		} else if (responseEntity instanceof SearchResult || responseEntity instanceof Json) {
+			response.setStatus(Response.Status.OK.getStatusCode());
+			JsonResponse jsonResponse = buildResponseEntity(request, responseEntity);
+			response.setEntity(jsonResponse);
+		}
 	}
 
-	Object buildResponseEntity(ContainerRequestContext request, ContainerResponseContext response,	Object responseEntity) {
-		Object result = responseEntity;
-		if (result instanceof SearchResult || result instanceof Json) {
-			JsonResponse jsonResponse = new JsonResponse();
-			String requestedUri = request.getUriInfo().getRequestUri().toString();
-			jsonResponse.set_requestedUri(requestedUri);
+	/**
+	 * Builds a <i>JsonResponse</i>. <i>reponseEntity</i> must be an instance of <i>SearchResult</i> or <i>Json</i>.
+	 * @param request
+	 * @param responseEntity
+	 * @return a JsonResponse with pagination and links based on the <i>responseEntity</i>
+	 */
+	JsonResponse buildResponseEntity(ContainerRequestContext request, Object responseEntity) {
+		JsonResponse result = new JsonResponse();
+		Object responseData = null;
 
-			Object responseData = null;
-			
-			if (result instanceof SearchResult) {
-				SearchResult<?> searchResult = (SearchResult<?>) result;
-				jsonResponse.set_pagination(searchResult.getPagination());
-				responseData = searchResult.getResultList();
-			} else if (result instanceof Json) {
-				responseData = result;
-			}
-
-			String baseUri = request.getUriInfo().getBaseUri().toString();
-			Json jsonData = loadLinks(responseData, baseUri);
-			jsonResponse.setData(jsonData);
-
-			// Assign status and the new entity to the Response
-			response.setStatus(Response.Status.OK.getStatusCode());
-			result = jsonResponse;
+		if (responseEntity instanceof SearchResult) {
+			SearchResult<?> searchResult = (SearchResult<?>) responseEntity;
+			result.set_pagination(searchResult.getPagination());
+			responseData = searchResult.getResultList();
+		} else if (responseEntity instanceof Json) {
+			responseData = responseEntity;
 		}
+
+		String requestedUri = request.getUriInfo().getRequestUri().toString();
+		result.set_requestedUri(requestedUri);
+		String baseUri = request.getUriInfo().getBaseUri().toString();
+		Json jsonData = loadLinks(responseData, baseUri);
+
+		result.setData(jsonData);
 		return result;
 	}
 	

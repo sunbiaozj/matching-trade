@@ -22,7 +22,7 @@ import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
-import matchingtrade.test.random.RandomString;
+import matchingtrade.test.random.StringRandom;
 import matchingtrade.test.random.UserRandom;
 import matchingtrade.transformer.UserTransformer;
 
@@ -68,7 +68,7 @@ public class UserPutTest {
 	@Test
 	@Rollback(false)
 	public void updateName() {
-		RandomString randomString = new RandomString();
+		StringRandom randomString = new StringRandom();
 		String newName = randomString.nextName();
 		userJson.setName(newName);
 		userService.put(userJson);
@@ -78,7 +78,7 @@ public class UserPutTest {
 	@Test
 	@Rollback(false)
 	public void updateEmail() {
-		RandomString random = new RandomString();
+		StringRandom random = new StringRandom();
 		String newEmail = random.nextEmail();
 		userJson.setEmail(newEmail);
 		boolean throwsException = false;
@@ -106,7 +106,7 @@ public class UserPutTest {
 	@Test
 	@Rollback(false)
 	public void updateNameNotAuthorized() {
-		RandomString random = new RandomString();
+		StringRandom random = new StringRandom();
 		String newName = random.nextName();
 		userJson.setUserId(userJson.getUserId()+1);
 		userJson.setName(newName);
