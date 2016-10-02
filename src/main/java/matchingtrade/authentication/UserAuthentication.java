@@ -1,12 +1,14 @@
 package matchingtrade.authentication;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserAuthentication {
 
 	private Integer userId;
 	private boolean isAuthenticated = false;
-	private boolean isNewUser = true;
+	private Boolean isNewUser;
 	private String email;
 	private String name;
 
@@ -27,11 +29,12 @@ public class UserAuthentication {
 		this.isAuthenticated = isAuthenticated;
 	}
 
-	public boolean isNewUser() {
+	@JsonProperty("isNewUser")
+	public Boolean isNewUser() {
 		return isNewUser;
 	}
 
-	public void setNewUser(boolean isNewUser) {
+	public void setNewUser(Boolean isNewUser) {
 		this.isNewUser = isNewUser;
 	}
 

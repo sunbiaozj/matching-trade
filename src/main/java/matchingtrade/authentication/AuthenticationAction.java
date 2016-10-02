@@ -7,14 +7,11 @@ package matchingtrade.authentication;
  */
 public enum AuthenticationAction {
 
-	AUTHENTICATE, INFO, SIGNOUT;
+	AUTHENTICATE, SIGNOUT;
 
 	public static AuthenticationAction get(String s) {
 		AuthenticationAction result = null;
 		switch (s) {
-		case "info":
-			result = AuthenticationAction.INFO;
-			break;
 		case "authenticate":
 			result = AuthenticationAction.AUTHENTICATE;
 			break;

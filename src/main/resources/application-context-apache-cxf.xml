@@ -72,16 +72,31 @@
 	<!-- End of Jackson jsonProvider -->
 
 
+	<!-- Swagger. See: http://cxf.apache.org/docs/swagger2feature.html -->
+	<!-- CXF Swagger2Feature -->
+	<bean id="swagger2Feature" class="org.apache.cxf.jaxrs.swagger.Swagger2Feature">
+		<!-- customize some of the properties -->
+		<property name="basePath" value="/services/mt" />
+	</bean>
+	<!-- End of Swagger -->
+
+
+	<!-- JAX-RS Servers -->
 	<jaxrs:server id="matchingTradeServer" address="/mt">
 		<jaxrs:serviceBeans>
 			<bean class="matchingtrade.service.TradeItemService" />
 			<bean class="matchingtrade.service.TradeListService" />
 			<bean class="matchingtrade.service.UserService" />
+			<bean class="matchingtrade.service.AuthenticationService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
-			<bean class="matchingtrade.service.interceptor.ResponseInterceptor"/>
-			<ref bean="jsonProvider"/>
+			<bean class="matchingtrade.service.interceptor.ResponseInterceptor" />
+			<ref bean="jsonProvider" />
 		</jaxrs:providers>
+		<jaxrs:features>
+			<ref bean="swagger2Feature" />
+		</jaxrs:features>
 	</jaxrs:server>
+	<!-- End of JAX-RS Servers -->
 
 </beans>

@@ -14,6 +14,7 @@ import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.swagger.annotations.Api;
 import matchingtrade.authorization.TradeItemAuthorization;
 import matchingtrade.common.Pagination;
 import matchingtrade.common.SearchCriteria;
@@ -27,6 +28,7 @@ import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.transformer.TradeItemTransformer;
 import matchingtrade.validator.Validator;
 
+@Api(value = "/tradeitems")
 @Path("/tradeitems")
 @Service
 public class TradeItemService {

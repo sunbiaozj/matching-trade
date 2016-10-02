@@ -11,6 +11,7 @@ import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.swagger.annotations.Api;
 import matchingtrade.authorization.TradeListAuthorization;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.TradeItemModel;
@@ -22,6 +23,7 @@ import matchingtrade.service.json.TradeListJson;
 import matchingtrade.transformer.TradeItemTransformer;
 import matchingtrade.transformer.TradeListTransformer;
 
+@Api(value = "/tradelists")
 @Path("/tradelists")
 @Service
 public class TradeListService {

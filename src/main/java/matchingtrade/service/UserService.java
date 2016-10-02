@@ -14,6 +14,7 @@ import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.swagger.annotations.Api;
 import matchingtrade.authorization.Authorization;
 import matchingtrade.common.Pagination;
 import matchingtrade.common.SearchCriteria;
@@ -30,6 +31,7 @@ import matchingtrade.transformer.TradeListTransformer;
 import matchingtrade.transformer.UserTransformer;
 import matchingtrade.validator.UserValidator;
 
+@Api(value = "/users")
 @Path("/users")
 @Service
 public class UserService {

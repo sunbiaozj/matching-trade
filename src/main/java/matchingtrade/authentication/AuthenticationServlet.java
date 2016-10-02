@@ -8,14 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 
 import org.springframework.context.ApplicationContext;
 
 import matchingtrade.common.util.ApplicationContextProvider;
-import matchingtrade.common.util.JsonUtil;
 import matchingtrade.configuration.AuthenticationProperties;
-import matchingtrade.persistence.dao.UserDao;
-import matchingtrade.persistence.entity.UserEntity;
 
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 373664290851751809L;
@@ -27,18 +25,17 @@ public class AuthenticationServlet extends HttpServlet {
 	
 	/**
 	 * Delegates the request to the correct action.
-	 * If request.getRequestURI() ends in 'info' it returns information about the session.
 	 * If request.getRequestURI() ends in 'sing-out' it ends the session.
 	 * Otherwise proceeds with the regular user authentication process.
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AuthenticationAction targetAction = getAuthenticationAction(request);
-		if (targetAction == AuthenticationAction.INFO) {
-			response.getWriter().append(getAuthenticationInfo(request, response));
+		if (targetAction == null) {
+			response.setStatus(Response.Status.NOT_FOUND.getStatusCode());
 		} else if (targetAction == AuthenticationAction.SIGNOUT) {
 			singOut(request, response);
-		} else {
+		} else if (targetAction == AuthenticationAction.AUTHENTICATE) {
 			redirectToAuthenticationServer(request, response);
 		}
 	}
@@ -52,40 +49,18 @@ public class AuthenticationServlet extends HttpServlet {
 	 */
 	private AuthenticationAction getAuthenticationAction(HttpServletRequest request) {
 		AuthenticationAction result = null;
-		int lastPathIndex = request.getRequestURI().lastIndexOf("/");
-		if (lastPathIndex > 0) {
-			String lastPath = request.getRequestURI().substring(lastPathIndex+1);
-			result = AuthenticationAction.get(lastPath);
+		String requestUri = request.getRequestURI();
+		// Remove tailing slash if any
+		if (requestUri.lastIndexOf("/") == requestUri.length()-1) {
+			requestUri = requestUri.substring(0, requestUri.length()-1);
 		}
 		
-		if (result == null) {
-			return AuthenticationAction.AUTHENTICATE;
-		} else {
-			return result;
+		int lastPathIndex = requestUri.lastIndexOf("/");
+		if (lastPathIndex >= 0) {
+			String lastPath = requestUri.substring(lastPathIndex+1);
+			result = AuthenticationAction.get(lastPath);
 		}
-	}
-
-	private String getAuthenticationInfo(HttpServletRequest request, HttpServletResponse response) {
-		UserAuthentication user = (UserAuthentication) request.getSession().getAttribute("user");
-		// If session does not contain information from the user, then return an empty JSON string.
-		if (user == null) {
-			return "{}";
-		}
-		// If session contains information from the user but the user.userId is null, then return the user information from the session 
-		else if (user.getUserId() == null) {
-			String result = JsonUtil.toJson(user);
-			return result;
-		}
-		// Otherwise update the user from the session with the UserEntity.name and UserEntity.email from the local database to avoid potential synchronization problems.
-		else {
-			UserDao userDao = (UserDao) context.getBean(UserDao.class);
-			UserEntity userEntity = userDao.get(user.getUserId());
-			user.setEmail(userEntity.getEmail());
-			user.setName(userEntity.getName());
-			request.getSession().setAttribute("user", user);
-			String result = JsonUtil.toJson(user);
-			return result;
-		}
+		return result;
 	}
 
 	private void redirectToAuthenticationServer(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -99,6 +74,6 @@ public class AuthenticationServlet extends HttpServlet {
 	
 	private void singOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.getSession().invalidate();
-		response.sendRedirect("/");
+		response.setStatus(Response.Status.OK.getStatusCode());
 	}
 }
