@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 		UserPutTest.class,
 		UserGetTest.class,
 		UserPostTradeListsTest.class,
+		UserGetTradeListTest.class,
 		TradeListPostTest.class,
 		TradeListGetTest.class,
 		TradeListPostTradeItemTest.class,
@@ -18,6 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 	})
 
 @ContextConfiguration(locations={"/application-context-web.xml"})
-public class TestingSuite {
+public class ServiceSuite {
 
 } 

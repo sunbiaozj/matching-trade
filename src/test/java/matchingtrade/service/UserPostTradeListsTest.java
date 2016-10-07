@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,7 +33,7 @@ import static org.mockito.Mockito.when;
 public class UserPostTradeListsTest {
 
 	@Autowired
-	private UserService userService;
+	private UserService service;
 
 	@Test
 	@Rollback(false)
@@ -42,7 +43,7 @@ public class UserPostTradeListsTest {
 		TradeListJson request = new TradeListJson();
 		StringRandom stringRandom = new StringRandom();
 		request.setName(stringRandom.nextName());
-		TradeListJson response = userService.postTradeLists(user.getUserId(), request);
+		TradeListJson response = service.postTradeLists(user.getUserId(), request);
 		assertNotNull(response.getTradeListId());
 	}
 

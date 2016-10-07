@@ -22,19 +22,9 @@ import matchingtrade.test.IntegrationTestStore;
 @ContextConfiguration(locations={"/application-context-test.xml", "/application-context-web.xml"})
 public class UserGetTradeListTest {
 
-	private SessionProvider sessionProviderMock;
 	@Autowired
 	private UserService service;
-	
-	@Before
-	public void before() {
-		sessionProviderMock = Mockito.mock(SessionProvider.class);
-		Mockito
-			.when(sessionProviderMock.getUserAuthentication())
-			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
-		service.setSessionProvider(sessionProviderMock);
-	}
-	
+
 	@Test
 	@Rollback(false)
 	public void getTradeLists() {

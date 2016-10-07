@@ -19,20 +19,10 @@ import matchingtrade.test.IntegrationTestStore;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/application-context-test.xml", "/application-context-web.xml" })
 public class TradeListGetTest {
-	
-	private SessionProvider sessionProviderMock;
+
 	@Autowired
 	private TradeListService service;
-	
-	@Before
-	public void before() {
-		sessionProviderMock = Mockito.mock(SessionProvider.class);
-		Mockito
-			.when(sessionProviderMock.getUserAuthentication())
-			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
-		service.setSessionProvider(sessionProviderMock);
-	}
-	
+
 	@Test
 	@Rollback(false)
 	public void get() {

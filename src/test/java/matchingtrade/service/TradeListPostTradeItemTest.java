@@ -20,7 +20,7 @@ import matchingtrade.test.random.TradeItemRandom;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/application-context-web.xml"})
 public class TradeListPostTradeItemTest {
-	
+
 	private SessionProvider sessionProviderMock;
 	@Autowired
 	private TradeListService service;
@@ -44,6 +44,5 @@ public class TradeListPostTradeItemTest {
 		Assert.assertNotNull(response.getTradeItemId());
 		IntegrationTestStore.put(TradeItemJson.class.getSimpleName(), response);
 	}
-	
 
 }

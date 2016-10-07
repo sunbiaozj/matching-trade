@@ -20,19 +20,9 @@ import matchingtrade.test.random.StringRandom;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/application-context-web.xml"})
 public class TradeItemPutTest {
-	
-	private SessionProvider sessionProviderMock;
+
 	@Autowired
 	private TradeItemService service;
-	
-	@Before
-	public void before() {
-		sessionProviderMock = Mockito.mock(SessionProvider.class);
-		Mockito
-			.when(sessionProviderMock.getUserAuthentication())
-			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
-		service.setSessionProvider(sessionProviderMock);
-	}
 
 	@Test
 	@Rollback(false)
