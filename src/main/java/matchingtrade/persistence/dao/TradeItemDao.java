@@ -2,7 +2,7 @@ package matchingtrade.persistence.dao;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;

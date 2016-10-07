@@ -2,7 +2,7 @@ package matchingtrade.model;
 
 import java.util.Date;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;

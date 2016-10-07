@@ -188,6 +188,7 @@
 				</configuration>
 			</plugin>
 
+			<!-- See: http://tomcat.apache.org/maven-plugin-2.1/tomcat7-maven-plugin/plugin-info.html -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>

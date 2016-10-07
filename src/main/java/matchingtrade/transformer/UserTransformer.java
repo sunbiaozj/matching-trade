@@ -4,7 +4,7 @@ import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.UserJson;
 
 public class UserTransformer {
-
+	
 	public UserEntity transform(UserJson json) {
 		return transform(json, null);
 	}
@@ -24,6 +24,7 @@ public class UserTransformer {
 		result.setEmail(json.getEmail());
 		result.setName(json.getName());
 		result.setUserId(json.getUserId());
+		
 		return result;
 	}
 	
@@ -35,6 +36,7 @@ public class UserTransformer {
 		result.setEmail(entity.getEmail());
 		result.setName(entity.getName());
 		result.setUserId(entity.getUserId());
+		
 		return result;
 	}
 	

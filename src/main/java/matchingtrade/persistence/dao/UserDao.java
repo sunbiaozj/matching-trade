@@ -1,6 +1,6 @@
 package matchingtrade.persistence.dao;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -12,23 +12,11 @@ import org.springframework.stereotype.Component;
 import matchingtrade.persistence.entity.UserEntity;
 
 @Component
-public class UserDao {
+public class UserDao extends Dao<UserEntity> {
 
 	@Autowired
 	SessionFactory sessionFactory;
 	
-	@Transactional
-	public void save(UserEntity userEntity) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(userEntity);
-	}
-	
-	@Transactional
-	public UserEntity get(Integer userId) {
-		Session session = sessionFactory.getCurrentSession();
-		return (UserEntity) session.get(UserEntity.class, userId);
-	}
-
 	@Transactional
 	public UserEntity get(String email) {
 		Session session = sessionFactory.getCurrentSession();
@@ -36,6 +24,11 @@ public class UserDao {
 		c.add(Restrictions.eq("email", email));
 		UserEntity result = (UserEntity) c.uniqueResult();
 		return result;
+	}
+
+	@Override
+	protected Class<UserEntity> getEntityClass() {
+		return UserEntity.class;
 	}
 	
 }

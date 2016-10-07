@@ -40,7 +40,6 @@ public class TradeListPostTest {
 		TradeListJson responseJson = service.post(requestJson);
 		Assert.assertNotNull(responseJson);
 		Assert.assertNotNull(responseJson.getTradeListId());
-		Assert.assertNotNull(responseJson.getTradeItems());
 		
 		// Store it so it can be reused in other tests
 		IntegrationTestStore.put(TradeListPostTest.class.getSimpleName(), responseJson);

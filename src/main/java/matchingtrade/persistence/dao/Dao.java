@@ -3,10 +3,10 @@ package matchingtrade.persistence.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import matchingtrade.persistence.entity.Entity;
 
-import javax.transaction.Transactional;
 
 /**
  * Generic Dao class to handle the most common operations performed by every Dao.
@@ -18,13 +18,12 @@ public abstract class Dao<T extends Entity> {
     private SessionFactory sessionFactory;
 
     @SuppressWarnings("unchecked")
-	@Transactional
+    @Transactional
     public T get(Integer id) {
         Session session = sessionFactory.getCurrentSession();
         return (T) session.get(getEntityClass(), id);
     }
 
-    @Transactional
     Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }

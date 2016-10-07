@@ -8,12 +8,6 @@ public class TradeListRandom {
 		StringRandom randomGenerator = new StringRandom();
 		TradeListJson result = new TradeListJson();
 		result.setName(randomGenerator.nextName());
-
-		TradeItemRandom tradeItemRandom = new TradeItemRandom();
-		result.getTradeItems().add(tradeItemRandom.next());
-		result.getTradeItems().add(tradeItemRandom.next());
-		result.getTradeItems().add(tradeItemRandom.next());
-		
 		return result;
 	}
 	

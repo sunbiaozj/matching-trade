@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class UserEntity {
+public class UserEntity implements matchingtrade.persistence.entity.Entity {
 	
 	public enum Field {
 		userId, email, name, role, tradeLists

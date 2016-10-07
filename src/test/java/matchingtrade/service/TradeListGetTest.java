@@ -40,7 +40,6 @@ public class TradeListGetTest {
 		TradeListJson responseJson = service.get(previousJson.getTradeListId());
 		assertNotNull(responseJson);
 		assertEquals(previousJson.getName(), responseJson.getName());
-		assertEquals(previousJson.getTradeItems().size(), responseJson.getTradeItems().size());
 		assertEquals(previousJson.getTradeListId(), responseJson.getTradeListId());
 	}
 

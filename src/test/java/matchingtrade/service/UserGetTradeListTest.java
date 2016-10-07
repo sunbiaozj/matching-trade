@@ -39,7 +39,7 @@ public class UserGetTradeListTest {
 	@Rollback(false)
 	public void getTradeLists() {
 		UserAuthentication previousUserAuthentication = (UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName());
-		SearchResult<TradeListJson> responseJson = service.get(previousUserAuthentication.getUserId(), 1, 2);
+		SearchResult<TradeListJson> responseJson = service.getTradeLists(previousUserAuthentication.getUserId(), 1, 2);
 		assertNotNull(responseJson);
 		assertTrue(responseJson.getResultList().size() > 0);
 	}
