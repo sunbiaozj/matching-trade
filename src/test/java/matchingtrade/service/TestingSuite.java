@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 @SuiteClasses({
 		UserPutTest.class,
 		UserGetTest.class,
+		UserPostTradeListsTest.class,
 		TradeListPostTest.class,
 		TradeListGetTest.class,
 		TradeListPostTradeItemTest.class,

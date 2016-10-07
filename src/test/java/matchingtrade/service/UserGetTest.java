@@ -31,6 +31,7 @@ public class UserGetTest {
 		assertNotNull(userJson.getUserId());
 		assertNotNull(userJson.getName());
 		assertNotNull(userJson.getEmail());
+		IntegrationTestStore.put(UserJson.class.getSimpleName(), userJson);
 	}
 
 	@Test
