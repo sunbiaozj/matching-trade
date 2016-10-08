@@ -3,7 +3,7 @@ package matchingtrade.validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import matchingtrade.persistence.dao.UserDao;
+import matchingtrade.model.UserModel;
 import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.UserJson;
 
@@ -11,10 +11,14 @@ import matchingtrade.service.json.UserJson;
 public class UserValidator extends Validator {
 
 	@Autowired
-	private UserDao dao;
+	private UserModel userModel;
 
-	public void validatePut(UserJson json) {
-		UserEntity userEntity = dao.get(json.getUserId());
+	public void validatePut(Integer userId, UserJson json) {
+		if (json.getUserId() != null && !json.getUserId().equals(userId)) {
+			throw new IllegalArgumentException("User.userId: ["+json.getUserId()+"] does not match the resource URI /users/{userId}.");
+		}
+		
+		UserEntity userEntity = userModel.get(userId);
 		if (userEntity == null) {
 			throw new IllegalArgumentException("Cannot update user with UserJson.userId: ["+json.getUserId()+"]. User does not exist.");
 		}

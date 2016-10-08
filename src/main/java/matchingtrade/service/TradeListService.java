@@ -56,24 +56,6 @@ public class TradeListService {
     @POST
     @Produces("application/json")
     @Consumes("application/json")
-    @Path("/")
-    public TradeListJson post(TradeListJson requestJson) {
-    	// Check authorization for this operation
-    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
-    	// Validate the request
-    	// TODO: Add validation here
-    	// Transform the request
-    	TradeListEntity requestEntity = transformer.transform(requestJson);
-    	// Delegate to model layer
-    	TradeListEntity resultEntity = model.save(sessionProvider.getUserAuthentication(), requestEntity);
-    	// Transform the response
-    	TradeListJson resultJson = transformer.transform(resultEntity);
-        return resultJson;
-    }
-    
-    @POST
-    @Produces("application/json")
-    @Consumes("application/json")
     @Path("/{tradeListId}/tradeitems")
     public TradeItemJson post(@PathParam("tradeListId") Integer tradeListId, TradeItemJson requestJson) {
     	// Check authorization for this operation

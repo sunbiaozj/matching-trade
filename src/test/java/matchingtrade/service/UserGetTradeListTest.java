@@ -6,31 +6,36 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.common.SearchResult;
-import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeListJson;
+import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"/application-context-test.xml", "/application-context-web.xml"})
+@ContextConfiguration(locations="/application-context-test.xml")
 public class UserGetTradeListTest {
 
 	@Autowired
-	private UserService service;
+	private ServiceMockProvider serviceMockProvider;
+	private UserService userService;
+	
+	@Before
+	public void before() {
+		userService = serviceMockProvider.getUserService();
+	}
 
 	@Test
 	@Rollback(false)
 	public void getTradeLists() {
-		UserAuthentication previousUserAuthentication = (UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName());
-		SearchResult<TradeListJson> responseJson = service.getTradeLists(previousUserAuthentication.getUserId(), 1, 2);
+		UserJson previousUserJson = (UserJson) IntegrationTestStore.get(UserJson.class.getSimpleName());
+		SearchResult<TradeListJson> responseJson = userService.getTradeLists(previousUserJson.getUserId(), 1, 2);
 		assertNotNull(responseJson);
 		assertTrue(responseJson.getResultList().size() > 0);
+		assertTrue(responseJson.getResultList().size() < 3);
 	}
 }

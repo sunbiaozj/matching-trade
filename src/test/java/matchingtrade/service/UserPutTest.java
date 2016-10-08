@@ -2,12 +2,7 @@ package matchingtrade.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import org.springframework.transaction.annotation.Transactional;
-
-import matchingtrade.authentication.UserAuthentication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,61 +12,37 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import matchingtrade.authorization.AuthorizationException;
-import matchingtrade.common.util.SessionProvider;
-import matchingtrade.persistence.dao.UserDao;
-import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
 import matchingtrade.test.random.StringRandom;
-import matchingtrade.test.random.UserRandom;
-import matchingtrade.transformer.UserTransformer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"/application-context-test.xml", "/application-context-web.xml"})
+@ContextConfiguration(locations="/application-context-test.xml")
 public class UserPutTest {
 
 	@Autowired
-	private UserDao userDao;
-	@Autowired
+	private ServiceMockProvider serviceMockProvider;
 	private UserService userService;
-	private UserJson userJson;
+	private UserJson userJson = new UserJson();
 	
-	@Transactional
-	@Rollback(false)
 	@Before
 	public void before() {
-		// Create a UserJson which is going to be updated via PUT
-		UserRandom userRandom = new UserRandom();
-		userJson = userRandom.next();
-		UserTransformer userTransformer = new UserTransformer();
-		UserEntity userEntity = userTransformer.transform(userJson);
-		userEntity.setRole(UserEntity.Role.USER);
-		userDao.save(userEntity);
-		userJson = userTransformer.transform(userEntity);
-		
-		// Mock SessionProvicer
-		SessionProvider sessionProviderMock = mock(SessionProvider.class);
-		UserAuthentication userMocked = new UserAuthentication();
-		userMocked.setAuthenticated(true);
-		userMocked.setEmail(userJson.getEmail());
-		userMocked.setName(userJson.getName());
-		userMocked.setNewUser(true);
-		userMocked.setUserId(userJson.getUserId());
-		when(sessionProviderMock.getUserAuthentication()).thenReturn(userMocked);
-		
-		userService.setSessionProvider(sessionProviderMock);
-		
-		// Store it so it can be reused in other tests
-		IntegrationTestStore.put(UserAuthentication.class.getSimpleName(), userMocked);
+		userService = serviceMockProvider.getUserService();
+		UserJson previousUserJson = (UserJson) IntegrationTestStore.get(UserJson.class.getSimpleName());
+		userJson.setEmail(previousUserJson.getEmail());
+		userJson.setName(previousUserJson.getEmail());
+		userJson.setTradeLists(previousUserJson.getTradeLists());
+		userJson.setUserId(previousUserJson.getUserId());
 	}
 	
 	@Test
 	@Rollback(false)
 	public void updateName() {
+		
 		StringRandom randomString = new StringRandom();
 		String newName = randomString.nextName();
 		userJson.setName(newName);
-		userService.put(userJson);
+		userService.put(userJson.getUserId(), userJson);
 		assertEquals(newName, userJson.getName());
 	}
 	
@@ -83,7 +54,7 @@ public class UserPutTest {
 		userJson.setEmail(newEmail);
 		boolean throwsException = false;
 		try {
-			userService.put(userJson);
+			userService.put(userJson.getUserId(), userJson);
 		} catch (IllegalArgumentException e){
 			throwsException = true;
 		}
@@ -96,7 +67,7 @@ public class UserPutTest {
 		boolean throwsException = false;
 		try {
 			userJson.setUserId(null);
-			userService.put(userJson);
+			userService.put(userJson.getUserId(), userJson);
 		} catch (AuthorizationException e){
 			throwsException = true;
 		}
@@ -112,7 +83,7 @@ public class UserPutTest {
 		userJson.setName(newName);
 		boolean throwsException = false;
 		try {
-			userService.put(userJson);
+			userService.put(userJson.getUserId(), userJson);
 		} catch (AuthorizationException e){
 			throwsException = true;
 		}

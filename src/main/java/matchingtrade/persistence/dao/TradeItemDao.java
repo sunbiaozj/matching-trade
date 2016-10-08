@@ -2,8 +2,6 @@ package matchingtrade.persistence.dao;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.ProjectionList;
@@ -11,6 +9,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import matchingtrade.common.Criterion;
 import matchingtrade.common.Pagination;
@@ -19,7 +18,6 @@ import matchingtrade.common.SearchResult;
 import matchingtrade.common.util.PersistenceUtil;
 import matchingtrade.persistence.entity.TradeItemEntity;
 import matchingtrade.persistence.entity.TradeListEntity;
-import matchingtrade.persistence.entity.UserEntity;
 
 @Component
 public class TradeItemDao extends Dao<TradeItemEntity> {
@@ -48,26 +46,24 @@ public class TradeItemDao extends Dao<TradeItemEntity> {
 	}
 
 	private Criteria buildSearchCriteria(SearchCriteria searchCriteria, Session session) {
-		Criteria result = session.createCriteria(UserEntity.class);
-		String tradeListsAlias = UserEntity.Field.tradeLists.toString();
+		Criteria result = session.createCriteria(TradeListEntity.class);
 		String tradeItemAlias = TradeListEntity.Field.tradeItems.toString();
 
 		// Create Alias
-		result.createAlias(UserEntity.Field.tradeLists.toString(), tradeListsAlias);
-		result.createAlias(UserEntity.Field.tradeLists + "." + TradeListEntity.Field.tradeItems, tradeItemAlias);
+		result.createAlias(TradeListEntity.Field.tradeItems.toString(), tradeItemAlias);
 
 		// Projection List
 		tradeItemAlias+=".";
 		ProjectionList pl = Projections.projectionList();
-		pl.add(Projections.property(tradeItemAlias+ TradeItemEntity.Field.tradeItemId), TradeItemEntity.Field.tradeItemId.toString());
-		pl.add(Projections.property(tradeItemAlias+TradeItemEntity.Field.name), TradeItemEntity.Field.name.toString());
-		pl.add(Projections.property(tradeItemAlias+TradeItemEntity.Field.description), TradeItemEntity.Field.description.toString());
+		pl.add(Projections.property(tradeItemAlias + TradeItemEntity.Field.tradeItemId), TradeItemEntity.Field.tradeItemId.toString());
+		pl.add(Projections.property(tradeItemAlias + TradeItemEntity.Field.name), TradeItemEntity.Field.name.toString());
+		pl.add(Projections.property(tradeItemAlias + TradeItemEntity.Field.description), TradeItemEntity.Field.description.toString());
 		result.setProjection(pl);
 
 		// Add Criterion
 		for (Criterion c : searchCriteria.getCriteria()) {
-			if (c.getField().equals(UserEntity.Field.userId)) {
-				result.add(Restrictions.eq(UserEntity.Field.userId.toString(), c.getValue()));
+			if (c.getField().equals(TradeListEntity.Field.tradeListId)) {
+				result.add(Restrictions.eq(TradeListEntity.Field.tradeListId.toString(), c.getValue()));
 			}
 		}
 		return result;

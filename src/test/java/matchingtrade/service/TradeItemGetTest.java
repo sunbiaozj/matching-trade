@@ -8,41 +8,35 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.common.SearchResult;
-import matchingtrade.common.util.SessionProvider;
 import matchingtrade.service.json.TradeItemJson;
+import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.IntegrationTestStore;
 import matchingtrade.validator.ValidationException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"/application-context-web.xml"})
+@ContextConfiguration(locations = "/application-context-test.xml")
 public class TradeItemGetTest {
 	
-	private SessionProvider sessionProviderMock;
 	@Autowired
-	private TradeItemService service;
+	private ServiceMockProvider serviceMockProvider;
+	private TradeItemService tradeItemService;
 	
 	@Before
 	public void before() {
-		sessionProviderMock = Mockito.mock(SessionProvider.class);
-		Mockito
-			.when(sessionProviderMock.getUserAuthentication())
-			.thenReturn((UserAuthentication)IntegrationTestStore.get(UserAuthentication.class.getSimpleName()));
-		service.setSessionProvider(sessionProviderMock);
+		tradeItemService = serviceMockProvider.getTradeItemService();
 	}
 
 	@Test
 	@Rollback(false)
 	public void get() {
-		TradeItemJson previousJson = (TradeItemJson) IntegrationTestStore.get(TradeItemJson.class.getSimpleName());
-		TradeItemJson response = service.get(previousJson.getTradeItemId());
+		TradeItemJson previousTradeItemJson = (TradeItemJson) IntegrationTestStore.get(TradeListPostTradeItemTest.class.getSimpleName());
+		TradeItemJson response = tradeItemService.get(previousTradeItemJson.getTradeItemId());
 		assertNotNull(response);
 		assertNotNull(response.getName());
 		assertNotNull(response.getDescription());
@@ -51,7 +45,8 @@ public class TradeItemGetTest {
 	@Test
 	@Rollback(false)
 	public void getWithPaginationPositive() {
-		SearchResult<TradeItemJson> response = service.get(1, 3);
+		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
+		SearchResult<TradeItemJson> response = tradeItemService.get(previousTradeListJson.getTradeListId(), 1, 3);
 		List<TradeItemJson> result = response.getResultList();
 		assertNotNull(result);
 		assertTrue(result.size() > 0 && result.size() <= 3);
@@ -60,9 +55,10 @@ public class TradeItemGetTest {
 	@Test
 	@Rollback(false)
 	public void getWithPaginationNegativeLimit() {
+		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
 		boolean throwsException = false;
 		try {
-			service.get(1, -1);
+			tradeItemService.get(previousTradeListJson.getTradeListId(), 1, -1);
 		} catch (ValidationException e) {
 			throwsException = true;
 		}
@@ -72,9 +68,10 @@ public class TradeItemGetTest {
 	@Test
 	@Rollback(false)
 	public void getWithPaginationNegativePage() {
+		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
 		boolean throwsException = false;
 		try {
-			service.get(-3, 3);
+			tradeItemService.get(previousTradeListJson.getTradeListId(), -3, 3);
 		} catch (ValidationException e) {
 			throwsException = true;
 		}

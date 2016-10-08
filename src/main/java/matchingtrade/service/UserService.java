@@ -92,14 +92,15 @@ public class UserService {
 	@PUT
     @Produces("application/json")
     @Consumes("application/json")
-    @Path("/")
-    public UserJson put(UserJson requestJson) {
+    @Path("/{userId}")
+    public UserJson put(@PathParam("userId") Integer userId, UserJson requestJson) {
 		// Check authorization for this operation
-		authorization.validateIdentityAndDoBasicAuthorization(sessionProvider.getUserAuthentication(), requestJson.getUserId());
+		authorization.validateIdentityAndDoBasicAuthorization(sessionProvider.getUserAuthentication(), userId);
     	// Validate the request
-		userValidator.validatePut(requestJson);
+		userValidator.validatePut(userId, requestJson);
 		// Transform the request
-		UserEntity requestEntity = model.get(requestJson.getUserId());
+		requestJson.setUserId(userId);
+		UserEntity requestEntity = model.get(userId);
 		userTransformer.transform(requestJson, requestEntity);
     	// Delegate to model layer
     	UserEntity resultEntity = model.save(requestEntity);

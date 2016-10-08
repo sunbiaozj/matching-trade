@@ -22,7 +22,7 @@ import matchingtrade.common.SearchResult;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.TradeItemModel;
 import matchingtrade.persistence.entity.TradeItemEntity;
-import matchingtrade.persistence.entity.UserEntity;
+import matchingtrade.persistence.entity.TradeListEntity;
 import matchingtrade.service.json.JsonArrayList;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.transformer.TradeItemTransformer;
@@ -64,8 +64,9 @@ public class TradeItemService {
     @GET
     @Produces("application/json")
     @Consumes("application/json")
-    @Path("/")
+    @Path("/{tradeListId}")
     public SearchResult<TradeItemJson> get(
+    		@PathParam("tradeListId") Integer tradeListId,
     		@QueryParam("_page") Integer _page,
     		@QueryParam("_limit") Integer _limit) {
     	// Check authorization for this operation
@@ -74,7 +75,7 @@ public class TradeItemService {
 		validator.validatePagination(_page, _limit);
     	// Transform the request
     	SearchCriteria sc = new SearchCriteria(new Pagination(_page, _limit));
-    	sc.addCriterion(UserEntity.Field.userId, sessionProvider.getUserAuthentication().getUserId());
+    	sc.addCriterion(TradeListEntity.Field.tradeListId, tradeListId);
     	// Delegate to model
     	SearchResult<TradeItemEntity> searchResultEntity = model.search(sc);
     	// Transform the result
