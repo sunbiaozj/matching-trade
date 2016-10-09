@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,8 +20,7 @@ public class TradeItemPutTest {
 	private TradeItemService service;
 
 	@Test
-	@Rollback(false)
-	public void putPositive() {
+	public void put() {
 		TradeItemJson previousTradeItemJson = (TradeItemJson) IntegrationTestStore.get(TradeListPostTradeItemTest.class.getSimpleName());
 		StringRandom random = new StringRandom();
 		TradeItemJson requestJson = new TradeItemJson();

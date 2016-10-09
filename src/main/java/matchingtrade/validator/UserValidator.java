@@ -15,15 +15,15 @@ public class UserValidator extends Validator {
 
 	public void validatePut(Integer userId, UserJson json) {
 		if (json.getUserId() != null && !json.getUserId().equals(userId)) {
-			throw new IllegalArgumentException("User.userId: ["+json.getUserId()+"] does not match the resource URI /users/{userId}.");
+			throw new IllegalArgumentException("User.userId: [" + json.getUserId() + "] does not match the resource /users/" + userId);
 		}
 		
 		UserEntity userEntity = userModel.get(userId);
 		if (userEntity == null) {
-			throw new IllegalArgumentException("Cannot update user with UserJson.userId: ["+json.getUserId()+"]. User does not exist.");
+			throw new IllegalArgumentException("Cannot update user with User.userId: [" + json.getUserId() + "]. User does not exist.");
 		}
 		if (!userEntity.getEmail().equals(json.getEmail())) {
-			throw new IllegalArgumentException("Cannot update UserJson.email on PUT operations.");
+			throw new IllegalArgumentException("Cannot update User.email on PUT operations.");
 		}
 		
 	}

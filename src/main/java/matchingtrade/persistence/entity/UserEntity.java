@@ -30,7 +30,7 @@ public class UserEntity implements matchingtrade.persistence.entity.Entity {
 	private Integer userId;
 	private String email;
 	private String name;
-	private Role role;
+	private Role role = Role.USER;
 	private Set<TradeListEntity> tradeLists = new HashSet<>(); 
 
 	@Override

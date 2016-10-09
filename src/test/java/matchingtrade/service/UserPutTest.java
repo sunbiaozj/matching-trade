@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,40 +20,33 @@ import matchingtrade.test.random.StringRandom;
 public class UserPutTest {
 
 	@Autowired
-	private ServiceMockProvider serviceMockProvider;
+	private MockProvider mockProvider;
 	private UserService userService;
-	private UserJson userJson = new UserJson();
+	private UserJson previousUserJson = new UserJson();
 	
 	@Before
 	public void before() {
-		userService = serviceMockProvider.getUserService();
-		UserJson previousUserJson = (UserJson) IntegrationTestStore.get(UserJson.class.getSimpleName());
-		userJson.setEmail(previousUserJson.getEmail());
-		userJson.setName(previousUserJson.getEmail());
-		userJson.setTradeLists(previousUserJson.getTradeLists());
-		userJson.setUserId(previousUserJson.getUserId());
+		mockProvider.initNewUserService();
+		userService = mockProvider.getUserService();
+		previousUserJson = (UserJson) IntegrationTestStore.get(UserJson.class.getSimpleName());
 	}
 	
 	@Test
-	@Rollback(false)
-	public void updateName() {
-		
-		StringRandom randomString = new StringRandom();
-		String newName = randomString.nextName();
-		userJson.setName(newName);
-		userService.put(userJson.getUserId(), userJson);
-		assertEquals(newName, userJson.getName());
+	public void putName() {
+		String newName = UserPutTest.class.getName() + ".newName";
+		previousUserJson.setName(newName);
+		userService.put(previousUserJson.getUserId(), previousUserJson);
+		assertEquals(newName, previousUserJson.getName());
 	}
 	
 	@Test
-	@Rollback(false)
-	public void updateEmail() {
+	public void putEmail() {
 		StringRandom random = new StringRandom();
 		String newEmail = random.nextEmail();
-		userJson.setEmail(newEmail);
+		previousUserJson.setEmail(newEmail);
 		boolean throwsException = false;
 		try {
-			userService.put(userJson.getUserId(), userJson);
+			userService.put(previousUserJson.getUserId(), previousUserJson);
 		} catch (IllegalArgumentException e){
 			throwsException = true;
 		}
@@ -62,12 +54,11 @@ public class UserPutTest {
 	}
 
 	@Test
-	@Rollback(false)
-	public void updateUserWithoutUserId() {
+	public void putUserWithoutUserId() {
 		boolean throwsException = false;
 		try {
-			userJson.setUserId(null);
-			userService.put(userJson.getUserId(), userJson);
+			previousUserJson.setUserId(null);
+			userService.put(previousUserJson.getUserId(), previousUserJson);
 		} catch (AuthorizationException e){
 			throwsException = true;
 		}
@@ -75,19 +66,27 @@ public class UserPutTest {
 	}
 	
 	@Test
-	@Rollback(false)
-	public void updateNameNotAuthorized() {
-		StringRandom random = new StringRandom();
-		String newName = random.nextName();
-		userJson.setUserId(userJson.getUserId()+1);
-		userJson.setName(newName);
+	public void putNotAuthorized() {
+		UserJson newUser = mockProvider.getNewUser();
 		boolean throwsException = false;
 		try {
-			userService.put(userJson.getUserId(), userJson);
+			userService.put(newUser.getUserId(), newUser);
 		} catch (AuthorizationException e){
 			throwsException = true;
 		}
 		assertTrue(throwsException);
 	}
 	
+	@Test
+	public void putInvalidUserId() {
+		UserJson newUser = mockProvider.getNewUser();
+		boolean throwsException = false;
+		try {
+			userService.put(previousUserJson.getUserId(), newUser);
+		} catch (IllegalArgumentException e){
+			throwsException = true;
+		}
+		assertTrue(throwsException);
+	}
+
 }

@@ -3,8 +3,6 @@ package matchingtrade.service;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.common.util.SessionProvider;
@@ -16,9 +14,8 @@ import matchingtrade.test.random.UserRandom;
 import matchingtrade.transformer.UserTransformer;
 
 @Component
-public class ServiceMockProvider {
+public class MockProvider {
 	
-	private boolean isInitialized = false;
 	SessionProvider sessionProviderMock;
 	@Autowired
 	private TradeItemService tradeItemService;
@@ -30,51 +27,44 @@ public class ServiceMockProvider {
 	private UserDao userDao;
 
 	public TradeItemService getTradeItemService() {
-		init();
 		tradeItemService.setSessionProvider(sessionProviderMock);
 		return tradeItemService;
 	}
 	
 	public TradeListService getTradeListService() {
-		init();
 		tradeListService.setSessionProvider(sessionProviderMock);
 		return tradeListService;
 	}
 
 	public UserService getUserService() {
-		init();
 		userService.setSessionProvider(sessionProviderMock);
 		return userService;
 	}
 	
-	@Transactional
-	@Rollback(false)
-	public void init() {
-		if (isInitialized) {
-			return;
-		}
-		// Create a UserJson and put in IntegrationTestStore
-		UserRandom userRandom = new UserRandom();
-		UserJson userJson = userRandom.next();
+	public UserJson getNewUser() {
+		UserJson newUserJson = new UserRandom().next();
 		UserTransformer userTransformer = new UserTransformer();
-		UserEntity userEntity = userTransformer.transform(userJson);
-		userEntity.setRole(UserEntity.Role.USER);
-		userDao.save(userEntity);
-		userJson = userTransformer.transform(userEntity);
+		UserEntity newUserEntity = userTransformer.transform(newUserJson);
+		userDao.save(newUserEntity);
+		UserJson result = userTransformer.transform(newUserEntity);
+		return result;
+	}
+	
+	public void initNewUserService() {
+		// Create a UserJson and put in IntegrationTestStore
+		UserJson userJson = getNewUser();
 		IntegrationTestStore.put(UserJson.class.getSimpleName(), userJson);
 		
 		// Mock SessionProvicer
 		sessionProviderMock = Mockito.mock(SessionProvider.class);
-		UserAuthentication userAuthenticationMock = new UserAuthentication();
-		userAuthenticationMock.setAuthenticated(true);
-		userAuthenticationMock.setEmail(userJson.getEmail());
-		userAuthenticationMock.setName(userJson.getName());
-		userAuthenticationMock.setNewUser(true);
-		userAuthenticationMock.setUserId(userJson.getUserId());
-		Mockito.when(sessionProviderMock.getUserAuthentication()).thenReturn(userAuthenticationMock);
+		UserAuthentication userAuthentication = new UserAuthentication();
+		userAuthentication.setAuthenticated(true);
+		userAuthentication.setEmail(userJson.getEmail());
+		userAuthentication.setName(userJson.getName());
+		userAuthentication.setNewUser(true);
+		userAuthentication.setUserId(userJson.getUserId());
+		Mockito.when(sessionProviderMock.getUserAuthentication()).thenReturn(userAuthentication);
 		IntegrationTestStore.put(SessionProvider.class.getSimpleName(), sessionProviderMock);
-		
-		isInitialized = true;
 	}
 	
 }

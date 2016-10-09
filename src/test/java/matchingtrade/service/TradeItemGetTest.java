@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,7 +23,7 @@ import matchingtrade.validator.ValidationException;
 public class TradeItemGetTest {
 	
 	@Autowired
-	private ServiceMockProvider serviceMockProvider;
+	private MockProvider serviceMockProvider;
 	private TradeItemService tradeItemService;
 	
 	@Before
@@ -33,7 +32,6 @@ public class TradeItemGetTest {
 	}
 
 	@Test
-	@Rollback(false)
 	public void get() {
 		TradeItemJson previousTradeItemJson = (TradeItemJson) IntegrationTestStore.get(TradeListPostTradeItemTest.class.getSimpleName());
 		TradeItemJson response = tradeItemService.get(previousTradeItemJson.getTradeItemId());
@@ -43,7 +41,6 @@ public class TradeItemGetTest {
 	}	
 	
 	@Test
-	@Rollback(false)
 	public void getWithPaginationPositive() {
 		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
 		SearchResult<TradeItemJson> response = tradeItemService.get(previousTradeListJson.getTradeListId(), 1, 3);
@@ -53,7 +50,6 @@ public class TradeItemGetTest {
 	}
 
 	@Test
-	@Rollback(false)
 	public void getWithPaginationNegativeLimit() {
 		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
 		boolean throwsException = false;
@@ -66,7 +62,6 @@ public class TradeItemGetTest {
 	}
 
 	@Test
-	@Rollback(false)
 	public void getWithPaginationNegativePage() {
 		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
 		boolean throwsException = false;

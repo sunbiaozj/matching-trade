@@ -1,7 +1,6 @@
 package matchingtrade.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,12 +19,13 @@ import matchingtrade.test.IntegrationTestStore;
 public class UserGetTest {
 
 	@Autowired
-	private ServiceMockProvider serviceMockProvider;
+	private MockProvider mockProvider;
 	private UserService userService;
 
 	@Before
 	public void before() {
-		userService = serviceMockProvider.getUserService();
+		mockProvider.initNewUserService();
+		userService = mockProvider.getUserService();
 	}
 	
 	@Test
@@ -34,10 +34,9 @@ public class UserGetTest {
 		UserJson previousUserJson = (UserJson) IntegrationTestStore.get(UserJson.class.getSimpleName());
 		UserJson userJson = userService.get(previousUserJson.getUserId());
 		assertNotNull(userJson);
-		assertNotNull(userJson.getUserId());
-		assertNotNull(userJson.getName());
-		assertNotNull(userJson.getEmail());
-		IntegrationTestStore.put(UserJson.class.getSimpleName(), userJson);
+		assertEquals(previousUserJson.getUserId(), userJson.getUserId());
+		assertEquals(previousUserJson.getName(), userJson.getName());
+		assertEquals(previousUserJson.getEmail(), userJson.getEmail());
 	}
 
 	@Test

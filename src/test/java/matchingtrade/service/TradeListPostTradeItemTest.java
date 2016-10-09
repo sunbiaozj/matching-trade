@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,16 +18,15 @@ import matchingtrade.test.random.TradeItemRandom;
 public class TradeListPostTradeItemTest {
 
 	@Autowired
-	private ServiceMockProvider serviceMockProvider;
+	private MockProvider mockProvider;
 	private TradeListService tradeListService;
 	
 	@Before
 	public void before() {
-		tradeListService = serviceMockProvider.getTradeListService();
+		tradeListService = mockProvider.getTradeListService();
 	}
 
 	@Test
-	@Rollback(false)
 	public void post() {
 		TradeItemJson request = new TradeItemRandom().next();
 		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());

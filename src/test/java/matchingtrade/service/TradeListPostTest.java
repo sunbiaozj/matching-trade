@@ -19,7 +19,7 @@ import matchingtrade.test.random.TradeListRandom;
 public class TradeListPostTest {
 
 	@Autowired
-	private ServiceMockProvider serviceMockProvider;
+	private MockProvider serviceMockProvider;
 	private UserService userService;
 	
 	@Before

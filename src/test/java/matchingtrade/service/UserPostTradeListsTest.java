@@ -20,7 +20,7 @@ import matchingtrade.test.random.StringRandom;
 public class UserPostTradeListsTest {
 
 	@Autowired
-	private ServiceMockProvider serviceMockProvider;
+	private MockProvider serviceMockProvider;
 	private UserService userService;
 	
 	@Before
@@ -31,10 +31,11 @@ public class UserPostTradeListsTest {
 	@Test
 	@Rollback(false)
 	public void postTradeLists() {
-		UserJson previousUserJson = (UserJson) IntegrationTestStore.get(UserJson.class.getSimpleName());
 		TradeListJson request = new TradeListJson();
 		StringRandom stringRandom = new StringRandom();
 		request.setName(stringRandom.nextName());
+
+		UserJson previousUserJson = (UserJson) IntegrationTestStore.get(UserJson.class.getSimpleName());
 		TradeListJson response = userService.postTradeLists(previousUserJson.getUserId(), request);
 		assertNotNull(response.getTradeListId());
 	}

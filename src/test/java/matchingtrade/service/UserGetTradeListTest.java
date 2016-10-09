@@ -21,7 +21,7 @@ import matchingtrade.test.IntegrationTestStore;
 public class UserGetTradeListTest {
 
 	@Autowired
-	private ServiceMockProvider serviceMockProvider;
+	private MockProvider serviceMockProvider;
 	private UserService userService;
 	
 	@Before
