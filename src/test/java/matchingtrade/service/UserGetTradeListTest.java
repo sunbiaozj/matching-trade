@@ -15,6 +15,7 @@ import matchingtrade.common.SearchResult;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
+import matchingtrade.test.MockProvider;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/application-context-test.xml")

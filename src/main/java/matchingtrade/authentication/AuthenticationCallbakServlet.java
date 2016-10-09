@@ -25,7 +25,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 3. Confirm anti-forgery state token
 		String stateParameter = request.getParameter("state");
-		String stateAttribute = (String) request.getSession().getAttribute("authenticationState");
+		String stateAttribute = (String) request.getSession().getAttribute(AuthenticationProperties.Token.ANTI_FORGERY_STATE.toString());
 
 		System.out.println("stateParameter: " + stateParameter + "; authenticationStateAttribute: " + stateAttribute);
 		// Return HTTP-STATUS 401 if anti-forgery state token does not match

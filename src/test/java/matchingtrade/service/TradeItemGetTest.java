@@ -16,6 +16,7 @@ import matchingtrade.common.SearchResult;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.IntegrationTestStore;
+import matchingtrade.test.MockProvider;
 import matchingtrade.validator.ValidationException;
 
 @RunWith(SpringJUnit4ClassRunner.class)

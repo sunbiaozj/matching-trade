@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
+import matchingtrade.test.MockProvider;
 import matchingtrade.test.random.StringRandom;
 
 @RunWith(SpringJUnit4ClassRunner.class)

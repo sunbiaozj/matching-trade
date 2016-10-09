@@ -1,4 +1,4 @@
-package matchingtrade.service;
+package matchingtrade.test;
 
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,10 @@ import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.persistence.dao.UserDao;
 import matchingtrade.persistence.entity.UserEntity;
+import matchingtrade.service.TradeItemService;
+import matchingtrade.service.TradeListService;
+import matchingtrade.service.UserService;
 import matchingtrade.service.json.UserJson;
-import matchingtrade.test.IntegrationTestStore;
 import matchingtrade.test.random.UserRandom;
 import matchingtrade.transformer.UserTransformer;
 

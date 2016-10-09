@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import matchingtrade.authorization.AuthorizationException;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
+import matchingtrade.test.MockProvider;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/application-context-test.xml")

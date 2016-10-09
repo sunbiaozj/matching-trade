@@ -1,6 +1,11 @@
 package matchingtrade.configuration;
 
 public class AuthenticationProperties {
+	
+	public static enum Token {
+		ANTI_FORGERY_STATE
+	}
+	
 	private String clientId;
 	private String clientSecret;
 	private String redirectURI;

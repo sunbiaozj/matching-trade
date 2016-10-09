@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.test.IntegrationTestStore;
+import matchingtrade.test.MockProvider;
 import matchingtrade.test.random.TradeItemRandom;
 
 @RunWith(SpringJUnit4ClassRunner.class)

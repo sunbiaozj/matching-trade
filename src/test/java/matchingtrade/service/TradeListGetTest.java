@@ -17,6 +17,7 @@ import matchingtrade.persistence.entity.UserEntity;
 import matchingtrade.service.json.TradeListJson;
 import matchingtrade.service.json.UserJson;
 import matchingtrade.test.IntegrationTestStore;
+import matchingtrade.test.MockProvider;
 import matchingtrade.test.random.TradeListRandom;
 import matchingtrade.transformer.TradeListTransformer;
 import matchingtrade.transformer.UserTransformer;

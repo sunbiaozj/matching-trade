@@ -47,7 +47,7 @@ public class AuthenticationServlet extends HttpServlet {
 	/**
 	 * Returns the corresponding AuthenticationAction for this request
 	 */
-	private AuthenticationAction getAuthenticationAction(HttpServletRequest request) {
+	AuthenticationAction getAuthenticationAction(HttpServletRequest request) {
 		AuthenticationAction result = null;
 		String requestUri = request.getRequestURI();
 		// Remove tailing slash if any
@@ -56,17 +56,16 @@ public class AuthenticationServlet extends HttpServlet {
 		}
 		
 		int lastPathIndex = requestUri.lastIndexOf("/");
-		if (lastPathIndex >= 0) {
-			String lastPath = requestUri.substring(lastPathIndex+1);
-			result = AuthenticationAction.get(lastPath);
-		}
+		String lastPath = requestUri.substring(lastPathIndex+1);
+		result = AuthenticationAction.get(lastPath);
+
 		return result;
 	}
 
 	private void redirectToAuthenticationServer(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 		// 1. Create an anti-forgery state token
 		String state = generateAntiForgeryToken();
-		request.getSession().setAttribute("authenticationState", state);
+		request.getSession().setAttribute(AuthenticationProperties.Token.ANTI_FORGERY_STATE.toString(), state);
 
 		// 2. Send an authentication request to Google
 		authenticationOAuth.redirectToAuthorizationServer(response, state, authenticationProperties.getClientId(), authenticationProperties.getRedirectURI());

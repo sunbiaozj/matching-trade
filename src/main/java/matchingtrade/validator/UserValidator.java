@@ -19,9 +19,6 @@ public class UserValidator extends Validator {
 		}
 		
 		UserEntity userEntity = userModel.get(userId);
-		if (userEntity == null) {
-			throw new IllegalArgumentException("Cannot update user with User.userId: [" + json.getUserId() + "]. User does not exist.");
-		}
 		if (!userEntity.getEmail().equals(json.getEmail())) {
 			throw new IllegalArgumentException("Cannot update User.email on PUT operations.");
 		}
