@@ -21,12 +21,12 @@ public class TradeListAuthorization extends Authorization {
 	private UserModel userModel;
 	
 	@Transactional
-	public void authorizeGet(UserAuthentication userAuthentication, Integer tradeListId) {
-		TradeListEntity entity = model.get(tradeListId);
-		UserEntity userEntity = userModel.get(userAuthentication.getUserId());
+	public void authorizeGet(Integer userId, Integer tradeListId) {
+		TradeListEntity tradeListEntity = model.get(tradeListId);
+		UserEntity userEntity = userModel.get(userId);
 		// TODO: Improve performance here
-		if (!userEntity.getTradeLists().contains(entity)) {
-			new AuthorizationException(AuthorizationException.Type.USER_NOT_AUTHORIZED);
+		if (!userEntity.getTradeLists().contains(tradeListEntity)) {
+			throw new AuthorizationException(AuthorizationException.Type.USER_NOT_AUTHORIZED);
 		}
 	}
 }

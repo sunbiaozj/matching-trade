@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
         ResponseInterceptorTest.class,
 })
 
-@ContextConfiguration(locations={"/application-context-web.xml"})
 public class InterceptorSuite {
 
 }

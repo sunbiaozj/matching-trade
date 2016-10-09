@@ -45,7 +45,7 @@ public class TradeListService {
     public TradeListJson get(@PathParam("tradeListId") Integer tradeListId) {
     	// Check authorization for this operation
     	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
-    	authorization.authorizeGet(sessionProvider.getUserAuthentication(), tradeListId);
+    	authorization.authorizeGet(sessionProvider.getUserAuthentication().getUserId(), tradeListId);
     	// Delegate to model layer
     	TradeListEntity tradeListEntity = model.get(tradeListId);
     	// Transform the response
