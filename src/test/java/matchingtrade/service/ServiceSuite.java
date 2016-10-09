@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		UserGetTradeListTest.class,
 		TradeListPostTest.class,
 		TradeListGetTest.class,
+		TradeListPutTest.class,
 		TradeListPostTradeItemTest.class,
 		TradeItemGetTest.class,
 		TradeItemPutTest.class

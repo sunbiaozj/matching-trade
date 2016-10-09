@@ -32,7 +32,7 @@ public class TradeListPostTradeItemTest {
 	public void post() {
 		TradeItemJson request = new TradeItemRandom().next();
 		TradeListJson previousTradeListJson = (TradeListJson) IntegrationTestStore.get(TradeListPostTest.class.getSimpleName());
-		TradeItemJson response = tradeListService.post(previousTradeListJson.getTradeListId(), request);
+		TradeItemJson response = tradeListService.postTradeItems(previousTradeListJson.getTradeListId(), request);
 		Assert.assertNotNull(response);
 		Assert.assertNotNull(response.getTradeItemId());
 		IntegrationTestStore.put(TradeListPostTradeItemTest.class.getSimpleName(), response);

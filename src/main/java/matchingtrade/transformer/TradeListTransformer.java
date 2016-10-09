@@ -4,13 +4,23 @@ import matchingtrade.persistence.entity.TradeListEntity;
 import matchingtrade.service.json.TradeListJson;
 
 public class TradeListTransformer {
-	
+
 	public TradeListEntity transform (TradeListJson json) {
+		return transform(json, null);
+	}
+	
+	public TradeListEntity transform (TradeListJson json, TradeListEntity entity) {
 		if (json == null) {
 			return null;
 		}
 		
-		TradeListEntity result = new TradeListEntity();
+		TradeListEntity result;
+		if (entity == null) {
+			result = new TradeListEntity();
+		} else {
+			result = entity;
+		}
+		
 		result.setName(json.getName());
 		result.setTradeListId(json.getTradeListId());
 		

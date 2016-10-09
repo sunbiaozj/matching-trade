@@ -2,6 +2,7 @@ package matchingtrade.service;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -32,8 +33,8 @@ public class TradeListService {
 	TradeListAuthorization authorization;
 	private SessionProvider sessionProvider;
 	@Autowired
-	private TradeListModel model;
-	private TradeListTransformer transformer = new TradeListTransformer();
+	private TradeListModel tradeListModel;
+	private TradeListTransformer tradeListTransformer = new TradeListTransformer();
 	@Autowired
 	private TradeItemModel tradeItemModel;
 	private TradeItemTransformer tradeItemTransformer = new TradeItemTransformer();
@@ -45,11 +46,11 @@ public class TradeListService {
     public TradeListJson get(@PathParam("tradeListId") Integer tradeListId) {
     	// Check authorization for this operation
     	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
-    	authorization.authorizeGet(sessionProvider.getUserAuthentication().getUserId(), tradeListId);
+    	authorization.authorizeResource(sessionProvider.getUserAuthentication().getUserId(), tradeListId);
     	// Delegate to model layer
-    	TradeListEntity tradeListEntity = model.get(tradeListId);
+    	TradeListEntity tradeListEntity = tradeListModel.get(tradeListId);
     	// Transform the response
-    	TradeListJson result = transformer.transform(tradeListEntity);
+    	TradeListJson result = tradeListTransformer.transform(tradeListEntity);
 		return result;
     }
     
@@ -57,7 +58,7 @@ public class TradeListService {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{tradeListId}/tradeitems")
-    public TradeItemJson post(@PathParam("tradeListId") Integer tradeListId, TradeItemJson requestJson) {
+    public TradeItemJson postTradeItems(@PathParam("tradeListId") Integer tradeListId, TradeItemJson requestJson) {
     	// Check authorization for this operation
     	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
     	// Validate the request
@@ -70,6 +71,26 @@ public class TradeListService {
     	TradeItemJson resultJson = tradeItemTransformer.transform(resultEntity);
         return resultJson;
     }
+
+    @PUT
+    @Produces("application/json")
+    @Consumes("application/json")
+    @Path("/{tradeListId}")
+	public TradeListJson put(@PathParam("tradeListId") Integer tradeListId, TradeListJson requestJson) {
+    	// Check authorization for this operation
+    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
+    	authorization.authorizeResource(sessionProvider.getUserAuthentication().getUserId(), tradeListId);
+    	// Validate the request
+    	// TODO: Add validation here
+    	// Transform the request
+    	TradeListEntity tradeListEntity = tradeListModel.get(tradeListId);
+    	tradeListTransformer.transform(requestJson, tradeListEntity);
+    	// Delegate to model layer
+    	tradeListModel.save(tradeListEntity);
+    	// Transform the response
+    	TradeListJson result = tradeListTransformer.transform(tradeListEntity);
+    	return result;
+	}
 
 	/**
 	 * Used for dependency injection by the web container using JAX-RS

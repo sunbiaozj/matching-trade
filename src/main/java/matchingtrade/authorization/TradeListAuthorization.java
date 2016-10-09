@@ -1,11 +1,9 @@
 package matchingtrade.authorization;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import matchingtrade.authentication.UserAuthentication;
 import matchingtrade.model.TradeListModel;
 import matchingtrade.model.UserModel;
 import matchingtrade.persistence.entity.TradeListEntity;
@@ -21,7 +19,7 @@ public class TradeListAuthorization extends Authorization {
 	private UserModel userModel;
 	
 	@Transactional
-	public void authorizeGet(Integer userId, Integer tradeListId) {
+	public void authorizeResource(Integer userId, Integer tradeListId) {
 		TradeListEntity tradeListEntity = model.get(tradeListId);
 		UserEntity userEntity = userModel.get(userId);
 		// TODO: Improve performance here
