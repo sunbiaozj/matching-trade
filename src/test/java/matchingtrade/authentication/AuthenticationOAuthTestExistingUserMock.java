@@ -20,7 +20,7 @@ import matchingtrade.persistence.dao.UserDao;
  * @author rafael.santos.bra@gmail.com
  *
  */
-public class AuthenticationOAuthTestExistingUser implements AuthenticationOAuth {
+public class AuthenticationOAuthTestExistingUserMock implements AuthenticationOAuth {
 
 	@Autowired
 	UserDao userDao;
@@ -51,7 +51,7 @@ public class AuthenticationOAuthTestExistingUser implements AuthenticationOAuth 
 	public UserAuthentication obtainUserInformation(String accessToken) throws AuthenticationException {
 		UserAuthentication result = new UserAuthentication();
 		result.setAuthenticated(true);
-		result.setEmail(accessToken + "@" + this.getClass().getSimpleName() + ".com");
+		result.setEmail(accessToken + "@mock.com");
 		result.setName(accessToken);
 		result.setNewUser(true);
 		return result;
@@ -60,8 +60,7 @@ public class AuthenticationOAuthTestExistingUser implements AuthenticationOAuth 
 	@Override
 	public String obtainAccessToken(String codeParameter, String clientId, String clientSecret, String redirectURI)
 			throws AuthenticationException {
-		String result = this.getClass().getCanonicalName();
-		return result;
+		return "AuthenticationOAuthTestExistingUserMock";
 	}
 
 }

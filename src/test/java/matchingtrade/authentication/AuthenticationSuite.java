@@ -6,7 +6,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	AuthenticationServletTest.class
+		AuthenticationServletTest.class,
+		AuthenticationCallbakServletTest.class
 	})
 
 public class AuthenticationSuite {

@@ -18,8 +18,8 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 	private static final long serialVersionUID = -6183491052218601077L;
 	
 	private static final ApplicationContext context = ApplicationContextProvider.getApplicationContext();
-	private static final AuthenticationProperties authenticationProperties = (AuthenticationProperties) context.getBean("authenticationProperties");
-	private static final AuthenticationOAuth authenticationOAuth = (AuthenticationOAuth) context.getBean("authenticationOAuth");
+	private static AuthenticationProperties authenticationProperties = (AuthenticationProperties) context.getBean("authenticationProperties");
+	private static AuthenticationOAuth authenticationOAuth = (AuthenticationOAuth) context.getBean("authenticationOAuth");
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class AuthenticationCallbakServlet extends HttpServlet {
 
 		System.out.println("stateParameter: " + stateParameter + "; authenticationStateAttribute: " + stateAttribute);
 		// Return HTTP-STATUS 401 if anti-forgery state token does not match
-		if (stateAttribute != null && !stateAttribute.equals(stateParameter)) {
+		if (stateAttribute == null || !stateAttribute.equals(stateParameter)) {
 			response.setStatus(401);
 			request.getSession().invalidate();
 			return;
