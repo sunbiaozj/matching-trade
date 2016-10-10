@@ -2,8 +2,11 @@ package matchingtrade.common;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class SearchResult<T> {
 	private Pagination pagination;
+	@ApiModelProperty(name="data")
 	private List<T> resultList;
 	
 	public SearchResult(List<T> resultList, Pagination pagination) {

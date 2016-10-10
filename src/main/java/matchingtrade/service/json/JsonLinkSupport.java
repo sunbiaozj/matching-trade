@@ -12,7 +12,7 @@ public abstract class JsonLinkSupport implements Json {
 	private Set<JsonLink> _links = new HashSet<JsonLink>();
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-	@ApiModelProperty(name="_links")
+	@ApiModelProperty(hidden=true)
 	public Set<JsonLink> get_links() {
 		return _links;
 	}

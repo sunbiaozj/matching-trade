@@ -24,17 +24,17 @@
 
 	<!-- Authentication properties -->
 	<bean id="authenticationProperties" class="matchingtrade.configuration.AuthenticationProperties">
-		<property name="clientId" value="792942355859-dodbiu08gnhni0enc98cfnsuesq0m3vl.apps.googleusercontent.com"/>
-		<property name="clientSecret" value="wDN5coEvlDtV34oyx2TSiB3L"/>
+		<property name="clientId" value="clientId"/>
+		<property name="clientSecret" value="clientSecret"/>
 		<property name="redirectURI" value="http://localhost:8080/authenticatecallback"/>
 	</bean>
 	<!--
 		For testing purposes use "AuthenticationOAuthTestExistingUser" if you want to mock an authentication server.
-		<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
+		<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUserMock"/>
 		
 		For real OAuth implementations use "AuthenticationOAuthGoogle"
 		<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthGoogle"/>
 	-->
-	<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUser"/>
+	<bean id="authenticationOAuth" class="matchingtrade.authentication.AuthenticationOAuthTestExistingUserMock"/>
 	
 </beans>

@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class UserJson extends JsonLinkSupport {
 
 	private String email;
@@ -24,6 +26,7 @@ public class UserJson extends JsonLinkSupport {
 		return name;
 	}
 	
+	@ApiModelProperty(hidden=true)
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	public Set<TradeListJson> getTradeLists() {
 		return tradeLists;
