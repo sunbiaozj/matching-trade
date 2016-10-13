@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import matchingtrade.common.SearchCriteria;
 import matchingtrade.persistence.entity.UserEntity;
 
 @Component
@@ -19,6 +20,7 @@ public class UserDao extends Dao<UserEntity> {
 	
 	@Transactional
 	public UserEntity get(String email) {
+		// TODO use buildSearchCriteria() instead
 		Session session = sessionFactory.getCurrentSession();
 		Criteria c = session.createCriteria(UserEntity.class);
 		c.add(Restrictions.eq("email", email));
@@ -29,6 +31,12 @@ public class UserDao extends Dao<UserEntity> {
 	@Override
 	protected Class<UserEntity> getEntityClass() {
 		return UserEntity.class;
+	}
+
+	@Override
+	protected Criteria buildSearchCriteria(SearchCriteria searchCriteria) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

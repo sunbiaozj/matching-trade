@@ -1,13 +1,10 @@
 package matchingtrade.service;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
 import org.apache.cxf.jaxrs.ext.MessageContext;
@@ -16,17 +13,12 @@ import org.springframework.stereotype.Service;
 
 import io.swagger.annotations.Api;
 import matchingtrade.authorization.TradeItemAuthorization;
-import matchingtrade.common.Pagination;
-import matchingtrade.common.SearchCriteria;
-import matchingtrade.common.SearchResult;
 import matchingtrade.common.util.SessionProvider;
 import matchingtrade.model.TradeItemModel;
 import matchingtrade.persistence.entity.TradeItemEntity;
-import matchingtrade.persistence.entity.TradeListEntity;
-import matchingtrade.service.json.JsonArrayList;
 import matchingtrade.service.json.TradeItemJson;
 import matchingtrade.transformer.TradeItemTransformer;
-import matchingtrade.validator.Validator;
+import matchingtrade.validator.TradeItemValidator;
 
 @Api(value = "/tradeitems")
 @Path("/tradeitems")
@@ -37,55 +29,28 @@ public class TradeItemService {
 	private TradeItemAuthorization authorization;
 	private SessionProvider sessionProvider;
 	@Autowired
-	private TradeItemModel model;
-	private TradeItemTransformer transformer = new TradeItemTransformer();
+	private TradeItemModel tradeItemModel;
+	private TradeItemTransformer tradeItemTransformer = new TradeItemTransformer();
 	@Autowired
-	private Validator validator;
+	private TradeItemValidator tradeItemValidator;
 
     @PUT
     @Produces("application/json")
     @Consumes("application/json")
-    @Path("/")
-	public TradeItemJson put(TradeItemJson requestJson) {
+    @Path("/{tradeItemId}")
+	public TradeItemJson put(@PathParam("tradeItemId") Integer tradeItemId, TradeItemJson requestJson) {
     	// Check authorization for this operation
     	authorization.verifyIfUserIsAuthorizedOverTheResource(sessionProvider.getUserAuthentication(), requestJson.getTradeItemId());
     	// Validate the request
-    	// TODO add validation
+    	tradeItemValidator.validatePut(sessionProvider.getUserAuthentication().getUserId(), tradeItemId, requestJson);
     	// Transform the request
-    	TradeItemEntity requestEntity = model.get(requestJson.getTradeItemId());
-    	transformer.transform(requestJson, requestEntity);
+    	TradeItemEntity requestEntity = tradeItemModel.get(requestJson.getTradeItemId());
+    	tradeItemTransformer.transform(requestJson, requestEntity);
     	// Delegate to model layer
-    	model.save(requestEntity);
+    	tradeItemModel.save(requestEntity);
     	// Transform the response
-    	TradeItemJson result = transformer.transform(requestEntity);
+    	TradeItemJson result = tradeItemTransformer.transform(requestEntity);
         return result;
-    }
-    
-    @GET
-    @Produces("application/json")
-    @Consumes("application/json")
-    @Path("/{tradeListId}")
-    public SearchResult<TradeItemJson> get(
-    		@PathParam("tradeListId") Integer tradeListId,
-    		@QueryParam("_page") Integer _page,
-    		@QueryParam("_limit") Integer _limit) {
-    	// Check authorization for this operation
-    	authorization.doBasicAuthorization(sessionProvider.getUserAuthentication());
-		// Validate the request
-		validator.validatePagination(_page, _limit);
-    	// Transform the request
-    	SearchCriteria sc = new SearchCriteria(new Pagination(_page, _limit));
-    	sc.addCriterion(TradeListEntity.Field.tradeListId, tradeListId);
-    	// Delegate to model
-    	SearchResult<TradeItemEntity> searchResultEntity = model.search(sc);
-    	// Transform the result
-    	List<TradeItemJson> resultList = new JsonArrayList<TradeItemJson>();
-    	for (TradeItemEntity e : searchResultEntity.getResultList()) {
-    		TradeItemJson j = transformer.transform(e);
-    		resultList.add(j);
-		}
-    	SearchResult<TradeItemJson> searchResultJson = new SearchResult<TradeItemJson>(resultList, searchResultEntity.getPagination());
-        return searchResultJson;
     }
     
     @GET
@@ -96,9 +61,9 @@ public class TradeItemService {
     	// Check authorization for this operation
     	authorization.verifyIfUserIsAuthorizedOverTheResource(sessionProvider.getUserAuthentication(), tradeItemId);
     	// Delegate to model
-    	TradeItemEntity tradeItemEntity = model.get(tradeItemId);
+    	TradeItemEntity tradeItemEntity = tradeItemModel.get(tradeItemId);
     	// Transform the response
-    	TradeItemJson result = transformer.transform(tradeItemEntity);
+    	TradeItemJson result = tradeItemTransformer.transform(tradeItemEntity);
         return result;
     }
     
